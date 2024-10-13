@@ -5,6 +5,7 @@ import threading
 
 DEFAULT_NUM_PEERS = 3
 DEFAULT_NUM_ITEMS = 10
+DEFAULT_HOP_COUNT = 3
 ROLES = ["FISH SELLER", "BOAR SELLER", "SALT SELLER", "BUYER"]
 ITEMS = {
     "FISH SELLER": "FISH",
@@ -44,8 +45,42 @@ class Peer:
                 conn, addr = s.accept()
                 with conn:
                     data = conn.recv(1024)
-                    if data:
-                        print(f'Peer {self.port} received: {data.decode()}')
+                    if data.startswith("LOOKUP"):
+                        #print(f'Peer {self.port} received: {data.decode()}')
+                        self.handle_lookup(data,conn)
+                    elif data.startswith("BUY"):
+                        self.handle_buy(data,conn)
+
+    def handle_lookup(self, data, conn):
+        _, buyer_id, product_name, hop_count, search_path = data.split()
+        buyer_id = int(buyer_id)
+        hop_count = int(hop_count)
+
+        if hop_count > 0:
+            if self.role == 'SELLER' and self.item == product_name:
+                self.reply(buyer_id, search_path)
+            else:
+                hop_count -= 1
+                search_path = search_path + f",{self.peer_id}"
+                for neighbor in self.neighbors:
+                    if neighbor != buyer_id:  # Don't send back to the buyer
+                        self.propagate_lookup(neighbor, buyer_id, product_name, hop_count, search_path)
+
+    def propagate_lookup(self, neighbor, buyer_id, product_name, hop_count, search_path):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect(('localhost', neighbor))
+            message = f"LOOKUP {buyer_id} {product_name} {hop_count} {search_path}"
+            s.send(message.encode())
+
+    def handle_buy(self, data, conn):
+        _, buyer_id = data.split()
+        buyer_id = int(buyer_id)
+        if self.stock > 0:
+            self.stock -= 1
+            print(f"Peer {self.peer_id} sold item to Buyer {buyer_id}. Stock remaining: {self.stock}.")
+            conn.send(f"SUCCESS {self.peer_id} {self.item}".encode())
+        else:
+            conn.send(f"OUT_OF_STOCK {self.peer_id}".encode())
 
     def send_message(self, message):
         for neighbor in self.neighbors:
@@ -55,6 +90,21 @@ class Peer:
                     s.sendall(message.encode())
             except Exception as e:
                 print(f"Failed to send message to {neighbor}: {e}")
+    
+    def lookup(self, product_name):
+        for neighbor in self.neighbors:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.connect(('localhost', neighbor))
+                message = f"LOOKUP {self.peer_id} {product_name} {DEFAULT_HOP_COUNT} {self.peer_id}"
+                s.send(message.encode())
+    
+    def reply(self, buyer_id, search_path):
+        path = search_path.split(',')
+        next_peer = int(path[-2])  # Send the reply to the next peer along the path
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect(('localhost', next_peer))
+            message = f"REPLY {self.peer_id} {buyer_id} {','.join(path[:-1])}"
+            s.send(message.encode()) 
 
     def stop(self):
         self.running = False
@@ -76,12 +126,17 @@ def main():
         peers.append(Peer(ports[i], neighbors, i))
 
     try:
-        while True:
-            message = input("Enter message to send to neighbors (or type 'exit' to quit): \n")
-            if message.lower() == 'exit':
-                break
+        # while True:
+        #     message = input("Enter message to send to neighbors (or type 'exit' to quit): \n")
+        #     if message.lower() == 'exit':
+        #         break
             # Send the message from the first peer as an example
-            peers[0].send_message(message)
+            # peers[0].send_message(message)
+        time.sleep(2)  # Give time for all servers to start
+        for peer in peers:
+            if peer.role == 'BUYER':
+                peer.lookup(random.choice(['FISH', 'SALT', 'BOAR']))
+
     finally:
         for peer in peers:
             peer.stop()
