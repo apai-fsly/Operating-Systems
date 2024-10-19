@@ -1,0 +1,378 @@
+Peer 2 listening on 127.0.0.1:5002
+Peer 0 listening on 127.0.0.1:5000
+Peer 1 listening on 127.0.0.1:5001
+Peer 3 listening on 127.0.0.1:5003
+Peer 4 listening on 127.0.0.1:5004
+Peer 5 listening on 127.0.0.1:5005
+Printing List of Used sockets: [5000, 5001, 5002, 5003, 5004, 5005, <socket.socket fd=596, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 5002)>, <socket.socket fd=404, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 5000)>, <socket.socket fd=580, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 5001)>, <socket.socket fd=616, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 5003)>, <socket.socket fd=636, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 5004)>, <socket.socket fd=352, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 5005)>]
+Peer 0 is looking for salt
+Peer 1 received request: lookup|0,salt,3,[]
+Peer 3 received request: lookup|0,salt,3,[]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 4 received request: lookup|0,salt,3,[]
+Peer 1 is selling for fish
+Peer 2 is selling for salt
+Peer 3 is looking for fish
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 2 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 1 received request: lookup|3,fish,3,[]
+Peer 1 (seller) has fish. Sending reply to 3.
+Peer 4 received request: lookup|3,fish,3,[]
+Peer 4 (seller) has fish. Sending reply to 3.
+Peer 5 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 2 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 0 received request: reply|1,[]
+Transaction initiated: Peer 0 is ready to sell.
+Peer 4 is selling for fish
+Peer 5 is selling for fish
+Peer 0 is looking for boar
+Peer 0 received request: lookup|3,fish,3,[]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 5 received request: reply|4,[]
+Transaction initiated: Peer 5 is ready to sell.
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 1 received request: lookup|0,boar,3,[]
+Peer 3 received request: reply|1,[]
+Transaction initiated: Peer 3 is ready to sell.
+Peer 2 received request: reply|1,[]
+Transaction initiated: Peer 2 is ready to sell.
+Peer 0 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 3 received request: reply|4,[]
+Transaction initiated: Peer 3 is ready to sell.
+Peer 1 received request: reply|4,[]
+Transaction initiated: Peer 1 is ready to sell.
+Peer 0 received request: buy|4
+Peer 0 is out of stock.
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 4 received request: buy|1
+19.10.2024 16:48:52.369 - Peer 4 sold item to 1. Stock left: 9
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 3 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 3 received request: lookup|0,boar,3,[]
+Peer 1 received request: buy|4
+19.10.2024 16:48:52.371 - Peer 1 sold item to 4. Stock left: 9
+Peer 2 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 4 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 1 is selling for fish
+Peer 2 is selling for salt
+Peer 3 is looking for boar
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 4 received request: lookup|0,boar,3,[]
+Peer 2 received request: buy|4
+19.10.2024 16:48:52.372 - Peer 2 sold item to 4. Stock left: 9
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 3 received request: buy|4
+Peer 3 is out of stock.
+Peer 1 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 3 received request: buy|4
+Peer 3 is out of stock.
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: buy|1
+19.10.2024 16:48:52.373 - Peer 1 sold item to 1. Stock left: 8
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 2 received request: buy|4
+19.10.2024 16:48:52.373 - Peer 2 sold item to 4. Stock left: 8
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [4]
+Peer 4 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|3,boar,3,[]
+Peer 0 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 3 received request: buy|1
+Peer 3 is out of stock.
+Peer 4 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 1 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 2 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 4 is selling for fish
+Peer 5 is selling for fish
+Peer 0 is looking for salt
+Peer 4 received request: lookup|3,boar,3,[]
+Peer 2 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [4]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [4]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 4 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [4]
+Peer 3 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [1]
+Peer 0 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 2 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 0 received request: lookup|3,boar,3,[]
+Peer 1 received request: lookup|0,salt,3,[]
+Peer 3 received request: lookup|0,salt,3,[]
+Peer 5 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 4 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [1]
+Peer 0 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 3 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 0 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 3 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [4]
+Peer 5 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 4 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [4]
+Peer 2 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [4]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [4]
+Peer 0 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [4]
+
+Peer 1 is selling for fish
+Peer 2 is selling for salt
+Peer 3 is looking for fish
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 4 received request: lookup|0,salt,3,[]
+Peer 4 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 2 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 2 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 0 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [4]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 0 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 1 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [1]
+Peer 5 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 4 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [4]
+Peer 2 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [4]
+Peer 4 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 3 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 3 received request: lookup|4,boar,3,[]
+Peer 1 received request: lookup|4,boar,3,[]
+Peer 1 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [1]
+Peer 0 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [3]
+Peer 3 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [3]
+Peer 2 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [3]
+Peer 4 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [1]
+Peer 5 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [3]
+Peer 0 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [1]
+Peer 4 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [3]
+Peer 4 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [3]
+Peer 3 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [3]
+Peer 4 received request: lookup|buyer_id: 4, product: boar, hopcount: 2, path: [3]
+Peer 1 received request: lookup|3,fish,3,[]
+Peer 1 (seller) has fish. Sending reply to 3.
+Peer 4 received request: lookup|3,fish,3,[]
+Peer 4 (seller) has fish. Sending reply to 3.
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 4 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [4]
+Peer 1 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [4]
+Peer 4 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 2 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 4 is selling for fish
+Peer 5 is selling for fish
+Peer 0 is looking for salt
+Peer 0 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [4]
+Peer 5 received request: reply|4,[]
+Transaction initiated: Peer 5 is ready to sell.
+Peer 1 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 0 received request: reply|1,[]
+Transaction initiated: Peer 0 is ready to sell.
+Peer 3 received request: reply|1,[]
+Transaction initiated: Peer 3 is ready to sell.
+Peer 5 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 0 received request: lookup|3,fish,3,[]
+Peer 3 received request: reply|4,[]
+Transaction initiated: Peer 3 is ready to sell.
+Peer 2 received request: reply|1,[]
+Transaction initiated: Peer 2 is ready to sell.
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 0 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 1 received request: lookup|0,salt,3,[]
+Peer 3 received request: lookup|0,salt,3,[]
+Peer 4 received request: buy|1
+19.10.2024 16:48:52.899 - Peer 4 sold item to 1. Stock left: 8
+Peer 1 received request: buy|4
+19.10.2024 16:48:52.899 - Peer 1 sold item to 4. Stock left: 7
+Peer 2 received request: buy|4
+19.10.2024 16:48:52.899 - Peer 2 sold item to 4. Stock left: 7
+Peer 3 received request: buy|4
+Peer 3 is out of stock.
+Peer 4 received request: lookup|0,salt,3,[]
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 1 is selling for fish
+Peer 2 is selling for salt
+Peer 3 is looking for fish
+Peer 0 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [4]
+Peer 2 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [4]
+Peer 3 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [4]
+Peer 1 received request: reply|4,[]
+Transaction initiated: Peer 1 is ready to sell.
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 0 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 3 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 2 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 1 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 2 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 1 received request: lookup|3,fish,3,[]
+Peer 1 (seller) has fish. Sending reply to 3.
+Peer 3 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 4 received request: lookup|3,fish,3,[]
+Peer 4 (seller) has fish. Sending reply to 3.
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 2 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 4 is selling for fish
+Peer 5 is selling for fish
+Peer 0 is looking for boar
+Peer 4 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 1 received request: buy|1
+19.10.2024 16:48:52.903 - Peer 1 sold item to 1. Stock left: 6
+Peer 5 received request: reply|4,[]
+Transaction initiated: Peer 5 is ready to sell.
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 3 received request: buy|1
+Peer 3 is out of stock.
+Peer 2 received request: buy|4
+19.10.2024 16:48:52.904 - Peer 2 sold item to 4. Stock left: 6
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 1 received request: lookup|0,boar,3,[]
+Peer 0 received request: buy|4
+Peer 0 is out of stock.
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 0 received request: lookup|3,fish,3,[]
+Peer 1 is selling for fish
+Peer 2 is selling for salt
+Peer 3 is looking for boar
+Peer 1 received request: buy|4
+19.10.2024 16:48:52.906 - Peer 1 sold item to 4. Stock left: 5
+Peer 1 received request: reply|4,[]
+Transaction initiated: Peer 1 is ready to sell.
+Peer 3 received request: buy|4
+Peer 3 is out of stock.
+Peer 5 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 0 received request: reply|1,[]
+Transaction initiated: Peer 0 is ready to sell.
+Peer 4 received request: lookup|0,boar,3,[]
+Peer 3 received request: lookup|0,boar,3,[]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 2 received request: buy|4
+19.10.2024 16:48:52.908 - Peer 2 sold item to 4. Stock left: 5
+Peer 0 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 3 received request: reply|4,[]
+Transaction initiated: Peer 3 is ready to sell.
+Peer 4 received request: lookup|3,boar,3,[]
+Peer 3 received request: buy|4
+Peer 3 is out of stock.
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 1 received request: lookup|3,boar,3,[]
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 2 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 3 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 4 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [4]
+Peer 2 received request: buy|4
+19.10.2024 16:48:52.910 - Peer 2 sold item to 4. Stock left: 4
+Peer 0 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 0 received request: buy|4
+Peer 0 is out of stock.
+Peer 1 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 1 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [4]
+Peer 3 received request: buy|4
+Peer 3 is out of stock.
+Peer 2 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 0 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 5 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 2 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 4 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 1 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 0 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 4 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 0 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 5 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 4 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 3 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 3, product: fish, hopcount: 2, path: [0]
+Peer 3 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [1]
+Peer 4 received request: lookup|buyer_id: 0, product: boar, hopcount: 2, path: [3]
+Peer 4 is selling for fish
+Peer 5 is selling for fish
+Peer 0 is looking for salt
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 0 received request: lookup|3,boar,3,[]
+Peer 3 received request: reply|1,[]
+Transaction initiated: Peer 3 is ready to sell.
+Peer 2 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 0 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 1 received request: lookup|0,salt,3,[]
+Peer 2 received request: reply|1,[]
+Transaction initiated: Peer 2 is ready to sell.
+Peer 3 received request: lookup|0,salt,3,[]
+Peer 5 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 4 received request: buy|1
+19.10.2024 16:48:53.411 - Peer 4 sold item to 1. Stock left: 7
+Peer 3 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 1 is selling for fish
+Peer 2 is selling for salt
+Peer 3 is looking for salt
+Peer 0 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]
+Peer 4 received request: lookup|0,salt,3,[]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 1 received request: lookup|3,salt,3,[]
+Peer 2 received request: lookup|buyer_id: 3, product: boar, hopcount: 2, path: [0]
+Peer 3 received request: buy|1
+Peer 3 is out of stock.
+Peer 1 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [4]
+Peer 4 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [1]
+Peer 1 received request: lookup|buyer_id: 3, product: salt, hopcount: 2, path: [1]
+Peer 4 received request: lookup|3,salt,3,[]
+Peer 3 received request: lookup|buyer_id: 0, product: salt, hopcount: 2, path: [3]

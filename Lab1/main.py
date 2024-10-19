@@ -2,11 +2,15 @@ import socket
 import threading
 import random
 import time
+import datetime
 import sys
 
+
+socket_list = []
 class Peer:
     # Class-level dictionary to map peer IDs to Peer objects
     peers_by_id = {}
+    
 
     def __init__(self, peer_id, role, product=None, neighbors=None):
         """
@@ -22,6 +26,8 @@ class Peer:
         self.hop_limit = 3  # Maximum number of hops for lookup requests
         Peer.peers_by_id[self.peer_id] = self  # Register this peer in the class-level dictionary
 
+        socket_list.append(self.peer_id + 5000)# add the socket so we know what ports to cleanup
+
     def listen_for_requests(self, host, port):
         """
         Start listening for incoming connection requests from other peers.
@@ -31,6 +37,7 @@ class Peer:
         server_socket.bind((host, port))  # Bind to the specified host and port
         server_socket.listen(5)  # Allow up to 5 pending connections
         print(f"Peer {self.peer_id} listening on {host}:{port}")
+        socket_list.append(server_socket)
 
         while True:
             client_socket, address = server_socket.accept()  # Accept incoming connections
@@ -74,10 +81,11 @@ class Peer:
             self.send_reply(buyer_id, search_path + [self.peer_id])  # Send reply back through the search path
         elif hopcount > 0:
             # If not found or not a seller, forward the request to neighbors
-            search_path.append(self.peer_id)  # Add this peer to the search path
+            if self.peer_id not in search_path: 
+                search_path.append(self.peer_id)
             for neighbor in self.neighbors:
                 # Send the lookup request to each neighbor
-                neighbor.send_request("lookup", f"{buyer_id},{product_name},{hopcount-1},{search_path}")
+                neighbor.send_request("lookup", f"buyer_id: {buyer_id}, product: {product_name}, hopcount: {hopcount-1}, path: {search_path}")
 
     def send_reply(self, buyer_id, reply_path):
         """
@@ -96,6 +104,16 @@ class Peer:
                 # Notify the buyer to initiate the buy request
                 self.send_request("buy", str(buyer_id))  # Send buy request to the buyer
 
+    def handle_restock(self): 
+        """
+        If a seller is out of stock (self.stock == 0) 
+        assign a new item for the seller with a random count and item
+        """
+        if self.role == 'seller' and self.stock == 0: 
+            self.stock = 10
+            self.product = random.choice(['fish', 'salt', 'boar'])
+            print(f"Peer {self.peer_id} is restocking with {self.stock} {self.product} items")
+
     def handle_buy(self, buyer_id):
         """
         Handle buy requests from buyers. If the seller has stock, it decreases the stock and confirms the sale.
@@ -103,9 +121,15 @@ class Peer:
         with self.lock:
             if self.stock > 0:
                 self.stock -= 1  # Reduce stock by one
-                print(f"Peer {self.peer_id} sold item to {buyer_id}. Stock left: {self.stock}")
+                # Get current timestamp
+                current_time = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S.%f")[:-3]
+
+                # Print the timestamped message in a single line
+                print(f"{current_time} - Peer {self.peer_id} sold item to {buyer_id}. Stock left: {self.stock}")
             else:
                 print(f"Peer {self.peer_id} is out of stock.")  # Notify if out of stock
+                self.handle_restock()
+
 
     def send_request(self, request_type, data):
         """
@@ -121,6 +145,9 @@ class Peer:
                 peer_socket.close()  # Close the socket after sending
             except Exception as e:
                 print(f"Error sending request to Peer {neighbor.peer_id}: {e}")  # Handle any connection errors
+
+    def cleanup(self): 
+        socketID = self.id + 5000
 
 def setup_peers(num_peers):
     """
@@ -159,11 +186,22 @@ if __name__ == "__main__":
         run_peer(peer, host='127.0.0.1', port=5000 + i)  # Each peer listens on a unique port
 
     # Simulate buyers looking for products periodically
-    while True:
-        for peer in peers:
-            if peer.role == 'buyer':
-                # Randomly select a product to look for
-                product = random.choice(['fish', 'salt', 'boar'])
-                print(f"Peer {peer.peer_id} is looking for {product}")  # Log the lookup action
-                peer.send_request('lookup', f'{peer.peer_id},{product},{peer.hop_limit},[]')  # Send lookup request
-                time.sleep(random.uniform(1, 3))  # Wait for a random period before the next lookup
+
+    print(f"Printing List of Used sockets: {socket_list}")
+    try: 
+        while True:
+            for peer in peers:
+                if peer.role == 'buyer':
+                    # Randomly select a product to look for
+                    product = random.choice(['fish', 'salt', 'boar'])
+                    print(f"Peer {peer.peer_id} is looking for {product}")  # Log the lookup action
+                    peer.send_request('lookup', f'{peer.peer_id},{product},{peer.hop_limit},[]')  # Send lookup request
+                else: 
+                    print(f"Peer {peer.peer_id} is selling for {peer.product}")
+
+    except KeyboardInterrupt: 
+        print("Attempting to close all used sockets")
+        for sock in socket_list: 
+            sock.close()
+    
+
