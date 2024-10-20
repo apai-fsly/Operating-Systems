@@ -96,6 +96,16 @@ class Peer:
                 # Notify the buyer to initiate the buy request
                 self.send_request("buy", str(buyer_id))  # Send buy request to the buyer
 
+    def handle_restock(self): 
+        """
+        Handle restock will resupply a seller with 10 random products of a random type
+        """
+        if self.role == "seller" and self.stock == 0: 
+            self.stock = 10
+            self.role = random.choice(['fish', 'salt', 'boar'])
+
+            print(f"Peer {self.peer_id} has restocked with {self.stock} {self.product} items")
+
     def handle_buy(self, buyer_id):
         """
         Handle buy requests from buyers. If the seller has stock, it decreases the stock and confirms the sale.
@@ -105,7 +115,8 @@ class Peer:
                 self.stock -= 1  # Reduce stock by one
                 print(f"Peer {self.peer_id} sold item to {buyer_id}. Stock left: {self.stock}")
             else:
-                print(f"Peer {self.peer_id} is out of stock.")  # Notify if out of stock
+                print(f"Peer {self.peer_id} is out of stock.")
+                self.handle_restock()
 
     def send_request(self, request_type, data):
         """
