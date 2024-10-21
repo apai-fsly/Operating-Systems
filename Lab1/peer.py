@@ -1,12 +1,7 @@
-import json
-import os
-import signal
 import socket
 import threading
 import random
 import time
-import sys
-from peer import Peer
 
 class Peer:
     # Class-level dictionary to map peer IDs to Peer objects
@@ -104,6 +99,8 @@ class Peer:
                 self.send_request("buy", str(buyer_id))  # Send buy request to the buyer
     
     def check_restock(self, config_used): 
+        print(f"checking {self.peer_id} stock")
+        time.sleep(3)
         if self.stock == 0 and self.role == "seller": 
             self.stock = 10
             if not config_used: 
@@ -137,113 +134,3 @@ class Peer:
             except Exception as e:
                 print(f"Error sending request to Peer {neighbor.peer_id}: {e}")  # Handle any connection errors
 
-def setup_peers(num_peers):
-    """
-    Create a specified number of peers with random roles (buyer or seller) and 
-    assign products to sellers. Each peer is also assigned random neighbors.
-    """
-    peers = []
-    roles = ['buyer', 'seller']
-    products = ['fish', 'salt', 'boar']
-
-    # Create peers with random roles
-    for i in range(num_peers):
-        role = random.choice(roles)  # Randomly assign a role
-        product = random.choice(products) if role == 'seller' else None  # Assign a product if seller
-        peer = Peer(peer_id=i, role=role, product=product)  # Create a new Peer object
-        peers.append(peer)
-
-    # Assign neighbors (up to 3 neighbors for each peer)
-    for peer in peers:
-        peer.neighbors = random.sample([p for p in peers if p != peer], 3)  # Randomly select neighbors
-
-    return peers  # Return the list of peers
-
-def run_peer(peer, host, port):
-    """
-    Start a separate thread for each peer to listen for incoming requests.
-    """
-    threading.Thread(target=peer.listen_for_requests, args=(host, port)).start()
-
-def load_config(config_path):
-    """
-    Load the network configuration from a JSON file.
-    The JSON file should specify peers, their roles, products, and neighbors.
-    """
-    with open(config_path, 'r') as config_file:
-        config = json.load(config_file)
-    
-    peers = []
-    peer_map = {}
-
-    # Create peers based on the configuration
-    for peer_info in config['peers']:
-        peer_id = peer_info['peer_id']
-        role = peer_info['role']
-        product = peer_info.get('product')  # Only sellers will have products
-        peer = Peer(peer_id, role, product)
-        peers.append(peer)
-        peer_map[peer_id] = peer
-
-    # Assign neighbors based on configuration
-    for peer_info in config['peers']:
-        peer = peer_map[peer_info['peer_id']]
-        peer.neighbors = [peer_map[n] for n in peer_info['neighbors']]
-
-    return peers
-
-
-# Shared flag to signal threads to stop
-exit_event = threading.Event()
-
-def signal_handler(sig, frame):
-    print("\nCtrl+C caught. Shutting down the network...")
-    exit_event.set()  # Set the exit event to notify all threads to stop
-    sys.exit(0)
-
-if __name__ == "__main__":
-    """
-        Main function that sets up and runs the peer network.
-        Accepts either a number of peers (for random generation) or a config file path (for loading a preset network).
-        If no arguments are provided, it defaults to 6 peers.
-    """
-
-    signal.signal(signal.SIGINT, signal_handler)
-
-    if len(sys.argv) < 2:
-        print("Usage: python main.py <num_peers> or python main.py <config_file>")
-        sys.exit(1)
-    
-    # Determine if the argument is a number (number of peers) or a config file
-    config_used = False
-    arg = sys.argv[1]
-    if arg.isdigit():
-        num_peers = int(sys.argv[1])
-        peers = setup_peers(num_peers)
-    else:
-        config_file = sys.argv[1]
-        if not os.path.isfile(config_file):
-            print(f"Error: Config file '{config_file}' not found.")
-            sys.exit(1)
-        peers = load_config(config_file)
-        config_used = True
-
-    # Start each peer in its own thread
-    for i, peer in enumerate(peers):
-        run_peer(peer, host='127.0.0.1', port=5000 + i) 
-
-    # Simulate buyers looking for products periodically
-    while True:
-        for peer in peers:
-            if peer.role == 'buyer':
-
-                if config_used:
-                    print(f"Peer {peer.peer_id} is looking for {peer.product}")
-                    peer.send_request('lookup', f'{peer.peer_id},{peer.product},{peer.hop_limit},[]')
-                else: 
-                    # Randomly select a product to look for
-                    product = random.choice(['fish', 'salt', 'boar'])
-                    peer.send_request('lookup', f'{peer.peer_id},{product},{peer.hop_limit},[]')  # Send lookup request
-            elif peer.role == "seller" and peer.stock == 0: 
-                peer.check_restock(config_used)
-            time.sleep(random.uniform(1, 3))

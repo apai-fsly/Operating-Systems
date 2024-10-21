@@ -1,0 +1,17 @@
+{
+    "peers": [
+      {
+        "peer_id": 0,
+        "role": "buyer",
+        "product": "fish",
+        "neighbors": [1,0]
+      },
+      {
+        "peer_id": 1,
+        "role": "seller",
+        "product": "fish",
+        "neighbors": [0, 1]
+      }
+    ]
+  }
+  
