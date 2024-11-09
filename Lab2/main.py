@@ -48,18 +48,20 @@ def setup_test_case1():
 
 def setup_test_case2():
     # peer 0 is fish buyer and peer 3 is fish seller, can connect with seller with passing two middle peers 1 and 2
-    peer_0 = Peer(peer_id=0, role="buyer")
+    peer_0 = Peer(peer_id=0, role="buyer", network_size=5)
     # 0 --> 1 --> 2 --> 3 --> 4
-    peer_1 = Peer(peer_id=1, role="seller", product="salt")
-    peer_2 = Peer(peer_id=2, role="seller", product="boar")
-    peer_3 = Peer(peer_id=3, role="seller", product="fish")
-    peer_4 = Peer(peer_id=4, role="seller", product="boar")
+    peer_1 = Peer(peer_id=1, role="seller", network_size=5, product="salt")
+    peer_2 = Peer(peer_id=2, role="seller", network_size=5, product="boar")
+    peer_3 = Peer(peer_id=3, role="seller", network_size=5, product="fish")
+    peer_4 = Peer(peer_id=4, role="seller", network_size=5, product="boar")
 
-    peer_0.neighbors = [peer_1]
-    peer_1.neighbors = [peer_0, peer_2]
-    peer_2.neighbors = [peer_3, peer_1]
-    peer_3.neighbors = [peer_2, peer_4]
-    peer_4.neighbors = [peer_3]
+    peer_0.neighbors = [peer_1, peer_2, peer_3, peer_4]
+    peer_1.neighbors = [peer_0, peer_2, peer_3, peer_4]
+    peer_2.neighbors = [peer_0, peer_1, peer_3, peer_4]
+    peer_3.neighbors = [peer_0, peer_1, peer_2, peer_4]
+    peer_4.neighbors = [peer_0, peer_1, peer_2, peer_3]
+
+    peer_4.alive = False
 
     return [peer_0, peer_1, peer_2, peer_3, peer_4]
 
@@ -127,10 +129,18 @@ if __name__ == "__main__":
 
         try:
             time.sleep(2)
-            for i in range(10): 
-                logging.info(f"Peer 0 (buyer) is looking for 'fish'")
-                buytime = time.time()
-                peers[0].send_request('lookup', f'0,{buytime},fish,3,[0]')
+            print(f"start election node {peers[0].peer_id}")
+            higher_peer_id = []
+            for peer in range(peers[0].network_size):
+                print(f"peer is {peer} and {peers[0].peer_id}")
+                if peer > peers[0].peer_id: 
+                    higher_peer_id.append(peer)
+                    print(f"peer id list {higher_peer_id}")
+
+                    # all bigger peer IDs are in the list
+            for peer in higher_peer_id: 
+                peers[0].send_request_to_specific_id("are_you_alive", f"{peers[0].peer_id}", peer)
+
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")
             for peer in peers:
