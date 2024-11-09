@@ -2,6 +2,24 @@ import threading
 import socket
 import logging
 import time
+import csv
+import os
+
+
+# shared file among the leaders
+# Get and display the current working directory
+current_directory = os.getcwd()
+print(f"Current working directory: {current_directory}")
+
+# Define the file name in the current directory
+file_name = "seller_goods.csv"
+file_path = os.path.join(current_directory, file_name)
+# Function to check if the file has entries
+def is_file_empty(file_path):
+    # Check if the file exists and if it has a size greater than 0
+    return os.path.getsize(file_path) == 0
+
+file_exists = os.path.exists(file_path)
 
 """
 Peer class defines the peer used within the network
@@ -30,6 +48,7 @@ class Peer:
         self.lock = threading.Lock()
         self.stock = 10 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
         self.hop_limit = 3
+        self.request_already_sent = False
         Peer.peers_by_id[self.peer_id] = self
 
 
@@ -46,13 +65,18 @@ class Peer:
             self.send_request_to_specific_id("are_you_alive", f"{self.peer_id}", peer)
 
         # wait for a reply from peers
-        time.sleep(3)
+        time.sleep(1)
 
-        if(self.leader == True):
+        if(self.leader == True and self.request_already_sent == False):
             print(f"I am the leader {self.peer_id}")
             leader_id = self.peer_id
-            for peer in range(self.network_size):
-                self.send_request("set_leader", leader_id)
+            self.request_already_sent = True
+            # for peer in range(self.network_size):
+            self.send_request("set_leader", leader_id)
+            self.send_request("give_seller_list", leader_id)
+            
+
+
     """
         listen_for_requests(self, host, port)
 
@@ -102,12 +126,10 @@ class Peer:
                 hopcount = int(hopcount_str)
                 search_path = eval(search_path_str)
                 self.handle_lookup(buyer_id, buytime, product_name, hopcount, search_path)
-            elif request_type == "reply":
-                
+            elif request_type == "reply":  
                 buyer_id, buytime, seller_id, reply_path_str = data.split(',',3)
                 logging.debug(f"data buyer, seller, path {buyer_id}, {seller_id}, {reply_path_str}")
                 reply_path = eval(reply_path_str)
-                
                 self.send_reply(buyer_id,buytime, seller_id, reply_path)
             elif request_type == "buy":
                 buyer_id, seller_id = data.split(',')
@@ -115,19 +137,51 @@ class Peer:
             elif request_type == "set_leader":
                 leader_id = data
                 self.leader = leader_id
+                print(f"leader Set complete {leader_id}")
             elif request_type == "ok":
                 sender_id = data.split(',')
                 print(f"setting is_leader to false for {self.peer_id}")
                 self.leader = False
+                self.request_already_sent = False
             elif request_type == "are_you_alive":
                 sender_id = data
                 self.handle_alive(sender_id)
+            elif request_type == "give_seller_list":
+                leader_id = data
+                print("requesting seller list from the leader")
+                self.handle_seller_list(leader_id)        # you might not even need leader_id here because each peer know 
+            elif request_type == "selling_list":
+                seller_id, seller_product, product_stock = data.split(',')
+                print(f"Items for sale is from {seller_id}, {seller_product}, {product_stock}")
+                self.handle_file_write(seller_id, seller_product, product_stock)
 
         except Exception as e:
             logging.info(f"Error handling request: {e}")
         finally:
             client_socket.close() #close the socket after the connection.
 
+    def handle_file_write(self, seller_id, seller_product, product_stock):
+        # Write data to the CSV file in the current directory open(file_path, mode='a' if file_exists else 'w', newline='')
+        with self.lock:
+            try:
+                with open(file_path, mode ='a' if file_exists else 'w', newline='') as file:
+                    writer = csv.DictWriter(file, fieldnames=["seller_id", "product_name", "product_stock"])
+                    # Write header only if the file is being created for the first time
+                    if not file_exists:
+                        writer.writeheader()
+                    seller_goods=[{"seller_id":seller_id, "product_name":seller_product, "product_stock": product_stock}]
+                    print(f"{seller_goods}")
+                    writer.writerows(seller_goods)  # Write each item as a row
+                print(f"Data successfully written to {file_path}")
+            except FileNotFoundError:
+                print(f"Error: The file path {file_path} could not be found.")
+            except IOError as e:
+                print(f"IOError: {e}") 
+
+    def handle_seller_list(self, leader_id):
+        if(self.alive == True):
+            if(self.role == "seller"):
+                self.send_request_to_specific_id("selling_list", f"{self.peer_id},{self.product},{self.stock}", self.peer_id)
 
     def handle_alive(self, sender_id):
         if(self.alive == True):
@@ -223,14 +277,15 @@ class Peer:
         request_type can be: [lookup, reply, buy] as seen in the handle_request function. 
     """
     def send_request(self, request_type, data):
-        for neighbor in self.neighbors:
+        for peer_number in range(self.network_size):
             try:
+                peer = Peer.peers_by_id.get(peer_number)
                 peer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                peer_socket.connect(('127.0.0.1', 5000 + neighbor.peer_id))
+                peer_socket.connect(('127.0.0.1', 5000 + peer.peer_id))
                 peer_socket.send(f"{request_type}|{data}".encode())
                 peer_socket.close()
             except Exception as e:
-                logging.info(f"Error sending request to Peer {neighbor.peer_id}: {e}")
+                logging.info(f"Error sending request to Peer {peer_number}: {e}")
 
     def send_request_to_specific_id(self, request_type, data, peer_id):
         try:

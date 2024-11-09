@@ -11,7 +11,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s.%(msecs)03d - %(message)s',
     datefmt='%H:%M:%S'
-)
+) 
 
 def setup_peers(num_peers):
     peers = []
@@ -91,6 +91,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     mode = sys.argv[1].lower()
+
 
     if mode == 'test_case1':
         logging.info("Running Test Case 1")
