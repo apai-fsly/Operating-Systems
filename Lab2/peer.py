@@ -19,9 +19,11 @@ Peer class defines the peer used within the network
 class Peer:
     peers_by_id = {}
     def __init__(self, peer_id, role, network_size, product=None, neighbors=None):
-        self.leader = -1
+        self.leader = True
+        self.leader_id = -1
+        self.alive = True
         self.peer_id = peer_id
-        self.role = role 
+        self.role = role
         self.network_size = network_size
         self.product = product
         self.neighbors = neighbors or []
@@ -31,31 +33,26 @@ class Peer:
         Peer.peers_by_id[self.peer_id] = self
 
 
-    def elect(self): 
-        # send a message to every node with a greater ID. 
-
-        self.peer_id # 0
+    def run_election(self):
         higher_peer_id = []
-        for peer in range(self.network_size): 
+        for peer in range(self.network_size):
+            print(f"peer is {peer} and {self.peer_id}")
             if peer > self.peer_id: 
                 higher_peer_id.append(peer)
+                print(f"peer id list {higher_peer_id}")
 
-        # all bigger peer IDs are in the list
-        for peer in range(higher_peer_id): 
-            self.send_request()
-            time.sleep(3)
+                # all bigger peer IDs are in the list
+        for peer in higher_peer_id: 
+            self.send_request_to_specific_id("are_you_alive", f"{self.peer_id}", peer)
 
+        # wait for a reply from peers
+        time.sleep(3)
 
-
-
-        request = client_socket.recv(1024).decode()
-
-            # wait for a reply from peers
-
-        
-
-
-
+        if(self.leader == True):
+            print(f"I am the leader {self.peer_id}")
+            leader_id = self.peer_id
+            for peer in range(self.network_size):
+                self.send_request("set_leader", leader_id)
     """
         listen_for_requests(self, host, port)
 
@@ -115,37 +112,29 @@ class Peer:
             elif request_type == "buy":
                 buyer_id, seller_id = data.split(',')
                 self.handle_buy(buyer_id, seller_id)
-            elif request_type == "elect": 
+            elif request_type == "set_leader":
+                leader_id = data
+                self.leader = leader_id
+            elif request_type == "ok":
+                sender_id = data.split(',')
+                print(f"setting is_leader to false for {self.peer_id}")
+                self.leader = False
+            elif request_type == "are_you_alive":
                 sender_id = data
-                self.handle_election(sender_id)
+                self.handle_alive(sender_id)
 
         except Exception as e:
             logging.info(f"Error handling request: {e}")
         finally:
             client_socket.close() #close the socket after the connection.
 
-    
-    def send_elect_reply(self, sender_id): 
-        try:
-            peer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            peer_socket.connect(('127.0.0.1', 5000 + sender_id))
-            peer_socket.send(f"ok".encode())
-            peer_socket.close()
-        except Exception as e:
-            logging.info(f"Error responing back to election intiator {sender_id}: {e}")
 
-       
+    def handle_alive(self, sender_id):
+        if(self.alive == True):
+            print(f"sending ok reply to sender {sender_id} from peer {self.peer_id}")
+            self.send_request_to_specific_id("ok", f"{self.peer_id}", eval(sender_id))
+            self.run_election()
 
-
-    """
-    
-    """
-    def handle_election(self, sender_id): 
-        # check the status of the peer before responding
-        self.send_elect_reply(sender_id)
-
-
-    
     """
         handle_lookup(buyer_id, buytime, product_name, hop_count, search_path)
 
@@ -234,6 +223,7 @@ class Peer:
         request_type can be: [lookup, reply, buy] as seen in the handle_request function. 
     """
     def send_request(self, request_type, data):
+        for neighbor in self.neighbors:
             try:
                 peer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 peer_socket.connect(('127.0.0.1', 5000 + neighbor.peer_id))
@@ -241,6 +231,15 @@ class Peer:
                 peer_socket.close()
             except Exception as e:
                 logging.info(f"Error sending request to Peer {neighbor.peer_id}: {e}")
+
+    def send_request_to_specific_id(self, request_type, data, peer_id):
+        try:
+            peer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            peer_socket.connect(('127.0.0.1', 5000 + peer_id))
+            peer_socket.send(f"{request_type}|{data}".encode())
+            peer_socket.close()
+        except Exception as e:
+            logging.info(f"Error sending request to Peer {peer_id}: {e}")
 
     """
         send_reply_request(request_type, data, next_peer_id)
