@@ -48,7 +48,7 @@ def setup_test_case1():
 
 def setup_test_case2():
     # peer 0 is fish buyer and peer 3 is fish seller, can connect with seller with passing two middle peers 1 and 2
-    peer_0 = Peer(peer_id=0, role="buyer", network_size=5)
+    peer_0 = Peer(peer_id=0, role="buyer", network_size=5, product="salt")
     # 0 --> 1 --> 2 --> 3 --> 4
     peer_1 = Peer(peer_id=1, role="seller", network_size=5, product="salt")
     peer_2 = Peer(peer_id=2, role="seller", network_size=5, product="boar")
@@ -137,10 +137,16 @@ if __name__ == "__main__":
                 if peer > peers[0].peer_id: 
                     higher_peer_id.append(peer)
                     print(f"peer id list {higher_peer_id}")
-
+            
                     # all bigger peer IDs are in the list
             for peer in higher_peer_id: 
                 peers[0].send_request_to_specific_id("are_you_alive", f"{peers[0].peer_id}", peer)
+            
+            time.sleep(5)
+            for i in range(5):
+                print(f"Buy:: {peers[0].peer_id}, {peers[0].leader_id}, {peers[0].product}")
+                peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{peers[0].leader_id},{peers[0].product}", int(peers[0].leader_id))
+                time.sleep(1)
 
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")
