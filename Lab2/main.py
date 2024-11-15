@@ -146,7 +146,7 @@ if __name__ == "__main__":
             for i in range(5):
                 print(f"Buy:: {peers[0].peer_id}, {peers[0].leader_id}, {peers[0].product}")
                 peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{peers[0].leader_id},{peers[0].product}", int(peers[0].leader_id))
-                time.sleep(1)
+                # time.sleep(1)
 
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")

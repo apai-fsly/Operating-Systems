@@ -47,11 +47,18 @@ class Peer:
         self.neighbors = neighbors or []
         self.lock = threading.Lock()
         self.stock = 10 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
-        # self.hop_limit = 3
         self.request_already_sent = False
         Peer.peers_by_id[self.peer_id] = self
         self.cash_received = 0 # received total amount by seller after product sale, assume 1 dollar for each product
+        self.lamport_clock = 0  # Initialize Lamport clock
+        self.request_queue = []  # Queue to manage buy requests based on timestamps
 
+    def increment_clock(self):
+        self.lamport_clock += 1
+
+    def update_clock(self, other_clock):
+        # Update local clock with the max of local and received clocks
+        self.lamport_clock = max(self.lamport_clock, other_clock) + 1
 
     def run_election(self):
         higher_peer_id = []
@@ -75,8 +82,6 @@ class Peer:
             # for peer in range(self.network_size):
             self.send_request("set_leader", leader_id)
             self.send_request("give_seller_list", leader_id)
-            
-
 
     """
         listen_for_requests(self, host, port)
@@ -121,38 +126,28 @@ class Peer:
             
             request_type, data = request.split('|', 1) # seperates the request body into the request_type, and data on the |
 
-            # if request_type == "lookup":
-            #     buyer_id, buytime, product_name, hopcount_str, search_path_str = data.split(',', 4)
-            #     logging.info(f"Peer {self.peer_id} Lookup call: buyer:{buyer_id}, product:{product_name}, hopcount:{hopcount_str}, search path:{search_path_str}")
-            #     hopcount = int(hopcount_str)
-            #     search_path = eval(search_path_str)
-            #     self.handle_lookup(buyer_id, buytime, product_name, hopcount, search_path)
-            # elif request_type == "reply":  
-            #     buyer_id, buytime, seller_id, reply_path_str = data.split(',',3)
-            #     logging.debug(f"data buyer, seller, path {buyer_id}, {seller_id}, {reply_path_str}")
-            #     reply_path = eval(reply_path_str)
-            #     self.send_reply(buyer_id,buytime, seller_id, reply_path)
             if request_type == "buy":
-                buyer_id, leader_id, product_name = data.split(',')
+                buyer_id, leader_id, product_name, buyer_clock = data.split(',')
+                self.update_clock(int(buyer_clock))  # Update clock with buyer's clock
                 print(f"start buy buyer:{buyer_id}, leader:{leader_id}, item:{product_name}")
                 self.handle_buy_from_leader(buyer_id, leader_id, product_name)
             elif request_type == "set_leader":
                 self.leader_id = data
                 print(f"leader Set complete {self.leader_id}")
             elif request_type == "ok":
-                sender_id = data.split(',')
+                sender_id, sender_clock = data.split(',')
                 print(f"setting is_leader to false for {self.peer_id}")
                 self.leader = False
                 self.request_already_sent = False
             elif request_type == "are_you_alive":
-                sender_id = data
-                self.handle_alive(sender_id)
+                sender_id = data.split(',')
+                self.handle_alive(sender_id[0])
             elif request_type == "give_seller_list":
                 leader_id = data
                 print("requesting seller list from the leader")
                 self.handle_seller_list(leader_id)        # you might not even need leader_id here because each peer know 
             elif request_type == "selling_list":
-                seller_id, seller_product, product_stock = data.split(',')
+                seller_id, seller_product, product_stock, buyer_clock = data.split(',')
                 print(f"Items for sale is from {seller_id}, {seller_product}, {product_stock}")
                 self.handle_file_write(seller_id, seller_product, product_stock)
             elif request_type == "item_bought":
@@ -170,8 +165,11 @@ class Peer:
             print("Error: No product file found.")
             return False
         
-        print("checkpoint 1")
         with self.lock:
+            # Queue the request with timestamp
+            self.request_queue.append((self.lamport_clock, buyer_id, product_name))
+            self.request_queue.sort()  # Sort queue by timestamp for fairness
+            print(f"request queue:{self.request_queue}")
             # Load current inventory
             inventory = []
             with open(file_path, mode='r', newline='') as file:
@@ -179,18 +177,21 @@ class Peer:
                 inventory = list(reader)
 
             # Check if the product is available and has enough stock
-            transaction_complete = False
-            for entry in inventory:
-                print(f'{entry["product_name"]}, {entry["product_stock"]}')
-                if entry["product_name"] == product_name and int(entry["product_stock"]) > 0:
-                    # Deduct stock
-                    entry["product_stock"] = str(int(entry["product_stock"]) - 1)
-                    print(f"Purchase successful: Buyer {buyer_id} bought {1} of {product_name} from Leader {leader_id}.")
-                    self.send_request_to_specific_id("item_bought", f"{self.peer_id}", eval(entry["seller_id"]))
-                    transaction_complete = True
-                    break
-            if transaction_complete == False:
-                print(f"Item {product_name} unavailable for sale or out of stock")
+                        # Process requests in order of Lamport clocks
+            while self.request_queue:
+                _, current_buyer, requested_product = self.request_queue.pop(0)
+                transaction_complete = False
+                for entry in inventory:
+                    print(f'{entry["product_name"]}, {entry["product_stock"]}')
+                    if entry["product_name"] == requested_product and int(entry["product_stock"]) > 0:
+                        # Deduct stock
+                        entry["product_stock"] = str(int(entry["product_stock"]) - 1)
+                        print(f"Purchase successful: Buyer {buyer_id} bought {1} of {requested_product} from Leader {leader_id}.")
+                        self.send_request_to_specific_id("item_bought", f"{self.peer_id}", eval(entry["seller_id"]))
+                        transaction_complete = True
+                        break
+                if transaction_complete == False:
+                    print(f"Item {product_name} unavailable for sale or out of stock")
             # Update the file with the new stock values
             try:
                 with open(file_path, mode='w', newline='') as file:
@@ -246,85 +247,6 @@ class Peer:
             self.send_request_to_specific_id("ok", f"{self.peer_id}", eval(sender_id))
             self.run_election()
 
-    """
-        handle_lookup(buyer_id, buytime, product_name, hop_count, search_path)
-
-        if the lookup was sucessfull (meaning the buyer has reached the proper seller peer [correct product and in stock])
-        start the reply chain by leveraging the search_path. 
-    """
-    # def handle_lookup(self, buyer_id, buytime, product_name, hopcount, search_path):
-    #     if self.role == "seller" and self.product == product_name and self.stock > 0:
-    #         seller_id = self.peer_id
-    #         logging.info(f"Peer {self.peer_id} has found {product_name} via the following path of peers {search_path}")
-    #         logging.info(f"Peer {self.peer_id} (seller) has {product_name}. Sending reply from Peer(seller):{seller_id} to Peer(buyer):{buyer_id} ")
-    #         self.send_reply(buyer_id,buytime, seller_id, search_path)
-
-    #     elif hopcount > 0:
-    #         if self.peer_id not in search_path:
-    #             search_path.append(self.peer_id)
-    #             self.send_request("lookup", f"{buyer_id},{buytime},{product_name},{hopcount-1},{search_path}")
-
-    """
-        handle_buy(buyer_id, buytime, seller_id)
-
-        Fetch the seller peer via the peers_by_id map. 
-        If a peer is found attempt to take the Peer.lock and decrement 
-        the inventory by 1.
-
-        In addition, for logging purposes this function marks the end of the
-        transaction and the time can be calcualted.  
-    """
-    # def handle_buy(self, buyer_id, buytime, seller_id):
-    #     seller = Peer.peers_by_id.get(eval(seller_id))
-    #     if seller is None:
-    #         logging.info(f"Seller {seller_id} not found.")
-    #         return
-
-    #     with seller.lock:
-    #         if seller.stock > 0:
-    #             seller.stock -= 1
-    #             logging.info(f"Peer {seller.peer_id} sold item to {buyer_id}. Stock left: {seller.stock}")
-    #             current_time = time.time()
-    #             time_diff = current_time - float(buytime)
-    #             logging.info(f"Time to complete the transaction: {time_diff}")
-    #         else:
-    #             logging.info(f"Peer {seller.peer_id} is out of stock.") # restocking occurs in the main function. 
-
-    """
-        send_reply(buyer_id, buytime, seller_id, reply_path)
-
-        Checks the reply_path to see if there is a value present.
-        If there is a value present it means we have not yet reached a seller - pop the last element of the list
-        Send the reply to the next neighbor that was popped of the list via send_reply_to_next_peer
-
-        If the peer_id matches the buyer_id it means the reply has reached the buyer. 
-        Initiate the transaction process via the handle_buy function.  
-    """
-    # def send_reply(self, buyer_id, buytime, seller_id, reply_path):
-    #     if reply_path:
-    #         logging.debug(f"reply path{reply_path}")
-    #         next_peer_id = reply_path.pop()  # Get the next peer ID from the reply path
-    #         logging.debug(f"next peer id{next_peer_id}")
-    #         self.send_reply_to_next_peer(buyer_id, buytime, reply_path, next_peer_id, seller_id)
-    #     else:
-    #         if self.peer_id == eval(buyer_id):  # Ensure that this reached back to buyer
-    #             logging.info(f"Transaction initiated: Peer {seller_id} is ready to sell to buyer {buyer_id}")
-    #             self.handle_buy( buyer_id,buytime, seller_id)
-
-
-    """
-        send_reply_to_next_peer(buyer_id, buytime, reply_path, next_peer_id, seller_id)
-
-        attempts to send a reply to the next peer via the next_peer_id that was passed into the function. 
-    """
-    # def send_reply_to_next_peer(self, buyer_id, buytime, reply_path, next_peer_id, seller_id):
-    #     next_peer = Peer.peers_by_id.get(next_peer_id)
-    #     if next_peer:
-    #         logging.debug(f"Sending reply to next peer {next_peer.peer_id}")
-    #         next_peer.send_reply_request("reply", f"{buyer_id},{buytime},{seller_id},{reply_path}", next_peer_id)
-    #     else:
-    #         logging.info(f"Next peer {next_peer_id} not found.")
-
 
     """
         send_request(request_type, data)
@@ -345,6 +267,10 @@ class Peer:
                 logging.info(f"Error sending request to Peer {peer_number}: {e}")
 
     def send_request_to_specific_id(self, request_type, data, peer_id):
+        self.increment_clock()  # Increment clock for the outgoing request
+        # Include lamport clock value in the data
+        data += (f",{self.lamport_clock}")
+        print(f"request_type:{request_type} data:{data}")
         try:
             peer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             peer_socket.connect(('127.0.0.1', 5000 + peer_id))
