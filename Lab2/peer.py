@@ -130,8 +130,10 @@ class Peer:
 
             if request_type == "buy":
                 buyer_id, leader_id, product_name, buyer_clock = data.split(',')
-                self.update_clock(int(buyer_clock))  # Update clock with buyer's clock
+                # once we have updated our own node we will multicast the request to everyone else. 
                 print(f"start buy buyer:{buyer_id}, leader:{leader_id}, item:{product_name}")
+                self.update_clock(int(buyer_clock))
+                self.multicast_request()
                 self.handle_buy_from_leader(buyer_id, leader_id, product_name)
             elif request_type == "set_leader":
                 self.leader_id = data
@@ -156,6 +158,11 @@ class Peer:
                 self.stock -= 1
                 self.cash_received += 1
                 print(f"Seller {self.peer_id} sold a product and received cash 1$, total cash accumulated: {self.cash_received}$")
+            elif request_type == "multicast":
+                # if the node is getting a mutlicast request we need to compare clocks
+                new_clock = data
+                self.update_clock(int(new_clock))
+                print(f"{self.peer_id} peer's new clock value is {self.lamport_clock}")
 
         except Exception as e:
             logging.info(f"Error handling request: {e}")
@@ -204,6 +211,15 @@ class Peer:
             except IOError as e:
                 print(f"IOError: Could not update the file. {e}")
 
+    def multicast_request(self):
+        # update all nodes with the latest lamport clock value
+        request_type = "multicast"
+        lamport_clock = self.lamport_clock
+
+        for peer in Peer.peers_by_id.values():
+            self.send_request_to_specific_id(request_type, lamport_clock, peer.peer_id)
+            
+    
     def fall_sick(self, retry=False):    
         # randomly make it possible for the leader to fall_sick 
         # of gaurentee sickness if the 
@@ -326,9 +342,6 @@ class Peer:
                 logging.info(f"Error sending request to Peer {peer_number}: {e}")
 
     def send_request_to_specific_id(self, request_type, data, peer_id):
-        self.increment_clock()  # Increment clock for the outgoing request
-        # Include lamport clock value in the data
-        data += (f",{self.lamport_clock}")
         print(f"request_type:{request_type} data:{data}")
         try:
             peer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
