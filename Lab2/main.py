@@ -32,9 +32,9 @@ def setup_peers(num_peers):
     return peers
 
 def run_peer(peer, host, port):
-    # threading.Thread(target=peer.listen_for_requests, args=(host, port)).start()
-    p = multiprocessing.Process(target=peer.listen_for_requests, args=(host, port))
-    p.start()
+    threading.Thread(target=peer.listen_for_requests, args=(host, port)).start()
+    # p = multiprocessing.Process(target=peer.listen_for_requests, args=(host, port))
+    # p.start()
 
 # def run_peer_process(peer, host, port):
 #     # Launch the peer's listening functionality in a separate process
