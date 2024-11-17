@@ -83,6 +83,11 @@ def setup_test_case3():
 
     return [peer_0, peer_1, peer_2, peer_3, peer_4]
 
+def setup_test_case4(): 
+    peer_0 = Peer(peer_id=0, role="buyer", network_size=1, leader=True)
+
+    return [peer_0]
+
 
 if __name__ == "__main__":
     # Check command-line arguments
@@ -173,6 +178,18 @@ if __name__ == "__main__":
             for peer in peers:
                 pass  # Clean up if needed
             logging.info("All peers shut down.")
+    if mode == 'test_case4':
+        logging.info("Running Test Case 4")
+
+        peers = setup_test_case4()
+
+        new_entry = {
+            "seller_id": 1, 
+            "product_name": "salt", 
+            "product_stock": 10
+        }
+
+        peers[0].handle_file_write(new_entry["seller_id"], new_entry["product_name"], new_entry["product_stock"])
 
     elif mode == 'normal':
         logging.info("Running Normal Mode")
