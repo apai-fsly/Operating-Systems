@@ -3,6 +3,7 @@ import random
 import time
 import sys
 import logging
+import os
 from peer import Peer
 
 # adding logging handler to easily get timestamps
@@ -48,12 +49,12 @@ def setup_test_case1():
 
 def setup_test_case2():
     # peer 0 is fish buyer and peer 3 is fish seller, can connect with seller with passing two middle peers 1 and 2
-    peer_0 = Peer(peer_id=0, role="buyer", network_size=5, product="salt")
+    peer_0 = Peer(peer_id=0, role="buyer", network_size=5, product="salt", leader=True)
     # 0 --> 1 --> 2 --> 3 --> 4
-    peer_1 = Peer(peer_id=1, role="seller", network_size=5, product="salt")
-    peer_2 = Peer(peer_id=2, role="seller", network_size=5, product="boar")
-    peer_3 = Peer(peer_id=3, role="seller", network_size=5, product="fish")
-    peer_4 = Peer(peer_id=4, role="seller", network_size=5, product="boar")
+    peer_1 = Peer(peer_id=1, role="seller", network_size=5, product="salt", leader=True)
+    peer_2 = Peer(peer_id=2, role="seller", network_size=5, product="boar", leader=True)
+    peer_3 = Peer(peer_id=3, role="seller", network_size=5, product="fish", leader=True)
+    peer_4 = Peer(peer_id=4, role="seller", network_size=5, product="boar", leader=True)
 
     peer_0.neighbors = [peer_1, peer_2, peer_3, peer_4]
     peer_1.neighbors = [peer_0, peer_2, peer_3, peer_4]
@@ -161,6 +162,9 @@ if __name__ == "__main__":
 
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")
+            if os.path.exists("seller_goods.csv"):
+                os.remove("seller_goods.csv")
+                print("File data.csv has been deleted.")
             for peer in peers:
                 pass  # Clean up if needed
             logging.info("All peers shut down.")

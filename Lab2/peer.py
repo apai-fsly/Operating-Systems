@@ -299,7 +299,7 @@ class Peer:
     def handle_seller_list(self, leader_id):
         if(self.alive == True):
             if(self.role == "seller"):
-                self.send_request_to_specific_id("selling_list", f"{self.peer_id},{self.product},{self.stock}", self.leader_id)
+                self.send_request_to_specific_id("selling_list", f"{self.peer_id},{self.product},{self.stock}", eval(self.leader_id))
 
     def handle_alive(self, sender_id):
         if(self.alive == True):
