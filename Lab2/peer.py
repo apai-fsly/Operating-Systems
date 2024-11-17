@@ -4,6 +4,7 @@ import logging
 import time
 import csv
 import os
+import pandas as pd
 
 
 # shared file among the leaders
@@ -36,8 +37,8 @@ Peer class defines the peer used within the network
 """
 class Peer:
     peers_by_id = {}
-    def __init__(self, peer_id, role, network_size, product=None, neighbors=None):
-        self.leader = True
+    def __init__(self, peer_id, role, network_size, leader=False, product=None, neighbors=None):
+        self.leader = leader
         self.leader_id = -1
         self.alive = True
         self.peer_id = peer_id
@@ -205,36 +206,76 @@ class Peer:
     def handle_file_write(self, seller_id, seller_product, product_stock):
         # Write data to the CSV file in the current directory open(file_path, mode='a' if file_exists else 'w', newline='')
 
-        # Load existing entries if file exists
-        existing_entries = []
-        if file_exists:
-            with open(file_path, mode='r', newline='') as file:
-                reader = csv.DictReader(file)
-                existing_entries = list(reader)
+        df = pd.read_csv(file_path)
 
-        # Check if the new entry is unique
-        new_entry = {"seller_id": seller_id, "product_name": seller_product, "product_stock": product_stock}
-        is_unique = all(
-            entry["seller_id"] != new_entry["seller_id"] or entry["product_name"] != new_entry["product_name"]
-            for entry in existing_entries
-        )
+        # find rows with matching seller_id and product_name
+        query = (df['seller_id'] == seller_id) & (df['product_name'] == seller_product)
+        result = df.loc[(query)]
+
+        new_entry = {
+            "seller_id": seller_id, 
+            "product_name": seller_product, 
+            "product_stock": product_stock
+        }
 
         with self.lock:
-            if is_unique:
-                try:
-                    with open(file_path, mode ='a' if file_exists else 'w', newline='') as file:
-                        writer = csv.DictWriter(file, fieldnames=["seller_id", "product_name", "product_stock"])
-                        # Write header only if the file is being created for the first time
-                        if not file_exists:
-                            writer.writeheader()
-                        seller_goods=[{"seller_id":seller_id, "product_name":seller_product, "product_stock": product_stock}]
-                        print(f"{seller_goods}")
-                        writer.writerows(seller_goods)  # Write each item as a row
-                    print(f"Data successfully written to {file_path}")
-                except FileNotFoundError:
-                    print(f"Error: The file path {file_path} could not be found.")
-                except IOError as e:
-                    print(f"IOError: {e}") 
+            try:
+                if not result.empty and len(result) == 1:
+                    existing_stock = result['product_stock'].iloc[0]
+                    if existing_stock != product_stock:
+                        df.loc[query, 'product_stock'] = new_entry["product_stock"]
+                elif len(result) > 1: 
+                    print("unable to add new entry due to conflicting seller_ids and product_names")
+                else:
+                    df.loc[len(df)] = new_entry
+            except FileNotFoundError:
+                print(f"Error: The file path {file_path} could not be found.")
+            except IOError as e:
+                print(f"IOError: {e}") 
+
+
+        df.to_csv(file_path, index=False)
+
+        # Load existing entries if file exists
+        # existing_entries = []
+        # if file_exists:
+        #     with open(file_path, mode='r', newline='') as file:
+        #         reader = csv.DictReader(file)
+        #         existing_entries = list(reader)
+
+        # # df = pd.read_csv(file_path)
+
+        # # # find rows with matching seller_id and product_name
+        # # print(df.loc[df['seller_id'] == seller_id & df[seller_product == seller_product]])
+        
+
+        # # Check if the new entry is unique
+        # new_entry = {
+        #     "seller_id": seller_id, 
+        #     "product_name": seller_product, 
+        #     "product_stock": product_stock
+        # }
+        # is_unique = all(
+        #     entry["seller_id"] != new_entry["seller_id"] or entry["product_name"] != new_entry["product_name"]
+        #     for entry in existing_entries
+        # )
+
+        # with self.lock:
+        #     if is_unique:
+        #         try:
+        #             with open(file_path, mode ='a' if file_exists else 'w', newline='') as file:
+        #                 writer = csv.DictWriter(file, fieldnames=["seller_id", "product_name", "product_stock"])
+        #                 # Write header only if the file is being created for the first time
+        #                 if not file_exists:
+        #                     writer.writeheader()
+        #                 seller_goods=[{"seller_id":seller_id, "product_name":seller_product, "product_stock": product_stock}]
+        #                 print(f"{seller_goods}")
+        #                 writer.writerows(seller_goods)  # Write each item as a row
+        #             print(f"Data successfully written to {file_path}")
+        #         except FileNotFoundError:
+        #             print(f"Error: The file path {file_path} could not be found.")
+        #         except IOError as e:
+        #             print(f"IOError: {e}") 
 
     def handle_seller_list(self, leader_id):
         if(self.alive == True):
