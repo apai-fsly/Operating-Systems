@@ -48,7 +48,8 @@ class Peer:
         self.network_size = network_size
         self.product = product
         self.neighbors = neighbors or []
-        self.lock = threading.Lock()
+        # self.lock = threading.Lock()
+        self.lock = multiprocessing.Lock()
         self.stock = 10 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
         self.request_already_sent = False
         Peer.peers_by_id[self.peer_id] = self
@@ -105,6 +106,10 @@ class Peer:
             client_socket, address = server_socket.accept()
             threading.Thread(target=self.handle_request, args=(client_socket,)).start()
 
+            # process = multiprocessing.Process(target=self.handle_request, args=(client_socket,))
+            # process.start()
+            # process.join()  # Ensure the process completes
+
 
     """
         handle_request(self, client_sock)
@@ -136,7 +141,7 @@ class Peer:
                 self.handle_buy_from_leader(buyer_id, leader_id, product_name)
             elif request_type == "set_leader":
                 self.leader_id = data
-                print(f"leader Set complete {self.leader_id}")
+                print(f"leader Set complete on {self.peer_id} and leader is {self.leader_id}")
             elif request_type == "ok":
                 sender_id, sender_clock = data.split(',')
                 print(f"setting is_leader to false for {self.peer_id}")
@@ -299,7 +304,7 @@ class Peer:
     def handle_seller_list(self, leader_id):
         if(self.alive == True):
             if(self.role == "seller"):
-                self.send_request_to_specific_id("selling_list", f"{self.peer_id},{self.product},{self.stock}", eval(self.leader_id))
+                self.send_request_to_specific_id("selling_list", f"{self.peer_id},{self.product},{self.stock}", int(self.leader_id))
 
     def handle_alive(self, sender_id):
         if(self.alive == True):

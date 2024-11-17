@@ -1,4 +1,5 @@
 import threading
+import multiprocessing
 import random
 import time
 import sys
@@ -31,7 +32,30 @@ def setup_peers(num_peers):
     return peers
 
 def run_peer(peer, host, port):
-    threading.Thread(target=peer.listen_for_requests, args=(host, port)).start()
+    # threading.Thread(target=peer.listen_for_requests, args=(host, port)).start()
+    p = multiprocessing.Process(target=peer.listen_for_requests, args=(host, port))
+    p.start()
+
+# def run_peer_process(peer, host, port):
+#     # Launch the peer's listening functionality in a separate process
+#     process = multiprocessing.Process(target=peer.listen_for_requests, args=(host, port))
+#     process.start()
+#     return process
+
+# def run_peers(peers, host='127.0.0.1'):
+#     # Start all peers as separate processes
+#     processes = []
+#     for i, peer in enumerate(peers):
+#         port = 5000 + i
+#         process = run_peer_process(peer, host, port)
+#         processes.append(process)
+#     return processes
+
+def shutdown_processes(processes):
+    for process in processes:
+        if process.is_alive():
+            process.terminate()
+            process.join()
 
 def setup_test_case1():
     # peer 0 is salt buyer and peer 1 is salt seller, direct connection
@@ -137,6 +161,7 @@ if __name__ == "__main__":
     elif mode == 'test_case2':
         logging.info("Running Test Case 2")
         peers = setup_test_case2()
+        # processes = run_peers(peers)
         for i, peer in enumerate(peers):
             run_peer(peer, host='127.0.0.1', port=5000 + i)
 
@@ -156,7 +181,8 @@ if __name__ == "__main__":
             
             time.sleep(5)
             for i in range(5):
-                print(f"Buy:: {peers[0].peer_id}, {peers[0].leader_id}, {peers[0].product}")
+                # print(f"Buy:: {peers[0].peer_id}, {peers[0].leader_id}, {peers[0].product}")
+                print(f"Buy:: {peers[0].peer_id}, {3}, {peers[0].product}")
                 peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{peers[0].leader_id},{peers[0].product}", int(peers[0].leader_id))
                 # time.sleep(1)
 
@@ -237,4 +263,8 @@ if __name__ == "__main__":
 
     else:
         logging.error("Invalid mode. Please specify either 'test_case1', 'test_case2', 'test_case3' or 'normal'.")
+        if 'processes' in locals():
+            shutdown_processes(processes)
+        logging.info("All peers shut down.")
         sys.exit(1)
+
