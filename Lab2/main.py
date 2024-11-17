@@ -88,6 +88,12 @@ def setup_test_case4():
 
     return [peer_0]
 
+def setup_test_case5(): 
+    peer_0 = Peer(peer_id=0, role="buyer", network_size=2, leader=True)
+    peer_1 = Peer(peer_id=1, role="seller", network_size=2, leader=True)
+
+    return [peer_0, peer_1]
+
 
 if __name__ == "__main__":
     # Check command-line arguments
@@ -190,7 +196,10 @@ if __name__ == "__main__":
         }
 
         peers[0].handle_file_write(new_entry["seller_id"], new_entry["product_name"], new_entry["product_stock"])
+    if mode == 'test_case5':
+        peers = setup_test_case5()
 
+        peers[0].fall_sick()
     elif mode == 'normal':
         logging.info("Running Normal Mode")
         num_peers = int(sys.argv[2]) if len(sys.argv) > 2 else 6  # Get the number of peers from command line or default to 6

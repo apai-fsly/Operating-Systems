@@ -5,6 +5,7 @@ import time
 import csv
 import os
 import pandas as pd
+import random as rand
 
 
 # shared file among the leaders
@@ -201,8 +202,25 @@ class Peer:
                     writer.writerows(inventory)
                 print(f"Inventory updated in {file_path}")
             except IOError as e:
-                print(f"IOError: Could not update the file. {e}")    
+                print(f"IOError: Could not update the file. {e}")
 
+    def fall_sick(self, retry=False):    
+        # randomly make it possible for the leader to fall_sick 
+        # of gaurentee sickness if the 
+        chance = rand.random()
+        if chance < .2 or retry:
+            print("leader is falling sick")
+            # one of the other nodes should start an election
+            election_peer_id = rand.randint(0, self.network_size-1)
+            election_peer = Peer.peers_by_id.get(election_peer_id)
+            if election_peer.alive and election_peer.peer_id != self.peer_id:
+                self.alive = False
+                election_peer.run_election()
+            else: 
+                print("peer is not alive retrying running the election")
+                time.sleep(1)
+                self.fall_sick(retry=True)
+        
     def handle_file_write(self, seller_id, seller_product, product_stock):
         # Write data to the CSV file in the current directory open(file_path, mode='a' if file_exists else 'w', newline='')
 
@@ -280,7 +298,7 @@ class Peer:
     def handle_seller_list(self, leader_id):
         if(self.alive == True):
             if(self.role == "seller"):
-                self.send_request_to_specific_id("selling_list", f"{self.peer_id},{self.product},{self.stock}", self.peer_id)
+                self.send_request_to_specific_id("selling_list", f"{self.peer_id},{self.product},{self.stock}", self.leader_id)
 
     def handle_alive(self, sender_id):
         if(self.alive == True):
