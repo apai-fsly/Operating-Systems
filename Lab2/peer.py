@@ -1,5 +1,4 @@
 import threading
-import multiprocessing
 import socket
 import logging
 import time
@@ -40,17 +39,18 @@ Peer class defines the peer used within the network
 class Peer:
     peers_by_id = {}
     def __init__(self, peer_id, role, network_size, leader=False, product=None, neighbors=None):
-        self.leader = leader
+        self.leader = True
         self.leader_id = -1
+        self.election_inprogress = False
         self.alive = True
         self.peer_id = peer_id
         self.role = role
         self.network_size = network_size
         self.product = product
         self.neighbors = neighbors or []
-        # self.lock = threading.Lock()
-        self.lock = multiprocessing.Lock()
-        self.stock = 10 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
+        self.lock = threading.Lock()
+        # self.lock = multiprocessing.Lock()
+        self.stock = 1000 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
         self.request_already_sent = False
         Peer.peers_by_id[self.peer_id] = self
         self.cash_received = 0 # received total amount by seller after product sale, assume 1 dollar for each product
@@ -65,6 +65,8 @@ class Peer:
         self.lamport_clock = max(self.lamport_clock, other_clock) + 1
 
     def run_election(self):
+
+        self.send_request("election_inprogress", data=None)
         higher_peer_id = []
         for peer in range(self.network_size):
             print(f"peer is {peer} and {self.peer_id}")
@@ -141,6 +143,7 @@ class Peer:
                 self.handle_buy_from_leader(buyer_id, leader_id, product_name)
             elif request_type == "set_leader":
                 self.leader_id = data
+                self.election_inprogress = False
                 print(f"leader Set complete on {self.peer_id} and leader is {self.leader_id}")
             elif request_type == "ok":
                 sender_id, sender_clock = data.split(',')
@@ -157,12 +160,14 @@ class Peer:
             elif request_type == "selling_list":
                 seller_id, seller_product, product_stock, buyer_clock = data.split(',')
                 print(f"Items for sale is from {seller_id}, {seller_product}, {product_stock}")
-                self.handle_file_write(seller_id, seller_product, product_stock)
+                self.handle_file_write(int(seller_id), seller_product, int(product_stock))
             elif request_type == "item_bought":
                 self.stock -= 1
                 self.cash_received += 1
                 print(f"Seller {self.peer_id} sold a product and received cash 1$, total cash accumulated: {self.cash_received}$")
-
+            elif request_type == "election_inprogress":
+                print(f"{self.peer_id} has detected an election") 
+                self.election_inprogress = True
         except Exception as e:
             logging.info(f"Error handling request: {e}")
         finally:
@@ -173,6 +178,7 @@ class Peer:
             print("Error: No product file found.")
             return False
         
+
         with self.lock:
             # Queue the request with timestamp
             self.request_queue.append((self.lamport_clock, buyer_id, product_name))
@@ -185,8 +191,9 @@ class Peer:
                 inventory = list(reader)
 
             # Check if the product is available and has enough stock
-                        # Process requests in order of Lamport clocks
+            # Process requests in order of Lamport clocks
             while self.request_queue:
+                print(len(self.request_queue))
                 _, current_buyer, requested_product = self.request_queue.pop(0)
                 transaction_complete = False
                 for entry in inventory:
@@ -209,19 +216,26 @@ class Peer:
                 print(f"Inventory updated in {file_path}")
             except IOError as e:
                 print(f"IOError: Could not update the file. {e}")
+        
+        if not self.election_inprogress:
+            self.election_inprogress = True
+            self.fall_sick()
 
     def fall_sick(self, retry=False):    
         # randomly make it possible for the leader to fall_sick 
         # of gaurentee sickness if the 
+        print("checking if leader is falling sick")
         chance = rand.random()
-        if chance < .2 or retry:
+        if chance < 1 or retry:
             print("leader is falling sick")
             # one of the other nodes should start an election
             election_peer_id = rand.randint(0, self.network_size-1)
             election_peer = Peer.peers_by_id.get(election_peer_id)
             if election_peer.alive and election_peer.peer_id != self.peer_id:
+                print(f"{election_peer.peer_id} is starting the election")
                 self.alive = False
                 election_peer.run_election()
+                time.sleep(5)
             else: 
                 print("peer is not alive retrying running the election")
                 time.sleep(1)
@@ -229,20 +243,19 @@ class Peer:
         
     def handle_file_write(self, seller_id, seller_product, product_stock):
         # Write data to the CSV file in the current directory open(file_path, mode='a' if file_exists else 'w', newline='')
-
-        df = pd.read_csv(file_path)
-
-        # find rows with matching seller_id and product_name
-        query = (df['seller_id'] == seller_id) & (df['product_name'] == seller_product)
-        result = df.loc[(query)]
-
-        new_entry = {
-            "seller_id": seller_id, 
-            "product_name": seller_product, 
-            "product_stock": product_stock
-        }
-
         with self.lock:
+            seller_id = int(seller_id)
+            df = pd.read_csv(file_path)
+
+            # find rows with matching seller_id and product_name
+            query = (df["seller_id"] == seller_id) & (df["product_name"] == seller_product)
+            result = df.loc[(query)]
+
+            new_entry = {
+                "seller_id": seller_id, 
+                "product_name": seller_product, 
+                "product_stock": product_stock
+            }
             try:
                 if not result.empty and len(result) == 1:
                     existing_stock = result['product_stock'].iloc[0]
@@ -258,7 +271,7 @@ class Peer:
                 print(f"IOError: {e}") 
 
 
-        df.to_csv(file_path, index=False)
+            df.to_csv(file_path, index=False)
 
         # Load existing entries if file exists
         # existing_entries = []
@@ -303,11 +316,12 @@ class Peer:
 
     def handle_seller_list(self, leader_id):
         if(self.alive == True):
-            if(self.role == "seller"):
+            if(self.role == "seller" and not self.leader):
                 self.send_request_to_specific_id("selling_list", f"{self.peer_id},{self.product},{self.stock}", int(self.leader_id))
 
     def handle_alive(self, sender_id):
         if(self.alive == True):
+            self.leader = True
             print(f"sending ok reply to sender {sender_id} from peer {self.peer_id}")
             self.send_request_to_specific_id("ok", f"{self.peer_id}", eval(sender_id))
             self.run_election()

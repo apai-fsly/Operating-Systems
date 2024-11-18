@@ -109,9 +109,11 @@ def setup_test_case3():
     return [peer_0, peer_1, peer_2, peer_3, peer_4]
 
 def setup_test_case4(): 
-    peer_0 = Peer(peer_id=0, role="buyer", network_size=1, leader=True)
+    peer_0 = Peer(peer_id=0, role="buyer", network_size=3, leader=True)
+    peer_1 = Peer(peer_id=1, role="buyer", network_size=3, leader=True)
+    peer_2 = Peer(peer_id=2, role="buyer", network_size=3, leader=True)
 
-    return [peer_0]
+    return [peer_0, peer_1, peer_2]
 
 def setup_test_case5(): 
     peer_0 = Peer(peer_id=0, role="buyer", network_size=2, leader=True)
@@ -180,19 +182,20 @@ if __name__ == "__main__":
                 peers[0].send_request_to_specific_id("are_you_alive", f"{peers[0].peer_id}", peer)
             
             time.sleep(5)
-            for i in range(5):
+            for i in range(1000):
                 # print(f"Buy:: {peers[0].peer_id}, {peers[0].leader_id}, {peers[0].product}")
                 print(f"Buy:: {peers[0].peer_id}, {3}, {peers[0].product}")
-                peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{peers[0].leader_id},{peers[0].product}", int(peers[0].leader_id))
-                # time.sleep(1)
+                if not peers[0].election_inprogress:
+                    peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{peers[0].leader_id},{peers[0].product}", int(peers[0].leader_id))
+
 
         except KeyboardInterrupt:
-            logging.info("Shutting down peers...")
-            if os.path.exists("seller_goods.csv"):
-                os.remove("seller_goods.csv")
-                print("File data.csv has been deleted.")
-            for peer in peers:
-                pass  # Clean up if needed
+            # logging.info("Shutting down peers...")
+            # if os.path.exists("seller_goods.csv"):
+            #     os.remove("seller_goods.csv")
+            #     print("File data.csv has been deleted.")
+            # for peer in peers:
+            #     pass  # Clean up if needed
             logging.info("All peers shut down.")
 
     if mode == 'test_case3':
@@ -225,7 +228,16 @@ if __name__ == "__main__":
             "product_stock": 10
         }
 
+        new_entry2 = {
+            "seller_id": 2, 
+            "product_name": "fish", 
+            "product_stock": 100
+        }
+
+
         peers[0].handle_file_write(new_entry["seller_id"], new_entry["product_name"], new_entry["product_stock"])
+        peers[1].handle_file_write(new_entry2["seller_id"], new_entry2["product_name"], new_entry2["product_stock"])
+
     if mode == 'test_case5':
         peers = setup_test_case5()
 
