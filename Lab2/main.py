@@ -31,14 +31,33 @@ def setup_peers(num_peers):
     roles = ['buyer', 'seller']
     products = ['fish', 'salt', 'boar']
 
-    for i in range(num_peers):
-        role = random.choice(roles)
-        product = random.choice(products) if role == 'seller' else None
-        peer = Peer(peer_id=i, role=role, product=product)
-        peers.append(peer)
+    # hardcoding network size of 3 to ensure
+    # that there is at least 1 buyer and 1 seller. 
+    if num_peers == 3: 
+        role = random.choice(products)
 
+        p1 = Peer(peer_id=1, role="seller", product=random.choice(products), network_size=3, leader=True)
+        p2 = Peer(peer_id=2, role="buyer", product=None, network_size=3, leader=True)
+        
+        role=random.choice(roles)
+        product = random.choice(products) if role == 'seller' else None
+        p3 = Peer(peer_id=3, role=role, product=product, network_size=3, leader=True)
+        peers.append(p1, p2, p3)
+
+    # if the network size is more than 3 randomize everything
+    else:
+        for i in range(num_peers):
+            role = random.choice(roles)
+            product = random.choice(products) if role == 'seller' else None
+            peer = Peer(peer_id=i, role=role, product=product, network_size=num_peers)
+            peers.append(peer)
+
+
+    # after the peers are created - each peer should be a neighbor of all other peers
+    # this is needed for the bully election algorithm. 
     for peer in peers:
-        peer.neighbors = random.sample([p for p in peers if p != peer], min(len(peers)-1, 3))
+        peer.neighbors = [p for p in peers if p != peer]
+        print(f"Peer {peer.peer_id}'s neighbors: {[neighbor.peer_id for neighbor in peer.neighbors]}")
 
     return peers
 
@@ -386,28 +405,33 @@ if __name__ == "__main__":
     elif mode == 'normal':
         logging.info("Running Normal Mode")
         num_peers = int(sys.argv[2]) if len(sys.argv) > 2 else 6  # Get the number of peers from command line or default to 6
+        if num_peers < 3: 
+            print("Network requires at least 3 peers to be a valid network")
+            sys.exit(1)
+        
         peers = setup_peers(num_peers)  # Set up peers
 
         # Run each peer in a separate thread to listen for requests
         for i, peer in enumerate(peers):
             run_peer(peer, host='127.0.0.1', port=5000 + i)  # Each peer listens on a unique port
 
-        # Simulate buyers looking for products periodically
+        # # Simulate buyers looking for products periodically
         try:
-            while True:
-                for peer in peers:
-                    if peer.role == 'buyer':
-                        # Randomly select a product to look for
-                        product = random.choice(['fish', 'salt', 'boar'])
-                        logging.info(f"Peer {peer.peer_id} is looking for {product}")  # Log the lookup action
-                        buytime = time.time()
-                        peer.send_request('lookup', f'{peer.peer_id},{buytime},{product},{peer.hop_limit},[{peer.peer_id}]')  # Send lookup request
-                        time.sleep(random.uniform(1, 3))  # Wait for a random period before the next lookup
+            pass
+        #     while True:
+        #         for peer in peers:
+        #             if peer.role == 'buyer':
+        #                 # Randomly select a product to look for
+        #                 product = random.choice(['fish', 'salt', 'boar'])
+        #                 logging.info(f"Peer {peer.peer_id} is looking for {product}")  # Log the lookup action
+        #                 buytime = time.time()
+        #                 peer.send_request('lookup', f'{peer.peer_id},{buytime},{product},{peer.hop_limit},[{peer.peer_id}]')  # Send lookup request
+        #                 time.sleep(random.uniform(1, 3))  # Wait for a random period before the next lookup
 
-                    elif peer.role == 'seller' and peer.stock == 0:
-                        peer.stock = 10
-                        peer.product = random.choice(["boar", "salt", "fish"])
-                        logging.info(f"Peer {peer.peer_id} is being restocked with {peer.stock} {peer.product}")
+        #             elif peer.role == 'seller' and peer.stock == 0:
+        #                 peer.stock = 10
+        #                 peer.product = random.choice(["boar", "salt", "fish"])
+        #                 logging.info(f"Peer {peer.peer_id} is being restocked with {peer.stock} {peer.product}")
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")
             for peer in peers:
