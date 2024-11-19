@@ -7,6 +7,7 @@ import csv
 import os
 import pandas as pd
 import random as rand
+import random
 
 
 # shared file among the leaders
@@ -56,7 +57,7 @@ class Peer:
         self.neighbors = neighbors or []
         # self.lock = threading.Lock()
         self.lock = multiprocessing.Lock()
-        self.stock = 1000 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
+        self.stock = 100 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
         self.request_already_sent = False
         Peer.peers_by_id[self.peer_id] = self
         self.cash_received = 0 # received total amount by seller after product sale, assume 1 dollar for each product
@@ -181,7 +182,7 @@ class Peer:
                 self.handle_seller_list(leader_id)        # you might not even need leader_id here because each peer know 
             elif request_type == "selling_list":
                 seller_id, seller_product, product_stock, buyer_clock = data.split(',')
-                print(f"Items for sale is from {seller_id}, {seller_product}, {product_stock}")
+                print(f"=============Items for sale is from {seller_id}, {seller_product}, {product_stock}")
                 self.handle_file_write(int(seller_id), seller_product, int(product_stock))
             elif request_type == "item_bought":
                 self.stock -= 1
@@ -192,6 +193,10 @@ class Peer:
                 self.election_inprogress = True
             elif request_type == "run_election":
                 self.run_election()
+            elif request_type == "restock_item":
+                self.stock = 100
+                self.product = random.choice(["boar", "salt", "fish"])
+                logging.info(f"Peer {self.peer_id} is being restocked with {self.stock} {self.product} ")
         except Exception as e:
             logging.info(f"Error handling request: {e}")
         finally:
@@ -229,8 +234,13 @@ class Peer:
                         self.send_request_to_specific_id("item_bought", f"{self.peer_id}", eval(entry["seller_id"]))
                         transaction_complete = True
                         break
+                    elif int(entry["product_stock"]) == 0:
+                        self.send_request_to_specific_id("restock_item", f"{self.peer_id}", eval(entry["seller_id"]))
+                        self.send_request_to_specific_id("give_seller_list", f"{self.peer_id}", eval(entry["seller_id"]))
+
                 if transaction_complete == False:
                     print(f"Item {product_name} unavailable for sale or out of stock")
+
             # Update the file with the new stock values
             try:
                 with open(file_path, mode='w', newline='') as file:
@@ -243,7 +253,7 @@ class Peer:
         
         # print("checking if leader is falling sick")
         chance = rand.random()
-        if chance < 0.02:
+        if chance < 0.01:
             if not self.election_inprogress:
                 self.election_inprogress = True
         
