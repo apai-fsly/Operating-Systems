@@ -20,6 +20,8 @@ current_directory = os.getcwd()
 leader_name = "leader.csv"
 leader_path = os.path.join(current_directory, leader_name)
 
+processes = []
+
 def setup_peers(num_peers):
     peers = []
     roles = ['buyer', 'seller']
@@ -41,6 +43,7 @@ def run_peer(peer, host, port):
     p = multiprocessing.Process(target=peer.listen_for_requests, args=(host, port))
     p.daemon = True
     p.start()
+    processes.append(p)
 
 # def run_peer_process(peer, host, port):
 #     # Launch the peer's listening functionality in a separate process
@@ -208,7 +211,7 @@ if __name__ == "__main__":
             run_peer(peer, host='127.0.0.1', port=5000 + i)
 
         try:
-            time.sleep(2)
+            time.sleep(1)
             print(f"start election node {peers[0].peer_id}")
             higher_peer_id = []
             for peer in range(peers[0].network_size):
@@ -226,9 +229,9 @@ if __name__ == "__main__":
                 print("checkpoint 1 ")
 
                 election_flag = int(read_election_in_progress(leader_path))
-                if election_flag:
-                    time.sleep(5)
+                while election_flag:
                     print("waiting")
+                    time.sleep(15)
                     election_flag = int(read_election_in_progress(leader_path))
                 leader = read_leader_id(leader_path)
                 print(f"Buy:: {peers[0].peer_id}, {leader}, {peers[0].product}")
@@ -244,6 +247,7 @@ if __name__ == "__main__":
             # for peer in peers:
             #     pass  # Clean up if needed
             logging.info("All peers shut down.")
+            shutdown_processes(processes)
 
     if mode == 'test_case3':
         logging.info("Running Test Case 3")

@@ -85,7 +85,7 @@ class Peer:
             self.send_request_to_specific_id("are_you_alive", f"{self.peer_id}", peer)
 
         # wait for a reply from peers
-        time.sleep(1)
+        time.sleep(5)
 
         if(self.leader == True and self.request_already_sent == False):
             print(f"I am the leader {self.peer_id}")
@@ -190,6 +190,8 @@ class Peer:
             elif request_type == "election_inprogress":
                 print(f"{self.peer_id} has detected an election") 
                 self.election_inprogress = True
+            elif request_type == "run_election":
+                self.run_election()
         except Exception as e:
             logging.info(f"Error handling request: {e}")
         finally:
@@ -239,7 +241,7 @@ class Peer:
             except IOError as e:
                 print(f"IOError: Could not update the file. {e}")
         
-        print("checking if leader is falling sick")
+        # print("checking if leader is falling sick")
         chance = rand.random()
         if chance < 0.02:
             if not self.election_inprogress:
@@ -250,7 +252,7 @@ class Peer:
                     with open(leader_path, mode='r', newline='') as file:
                         reader = csv.DictReader(file)
                         row = next(reader, None)  # Read the single row if it exists
-                        print("Just check 111 ====================")
+                        # print("Just check 111 ====================")
                     
                     # Update the election_in_progress field
                     if row:
@@ -275,10 +277,10 @@ class Peer:
     def fall_sick(self, retry=False):    
         # randomly make it possible for the leader to fall_sick 
         # of gaurentee sickness if the 
-        print("checking if leader is falling sick")
+        # print("checking if leader is falling sick")
         chance = rand.random()
         if chance < 1 or retry:
-            print("leader is falling sick")
+            print("============leader is falling sick =======================")
             # one of the other nodes should start an election
             election_peer_id = rand.randint(0, self.network_size-1)
             # election_peer = Peer.peers_by_id.get(election_peer_id)
@@ -286,7 +288,8 @@ class Peer:
             if election_peer.alive and election_peer.peer_id != self.peer_id:
                 print(f"{election_peer.peer_id} is starting the election")
                 self.alive = False
-                election_peer.run_election()
+                # election_peer.run_election()
+                self.send_request_to_specific_id("run_election", f"{self.peer_id}", int(0))
                 time.sleep(1)
             else: 
                 print("peer is not alive retrying running the election")
