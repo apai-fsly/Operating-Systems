@@ -161,15 +161,19 @@ class Peer:
 
             if request_type == "buy":
                 buyer_id, leader_id, product_name, buyer_clock = data.split(',')
-                self.update_clock(int(buyer_clock))  # Update clock with buyer's clock
+                # once we have updated our own node we will multicast the request to everyone else. 
                 print(f"start buy buyer:{buyer_id}, leader:{leader_id}, item:{product_name}")
+                self.update_clock(int(buyer_clock))
+                self.multicast_request()
                 self.handle_buy_from_leader(buyer_id, leader_id, product_name)
             elif request_type == "set_leader":
                 self.leader_id = data
                 self.election_inprogress = False
                 print(f"leader Set complete on {self.peer_id} and leader is {self.leader_id}")
             elif request_type == "ok":
-                sender_id, sender_clock = data.split(',')
+                # sender_id, sender_clock = data.split(',')
+                sender_id = data
+
                 print(f"setting is_leader to false for {self.peer_id}")
                 self.leader = False
                 self.request_already_sent = False
@@ -181,7 +185,7 @@ class Peer:
                 print("requesting seller list from the leader")
                 self.handle_seller_list(leader_id)        # you might not even need leader_id here because each peer know 
             elif request_type == "selling_list":
-                seller_id, seller_product, product_stock, buyer_clock = data.split(',')
+                seller_id, seller_product, product_stock = data.split(',')
                 print(f"=============Items for sale is from {seller_id}, {seller_product}, {product_stock}")
                 self.handle_file_write(int(seller_id), seller_product, int(product_stock))
             elif request_type == "item_bought":
@@ -197,6 +201,11 @@ class Peer:
                 self.stock = 100
                 self.product = random.choice(["boar", "salt", "fish"])
                 logging.info(f"Peer {self.peer_id} is being restocked with {self.stock} {self.product} ")
+            elif request_type == "multicast":
+                # if the node is getting a mutlicast request we need to compare clocks
+                new_clock = data
+                self.update_clock(int(new_clock))
+                print(f"{self.peer_id} peer's new clock value is {self.lamport_clock}")
         except Exception as e:
             logging.info(f"Error handling request: {e}")
         finally:
@@ -286,6 +295,15 @@ class Peer:
                     print(f"IOError: {e}")
                 self.fall_sick()
 
+    def multicast_request(self):
+        # update all nodes with the latest lamport clock value
+        request_type = "multicast"
+        lamport_clock = self.lamport_clock
+
+        for peer in Peer.peers_by_id.values():
+            self.send_request_to_specific_id(request_type, lamport_clock, peer.peer_id)
+            
+    
     def fall_sick(self, retry=False):    
         # randomly make it possible for the leader to fall_sick 
         # of gaurentee sickness if the 
@@ -414,9 +432,6 @@ class Peer:
                 logging.info(f"Error sending request to Peer {peer_number}: {e}")
 
     def send_request_to_specific_id(self, request_type, data, peer_id):
-        self.increment_clock()  # Increment clock for the outgoing request
-        # Include lamport clock value in the data
-        data += (f",{self.lamport_clock}")
         print(f"request_type:{request_type} data:{data}")
         try:
             peer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
