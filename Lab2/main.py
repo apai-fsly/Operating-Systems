@@ -121,6 +121,22 @@ def setup_test_case5():
 
     return [peer_0, peer_1]
 
+def setup_test_case6(): 
+    peer_0 = Peer(peer_id=0, role="buyer", network_size=4, leader=False)
+    peer_1 = Peer(peer_id=1, role="buyer", network_size=4, leader=False)
+    peer_2 = Peer(peer_id=2, role="seller", network_size=4, leader=True)
+    peer_3 = Peer(peer_id=3, role="seller", network_size=4, leader=False)
+
+    peer_2.leader_id = peer_2.peer_id
+
+    peer_1.leader_id = peer_2.peer_id
+    peer_0.leader_id = peer_2.peer_id
+    peer_3.leader_id = peer_2.peer_id
+
+
+
+
+    return [peer_0, peer_1, peer_2, peer_3]
 
 if __name__ == "__main__":
     # Check command-line arguments
@@ -182,12 +198,11 @@ if __name__ == "__main__":
                 peers[0].send_request_to_specific_id("are_you_alive", f"{peers[0].peer_id}", peer)
             
             time.sleep(5)
-            for i in range(1000):
-                # print(f"Buy:: {peers[0].peer_id}, {peers[0].leader_id}, {peers[0].product}")
-                print(f"Buy:: {peers[0].peer_id}, {3}, {peers[0].product}")
-                if not peers[0].election_inprogress:
-                    peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{peers[0].leader_id},{peers[0].product}", int(peers[0].leader_id))
-
+            for i in range(5):
+                print(f"Buy:{peers[0].peer_id}, {peers[0].leader_id}, {peers[0].product}")
+                print(f"{peers[0].lamport_clock}")
+                peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{peers[0].leader_id},{peers[0].product}", int(peers[0].leader_id))
+                time.sleep(1)
 
         except KeyboardInterrupt:
             # logging.info("Shutting down peers...")
@@ -242,6 +257,33 @@ if __name__ == "__main__":
         peers = setup_test_case5()
 
         peers[0].fall_sick()
+    if mode == 'test_case6':
+
+        # returns peers with peer_2 assigned as the leader/tradesman
+        peers = setup_test_case6() 
+
+        for i, peer in enumerate(peers):
+            run_peer(peer, host='127.0.0.1', port=5000 + i)
+
+        peer_0 = peers[0]
+        peer_0.product = "salt"
+        peer_1 = peers[1]
+        peer_2 = peers[2]
+        peer_3 = peers[3]
+
+        #    peer_3
+        #      |
+        #    peer_2
+        #   /      \
+        # peer_0   peer_1
+        buyer_id = peer_3.peer_id
+        leader_id = peer_2.peer_id
+        peer_0.send_request_to_specific_id("buy", f"{peers[0].peer_id},{peers[0].leader_id},{peers[0].product},{peers[0].lamport_clock}", int(peers[0].leader_id))
+        time.sleep(3)
+        peer_1.send_request_to_specific_id("buy", f"{peers[1].peer_id},{peers[1].leader_id},{peers[0].product},{peers[1].lamport_clock}", int(peers[1].leader_id))
+
+
+
     elif mode == 'normal':
         logging.info("Running Normal Mode")
         num_peers = int(sys.argv[2]) if len(sys.argv) > 2 else 6  # Get the number of peers from command line or default to 6
