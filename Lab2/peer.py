@@ -85,7 +85,7 @@ class Peer:
             self.send_request_to_specific_id("are_you_alive", f"{self.peer_id}", peer)
 
         # wait for a reply from peers
-        time.sleep(2)
+        time.sleep(1)
 
         if(self.leader == True and self.request_already_sent == False):
             print(f"I am the leader {self.peer_id}")
@@ -239,35 +239,38 @@ class Peer:
             except IOError as e:
                 print(f"IOError: Could not update the file. {e}")
         
-        if not self.election_inprogress:
-            self.election_inprogress = True
-    
-            try:
-                # Read the existing row (there's only one row)
-                with open(leader_path, mode='r', newline='') as file:
-                    reader = csv.DictReader(file)
-                    row = next(reader, None)  # Read the single row if it exists
-                    print("Just check 111 ====================")
-                
-                # Update the election_in_progress field
-                if row:
-                    row["election_in_progress"] =1
-                
-                    # Overwrite the file with the updated data
-                    with open(leader_path, mode='w', newline='') as file:
-                        writer = csv.DictWriter(file, fieldnames=["leader_id", "election_in_progress"])
-                        writer.writeheader()
-                        writer.writerow(row)
+        print("checking if leader is falling sick")
+        chance = rand.random()
+        if chance < 0.02:
+            if not self.election_inprogress:
+                self.election_inprogress = True
+        
+                try:
+                    # Read the existing row (there's only one row)
+                    with open(leader_path, mode='r', newline='') as file:
+                        reader = csv.DictReader(file)
+                        row = next(reader, None)  # Read the single row if it exists
+                        print("Just check 111 ====================")
                     
-                    print(f"Election status successfully updated to {row['election_in_progress']}.")
-                else:
-                    print("Error: No data found in the file to update.")
-            
-            except FileNotFoundError:
-                print(f"Error: The file {leader_path} could not be found.")
-            except IOError as e:
-                print(f"IOError: {e}")
-            self.fall_sick()
+                    # Update the election_in_progress field
+                    if row:
+                        row["election_in_progress"] =1
+                    
+                        # Overwrite the file with the updated data
+                        with open(leader_path, mode='w', newline='') as file:
+                            writer = csv.DictWriter(file, fieldnames=["leader_id", "election_in_progress"])
+                            writer.writeheader()
+                            writer.writerow(row)
+                        
+                        print(f"Election status successfully updated to {row['election_in_progress']}.")
+                    else:
+                        print("Error: No data found in the file to update.")
+                
+                except FileNotFoundError:
+                    print(f"Error: The file {leader_path} could not be found.")
+                except IOError as e:
+                    print(f"IOError: {e}")
+                self.fall_sick()
 
     def fall_sick(self, retry=False):    
         # randomly make it possible for the leader to fall_sick 
@@ -278,12 +281,13 @@ class Peer:
             print("leader is falling sick")
             # one of the other nodes should start an election
             election_peer_id = rand.randint(0, self.network_size-1)
-            election_peer = Peer.peers_by_id.get(election_peer_id)
+            # election_peer = Peer.peers_by_id.get(election_peer_id)
+            election_peer = Peer.peers_by_id.get(0)
             if election_peer.alive and election_peer.peer_id != self.peer_id:
                 print(f"{election_peer.peer_id} is starting the election")
                 self.alive = False
                 election_peer.run_election()
-                time.sleep(5)
+                time.sleep(1)
             else: 
                 print("peer is not alive retrying running the election")
                 time.sleep(1)
@@ -369,7 +373,8 @@ class Peer:
 
     def handle_alive(self, sender_id):
         if(self.alive == True):
-            self.leader = True
+            if int(sender_id) < self.peer_id:
+                self.leader = True
             print(f"sending ok reply to sender {sender_id} from peer {self.peer_id}")
             self.send_request_to_specific_id("ok", f"{self.peer_id}", eval(sender_id))
             self.run_election()
