@@ -43,26 +43,10 @@ def setup_peers(num_peers):
     return peers
 
 def run_peer(peer, host, port):
-    # threading.Thread(target=peer.listen_for_requests, args=(host, port)).start()
     p = multiprocessing.Process(target=peer.listen_for_requests, args=(host, port))
     p.daemon = True
     p.start()
     processes.append(p)
-
-# def run_peer_process(peer, host, port):
-#     # Launch the peer's listening functionality in a separate process
-#     process = multiprocessing.Process(target=peer.listen_for_requests, args=(host, port))
-#     process.start()
-#     return process
-
-# def run_peers(peers, host='127.0.0.1'):
-#     # Start all peers as separate processes
-#     processes = []
-#     for i, peer in enumerate(peers):
-#         port = 5000 + i
-#         process = run_peer_process(peer, host, port)
-#         processes.append(process)
-#     return processes
 
 def shutdown_processes(processes):
     for process in processes:
@@ -266,14 +250,10 @@ if __name__ == "__main__":
                 # time.sleep(1)
 
         except KeyboardInterrupt:
-            # logging.info("Shutting down peers...")
-            # if os.path.exists("seller_goods.csv"):
-            #     os.remove("seller_goods.csv")
-            #     print("File data.csv has been deleted.")
-            # for peer in peers:
-            #     pass  # Clean up if needed
-            logging.info("All peers shut down.")
+            logging.info("Shutting down peers...")
             shutdown_processes(processes)
+            logging.info("All peers shut down.")
+
 
     if mode == 'test_case3':
         logging.info("Running Test Case 3")

@@ -56,7 +56,6 @@ class Peer:
         self.product = product
         self.neighbors = neighbors or []
         self.lock = threading.Lock()
-        # self.lock = multiprocessing.Lock()
         self.stock = 100 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
         self.request_already_sent = False
         Peer.peers_by_id[self.peer_id] = self
@@ -131,10 +130,6 @@ class Peer:
             client_socket, address = server_socket.accept()
             threading.Thread(target=self.handle_request, args=(client_socket,)).start()
 
-            # process = multiprocessing.Process(target=self.handle_request, args=(client_socket,))
-            # process.start()
-            # process.join()  # Ensure the process completes
-
 
     """
         handle_request(self, client_sock)
@@ -171,9 +166,7 @@ class Peer:
                 self.election_inprogress = False
                 print(f"leader Set complete on {self.peer_id} and leader is {self.leader_id}")
             elif request_type == "ok":
-                # sender_id, sender_clock = data.split(',')
                 sender_id = data
-
                 print(f"setting is_leader to false for {self.peer_id}")
                 self.leader = False
                 self.request_already_sent = False
@@ -273,7 +266,6 @@ class Peer:
                     with open(leader_path, mode='r', newline='') as file:
                         reader = csv.DictReader(file)
                         row = next(reader, None)  # Read the single row if it exists
-                        # print("Just check 111 ====================")
                     
                     # Update the election_in_progress field
                     if row:
@@ -355,49 +347,7 @@ class Peer:
             except IOError as e:
                 print(f"IOError: {e}") 
 
-
             df.to_csv(file_path, index=False)
-
-        # Load existing entries if file exists
-        # existing_entries = []
-        # if file_exists:
-        #     with open(file_path, mode='r', newline='') as file:
-        #         reader = csv.DictReader(file)
-        #         existing_entries = list(reader)
-
-        # # df = pd.read_csv(file_path)
-
-        # # # find rows with matching seller_id and product_name
-        # # print(df.loc[df['seller_id'] == seller_id & df[seller_product == seller_product]])
-        
-
-        # # Check if the new entry is unique
-        # new_entry = {
-        #     "seller_id": seller_id, 
-        #     "product_name": seller_product, 
-        #     "product_stock": product_stock
-        # }
-        # is_unique = all(
-        #     entry["seller_id"] != new_entry["seller_id"] or entry["product_name"] != new_entry["product_name"]
-        #     for entry in existing_entries
-        # )
-
-        # with self.lock:
-        #     if is_unique:
-        #         try:
-        #             with open(file_path, mode ='a' if file_exists else 'w', newline='') as file:
-        #                 writer = csv.DictWriter(file, fieldnames=["seller_id", "product_name", "product_stock"])
-        #                 # Write header only if the file is being created for the first time
-        #                 if not file_exists:
-        #                     writer.writeheader()
-        #                 seller_goods=[{"seller_id":seller_id, "product_name":seller_product, "product_stock": product_stock}]
-        #                 print(f"{seller_goods}")
-        #                 writer.writerows(seller_goods)  # Write each item as a row
-        #             print(f"Data successfully written to {file_path}")
-        #         except FileNotFoundError:
-        #             print(f"Error: The file path {file_path} could not be found.")
-        #         except IOError as e:
-        #             print(f"IOError: {e}") 
 
     def handle_seller_list(self, leader_id):
         if(self.alive == True):
