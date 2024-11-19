@@ -86,7 +86,7 @@ class Peer:
             self.send_request_to_specific_id("are_you_alive", f"{self.peer_id}", peer)
 
         # wait for a reply from peers
-        time.sleep(5)
+        time.sleep(2)
 
         if(self.leader == True and self.request_already_sent == False):
             print(f"I am the leader {self.peer_id}")
@@ -237,6 +237,8 @@ class Peer:
                     elif int(entry["product_stock"]) == 0:
                         self.send_request_to_specific_id("restock_item", f"{self.peer_id}", eval(entry["seller_id"]))
                         self.send_request_to_specific_id("give_seller_list", f"{self.peer_id}", eval(entry["seller_id"]))
+                        inventory.remove(entry)
+                        print(f"{requested_product} removed from inventory as stock is 0.")
 
                 if transaction_complete == False:
                     print(f"Item {product_name} unavailable for sale or out of stock")

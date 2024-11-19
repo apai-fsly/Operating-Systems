@@ -17,6 +17,10 @@ logging.basicConfig(
 ) 
 
 current_directory = os.getcwd()
+
+file_name = "seller_goods.csv"
+file_path = os.path.join(current_directory, file_name)
+
 leader_name = "leader.csv"
 leader_path = os.path.join(current_directory, leader_name)
 
@@ -209,6 +213,15 @@ if __name__ == "__main__":
         # processes = run_peers(peers)
         for i, peer in enumerate(peers):
             run_peer(peer, host='127.0.0.1', port=5000 + i)
+
+
+        try:
+            with open(file_path, mode='w', newline='') as file:
+                writer = csv.DictWriter(file, fieldnames=["seller_id", "product_name", "product_stock"])
+                writer.writeheader()
+            print("Clean up for seller_goods.csv done")
+        except IOError as e:
+            print(f"IOError: Could not update the file. {e}")
 
         try:
             time.sleep(1)
