@@ -256,7 +256,7 @@ class Peer:
         
         # print("checking if leader is falling sick")
         chance = rand.random()
-        if chance < 0.02:
+        if chance < 0.05:
             if not self.election_inprogress:
                 self.election_inprogress = True
         
