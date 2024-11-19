@@ -1,5 +1,3 @@
 seller_id,product_name,product_stock
-1,salt,0
 2,boar,100
-1,boar,100
-1,fish,100
+1,salt,99

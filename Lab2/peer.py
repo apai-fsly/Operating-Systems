@@ -55,8 +55,8 @@ class Peer:
         self.network_size = network_size
         self.product = product
         self.neighbors = neighbors or []
-        # self.lock = threading.Lock()
-        self.lock = multiprocessing.Lock()
+        self.lock = threading.Lock()
+        # self.lock = multiprocessing.Lock()
         self.stock = 100 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
         self.request_already_sent = False
         Peer.peers_by_id[self.peer_id] = self
@@ -89,7 +89,7 @@ class Peer:
         time.sleep(2)
 
         if(self.leader == True and self.request_already_sent == False):
-            print(f"I am the leader {self.peer_id}")
+            print(f"New leader elected: {self.peer_id}")
             leader_id = self.peer_id
             self.request_already_sent = True
             # for peer in range(self.network_size):
@@ -264,7 +264,7 @@ class Peer:
         
         # print("checking if leader is falling sick")
         chance = rand.random()
-        if chance < 0.01:
+        if chance < 0.02:
             if not self.election_inprogress:
                 self.election_inprogress = True
         
