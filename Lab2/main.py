@@ -5,6 +5,7 @@ import time
 import sys
 import logging
 import os
+import csv
 from peer import Peer
 
 # adding logging handler to easily get timestamps
@@ -14,6 +15,10 @@ logging.basicConfig(
     format='%(asctime)s.%(msecs)03d - %(message)s',
     datefmt='%H:%M:%S'
 ) 
+
+current_directory = os.getcwd()
+leader_name = "leader.csv"
+leader_path = os.path.join(current_directory, leader_name)
 
 def setup_peers(num_peers):
     peers = []
@@ -32,9 +37,10 @@ def setup_peers(num_peers):
     return peers
 
 def run_peer(peer, host, port):
-    threading.Thread(target=peer.listen_for_requests, args=(host, port)).start()
-    # p = multiprocessing.Process(target=peer.listen_for_requests, args=(host, port))
-    # p.start()
+    # threading.Thread(target=peer.listen_for_requests, args=(host, port)).start()
+    p = multiprocessing.Process(target=peer.listen_for_requests, args=(host, port))
+    p.daemon = True
+    p.start()
 
 # def run_peer_process(peer, host, port):
 #     # Launch the peer's listening functionality in a separate process
@@ -121,6 +127,40 @@ def setup_test_case5():
 
     return [peer_0, peer_1]
 
+def read_leader_id(leader_path):
+    try:
+        with open(leader_path, mode='r', newline='') as file:
+            reader = csv.DictReader(file)
+            # Read the first row and return the leader_id
+            for row in reader:
+                return row['leader_id']  # Return the first leader_id found
+            
+    except FileNotFoundError:
+        print(f"Error: The file {leader_path} could not be found.")
+    except IOError as e:
+        print(f"IOError: {e}")
+    
+    return None  # Return None if no leader_id is found or an error occurs
+
+def read_election_in_progress(leader_path):
+    try:
+        # Open the file in read mode
+        with open(leader_path, mode='r', newline='') as file:
+            reader = csv.DictReader(file)
+            # Read the first (and only) row
+            row = next(reader, None)
+            print(f"row is {row}")
+            if row:
+                return row['election_in_progress']  # Return the election_in_progress field
+            else:
+                print("Error: No data found in the file.")
+                return None
+    
+    except FileNotFoundError:
+        print(f"Error: The file {leader_path} could not be found.")
+    except IOError as e:
+        print(f"IOError: {e}")
+        return None
 
 if __name__ == "__main__":
     # Check command-line arguments
@@ -181,12 +221,19 @@ if __name__ == "__main__":
             for peer in higher_peer_id: 
                 peers[0].send_request_to_specific_id("are_you_alive", f"{peers[0].peer_id}", peer)
             
-            time.sleep(5)
+            time.sleep(10)
             for i in range(1000):
-                # print(f"Buy:: {peers[0].peer_id}, {peers[0].leader_id}, {peers[0].product}")
-                print(f"Buy:: {peers[0].peer_id}, {3}, {peers[0].product}")
-                if not peers[0].election_inprogress:
-                    peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{peers[0].leader_id},{peers[0].product}", int(peers[0].leader_id))
+                print("checkpoint 1 ")
+
+                election_flag = int(read_election_in_progress(leader_path))
+                if election_flag:
+                    time.sleep(5)
+                    print("waiting")
+                    election_flag = int(read_election_in_progress(leader_path))
+                leader = read_leader_id(leader_path)
+                print(f"Buy:: {peers[0].peer_id}, {leader}, {peers[0].product}")
+                peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{leader},{peers[0].product}", int(leader))
+                # time.sleep(1)
 
 
         except KeyboardInterrupt:

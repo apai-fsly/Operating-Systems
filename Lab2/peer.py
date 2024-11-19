@@ -1,4 +1,5 @@
 import threading
+import multiprocessing
 import socket
 import logging
 import time
@@ -16,6 +17,11 @@ print(f"Current working directory: {current_directory}")
 # Define the file name in the current directory
 file_name = "seller_goods.csv"
 file_path = os.path.join(current_directory, file_name)
+
+leader_name = "leader.csv"
+leader_path = os.path.join(current_directory, leader_name)
+leader_exists = os.path.exists(leader_path)
+
 # Function to check if the file has entries
 def is_file_empty(file_path):
     # Check if the file exists and if it has a size greater than 0
@@ -48,8 +54,8 @@ class Peer:
         self.network_size = network_size
         self.product = product
         self.neighbors = neighbors or []
-        self.lock = threading.Lock()
-        # self.lock = multiprocessing.Lock()
+        # self.lock = threading.Lock()
+        self.lock = multiprocessing.Lock()
         self.stock = 1000 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
         self.request_already_sent = False
         Peer.peers_by_id[self.peer_id] = self
@@ -79,7 +85,7 @@ class Peer:
             self.send_request_to_specific_id("are_you_alive", f"{self.peer_id}", peer)
 
         # wait for a reply from peers
-        time.sleep(1)
+        time.sleep(2)
 
         if(self.leader == True and self.request_already_sent == False):
             print(f"I am the leader {self.peer_id}")
@@ -88,6 +94,22 @@ class Peer:
             # for peer in range(self.network_size):
             self.send_request("set_leader", leader_id)
             self.send_request("give_seller_list", leader_id)
+            # write leader to file
+            with self.lock:
+                try:
+                    with open(leader_path, mode ='w', newline='') as file:
+                        writer = csv.DictWriter(file, fieldnames=["leader_id", "election_in_progress"])
+                        # Write header only if the file is being created for the first time
+                        # if not leader_exists:
+                        writer.writeheader()
+                        election_outcome=[{"leader_id":leader_id, "election_in_progress":0}]
+                        print(f"Election outcome is  ============== {election_outcome}")
+                        writer.writerows(election_outcome)  # Write each item as a row
+                    print(f"New Leader written to {leader_path}")
+                except FileNotFoundError:
+                    print(f"Error: The file path {leader_path} could not be found.")
+                except IOError as e:
+                    print(f"IOError: {e}")  
 
     """
         listen_for_requests(self, host, port)
@@ -219,6 +241,32 @@ class Peer:
         
         if not self.election_inprogress:
             self.election_inprogress = True
+    
+            try:
+                # Read the existing row (there's only one row)
+                with open(leader_path, mode='r', newline='') as file:
+                    reader = csv.DictReader(file)
+                    row = next(reader, None)  # Read the single row if it exists
+                    print("Just check 111 ====================")
+                
+                # Update the election_in_progress field
+                if row:
+                    row["election_in_progress"] =1
+                
+                    # Overwrite the file with the updated data
+                    with open(leader_path, mode='w', newline='') as file:
+                        writer = csv.DictWriter(file, fieldnames=["leader_id", "election_in_progress"])
+                        writer.writeheader()
+                        writer.writerow(row)
+                    
+                    print(f"Election status successfully updated to {row['election_in_progress']}.")
+                else:
+                    print("Error: No data found in the file to update.")
+            
+            except FileNotFoundError:
+                print(f"Error: The file {leader_path} could not be found.")
+            except IOError as e:
+                print(f"IOError: {e}")
             self.fall_sick()
 
     def fall_sick(self, retry=False):    
