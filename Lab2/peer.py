@@ -85,7 +85,7 @@ class Peer:
             self.send_request_to_specific_id("are_you_alive", f"{self.peer_id}", peer)
 
         # wait for a reply from peers
-        time.sleep(2)
+        time.sleep(5)
 
         if(self.leader == True and self.request_already_sent == False):
             print(f"New leader elected: {self.peer_id}")
@@ -129,7 +129,6 @@ class Peer:
             #start a thread that polls for incoming requests via the handle_request function. 
             client_socket, address = server_socket.accept()
             threading.Thread(target=self.handle_request, args=(client_socket,)).start()
-
 
     """
         handle_request(self, client_sock)
