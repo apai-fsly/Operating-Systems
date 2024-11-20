@@ -1,0 +1,1229 @@
+Current working directory: /Users/ashwinpai/src/ash/Operating-Systems/Lab2
+00:07:00.196 - Running Normal Mode
+Clean up for seller_goods.csv done
+00:07:00.197 - 0, buyer, fish
+00:07:00.197 - 1, buyer, salt
+00:07:00.197 - 2, buyer, salt
+00:07:00.197 - 3, buyer, boar
+00:07:00.197 - 4, buyer, salt
+00:07:00.197 - 5, seller, fish
+Peer 0's neighbors: [1, 2, 3, 4, 5]
+Peer 1's neighbors: [0, 2, 3, 4, 5]
+Peer 2's neighbors: [0, 1, 3, 4, 5]
+Peer 3's neighbors: [0, 1, 2, 4, 5]
+Peer 4's neighbors: [0, 1, 2, 3, 5]
+Peer 5's neighbors: [0, 1, 2, 3, 4]
+00:07:00.202 - Peer 0 listening on 127.0.0.1:5000
+00:07:00.202 - Peer 1 listening on 127.0.0.1:5001
+00:07:00.204 - Peer 2 listening on 127.0.0.1:5002
+00:07:00.206 - Peer 3 listening on 127.0.0.1:5003
+00:07:00.208 - Peer 4 listening on 127.0.0.1:5004
+00:07:00.210 - Peer 5 listening on 127.0.0.1:5005
+00:07:00.216 - sending ok reply to sender 4 from peer 5
+00:07:00.218 - setting is_leader to false for 4
+00:07:05.221 - New leader elected: 5
+00:07:05.230 - requesting seller list from the leader
+00:07:05.233 - requesting seller list from the leader
+00:07:05.233 - requesting seller list from the leader
+00:07:05.234 - requesting seller list from the leader
+00:07:05.234 - requesting seller list from the leader
+00:07:05.235 - requesting seller list from the leader
+00:07:10.218 - buy: 0, 5, fish
+00:07:10.223 - buy: 1, 5, salt
+Peer [{'leader_id': 5, 'election_in_progress': 0}] has been elected as the new leader!
+00:07:10.224 - start buy buyer:0, leader:5, item:fish
+00:07:10.225 - buy: 2, 5, salt
+00:07:10.225 - start buy buyer:1, leader:5, item:salt
+00:07:10.226 - buy: 3, 5, boar
+00:07:10.228 - buy: 4, 5, salt
+00:07:10.229 - start buy buyer:2, leader:5, item:salt
+00:07:10.227 - multicast recieved by Peer 0 new clock value is 2
+00:07:10.232 - start buy buyer:3, leader:5, item:boar
+00:07:10.233 - buy: 0, 5, fish
+00:07:10.232 - multicast recieved by Peer 1 new clock value is 3
+00:07:10.234 - multicast recieved by Peer 0 new clock value is 3
+00:07:10.238 - multicast recieved by Peer 2 new clock value is 2
+00:07:10.237 - start buy buyer:4, leader:5, item:salt
+00:07:10.238 - multicast recieved by Peer 0 new clock value is 4
+00:07:10.238 - multicast recieved by Peer 1 new clock value is 4
+00:07:10.242 - multicast recieved by Peer 1 new clock value is 5
+00:07:10.241 - multicast recieved by Peer 0 new clock value is 5
+00:07:10.243 - multicast recieved by Peer 2 new clock value is 3
+00:07:10.245 - multicast recieved by Peer 0 new clock value is 6
+00:07:10.246 - multicast recieved by Peer 3 new clock value is 2
+00:07:10.247 - multicast recieved by Peer 3 new clock value is 3
+00:07:10.247 - multicast recieved by Peer 1 new clock value is 6
+00:07:10.248 - buy: 1, 5, salt
+00:07:10.248 - multicast recieved by Peer 4 new clock value is 2
+00:07:10.248 - multicast recieved by Peer 1 new clock value is 7
+00:07:10.248 - buy: 2, 5, salt
+00:07:10.248 - start buy buyer:0, leader:5, item:fish
+00:07:10.248 - multicast recieved by Peer 2 new clock value is 4
+00:07:10.249 - multicast recieved by Peer 2 new clock value is 5
+00:07:10.249 - multicast recieved by Peer 5 new clock value is 7
+00:07:10.249 - multicast recieved by Peer 4 new clock value is 3
+Item fish unavailable for sale or out of stock
+00:07:10.249 - start buy buyer:1, leader:5, item:salt
+00:07:10.250 - buy: 3, 5, boar
+00:07:10.252 - multicast recieved by Peer 0 new clock value is 7
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+00:07:10.252 - start buy buyer:2, leader:5, item:salt
+00:07:10.252 - buy: 4, 5, salt
+00:07:10.252 - multicast recieved by Peer 2 new clock value is 6
+00:07:10.252 - multicast recieved by Peer 3 new clock value is 4
+00:07:10.252 - multicast recieved by Peer 3 new clock value is 5
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:10.253 - multicast recieved by Peer 5 new clock value is 10
+00:07:10.253 - multicast recieved by Peer 0 new clock value is 9
+00:07:10.253 - start buy buyer:3, leader:5, item:boar
+00:07:10.253 - multicast recieved by Peer 3 new clock value is 6
+00:07:10.253 - multicast recieved by Peer 1 new clock value is 8
+00:07:10.254 - buy: 0, 5, fish
+00:07:10.253 - multicast recieved by Peer 4 new clock value is 5
+00:07:10.254 - multicast recieved by Peer 0 new clock value is 10
+00:07:10.254 - multicast recieved by Peer 4 new clock value is 6
+00:07:10.254 - start buy buyer:4, leader:5, item:salt
+00:07:10.255 - multicast recieved by Peer 1 new clock value is 9
+00:07:10.256 - buy: 1, 5, salt
+00:07:10.256 - multicast recieved by Peer 2 new clock value is 7
+00:07:10.256 - multicast recieved by Peer 4 new clock value is 7
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+00:07:10.256 - multicast recieved by Peer 5 new clock value is 13
+00:07:10.256 - multicast recieved by Peer 0 new clock value is 12
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:10.257 - multicast recieved by Peer 5 new clock value is 14
+00:07:10.263 - start buy buyer:0, leader:5, item:fish
+00:07:10.264 - multicast recieved by Peer 0 new clock value is 13
+00:07:10.263 - multicast recieved by Peer 1 new clock value is 10
+00:07:10.265 - buy: 2, 5, salt
+00:07:10.263 - multicast recieved by Peer 2 new clock value is 9
+00:07:10.265 - multicast recieved by Peer 3 new clock value is 9
+00:07:10.265 - multicast recieved by Peer 1 new clock value is 12
+00:07:10.265 - multicast recieved by Peer 2 new clock value is 10
+00:07:10.265 - multicast recieved by Peer 3 new clock value is 10
+00:07:10.266 - buy: 3, 5, boar
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:10.265 - multicast recieved by Peer 5 new clock value is 15
+00:07:10.266 - multicast recieved by Peer 1 new clock value is 13
+00:07:10.266 - buy: 4, 5, salt
+00:07:10.266 - start buy buyer:1, leader:5, item:salt
+00:07:10.266 - multicast recieved by Peer 3 new clock value is 11
+00:07:10.267 - multicast recieved by Peer 4 new clock value is 9
+00:07:10.268 - buy: 0, 5, fish
+00:07:10.267 - start buy buyer:2, leader:5, item:salt
+00:07:10.269 - buy: 1, 5, salt
+00:07:10.269 - multicast recieved by Peer 0 new clock value is 17
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:10.269 - start buy buyer:3, leader:5, item:boar
+00:07:10.270 - buy: 2, 5, salt
+00:07:10.270 - multicast recieved by Peer 0 new clock value is 18
+00:07:10.270 - start buy buyer:4, leader:5, item:salt
+00:07:10.270 - multicast recieved by Peer 2 new clock value is 13
+00:07:10.270 - buy: 3, 5, boar
+00:07:10.270 - multicast recieved by Peer 4 new clock value is 10
+00:07:10.270 - multicast recieved by Peer 0 new clock value is 19
+00:07:10.271 - multicast recieved by Peer 5 new clock value is 21
+00:07:10.271 - multicast recieved by Peer 2 new clock value is 14
+00:07:10.272 - buy: 4, 5, salt
+00:07:10.271 - multicast recieved by Peer 4 new clock value is 11
+00:07:10.271 - multicast recieved by Peer 0 new clock value is 20
+00:07:10.272 - start buy buyer:0, leader:5, item:fish
+00:07:10.272 - multicast recieved by Peer 0 new clock value is 21
+00:07:10.272 - multicast recieved by Peer 1 new clock value is 17
+00:07:10.272 - multicast recieved by Peer 3 new clock value is 12
+00:07:10.273 - buy: 0, 5, fish
+00:07:10.273 - Error sending request to Peer 5: [Errno 32] Broken pipe
+00:07:10.273 - multicast recieved by Peer 1 new clock value is 19
+00:07:10.273 - buy: 1, 5, salt
+Item fish unavailable for sale or out of stock
+00:07:10.273 - start buy buyer:1, leader:5, item:salt
+00:07:10.274 - multicast recieved by Peer 1 new clock value is 21
+00:07:10.274 - buy: 2, 5, salt
+00:07:10.274 - start buy buyer:2, leader:5, item:salt
+00:07:10.274 - multicast recieved by Peer 1 new clock value is 22
+00:07:10.274 - multicast recieved by Peer 1 new clock value is 23
+00:07:10.274 - multicast recieved by Peer 2 new clock value is 19
+00:07:10.275 - buy: 3, 5, boar
+00:07:10.275 - multicast recieved by Peer 2 new clock value is 20
+00:07:10.275 - multicast recieved by Peer 3 new clock value is 13
+00:07:10.275 - multicast recieved by Peer 4 new clock value is 12
+00:07:10.275 - multicast recieved by Peer 0 new clock value is 24
+00:07:10.275 - multicast recieved by Peer 2 new clock value is 21
+00:07:10.275 - multicast recieved by Peer 0 new clock value is 25
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:10.275 - multicast recieved by Peer 5 new clock value is 25
+00:07:10.276 - multicast recieved by Peer 2 new clock value is 22
+00:07:10.276 - multicast recieved by Peer 1 new clock value is 24
+00:07:10.276 - multicast recieved by Peer 0 new clock value is 26
+00:07:10.276 - start buy buyer:3, leader:5, item:boar
+00:07:10.276 - multicast recieved by Peer 2 new clock value is 23
+00:07:10.276 - multicast recieved by Peer 3 new clock value is 19
+00:07:10.277 - start buy buyer:4, leader:5, item:salt
+00:07:10.277 - multicast recieved by Peer 3 new clock value is 21
+00:07:10.278 - multicast recieved by Peer 1 new clock value is 25
+00:07:10.278 - multicast recieved by Peer 3 new clock value is 22
+00:07:10.278 - start buy buyer:0, leader:5, item:fish
+00:07:10.278 - multicast recieved by Peer 4 new clock value is 13
+00:07:10.279 - multicast recieved by Peer 2 new clock value is 24
+00:07:10.279 - multicast recieved by Peer 0 new clock value is 27
+00:07:10.280 - multicast recieved by Peer 3 new clock value is 23
+Item salt unavailable for sale or out of stock
+00:07:10.280 - start buy buyer:1, leader:5, item:salt
+00:07:10.280 - multicast recieved by Peer 0 new clock value is 28
+00:07:10.281 - multicast recieved by Peer 0 new clock value is 29
+00:07:10.280 - multicast recieved by Peer 4 new clock value is 19
+00:07:10.281 - multicast recieved by Peer 1 new clock value is 26
+00:07:10.281 - multicast recieved by Peer 3 new clock value is 24
+00:07:10.281 - multicast recieved by Peer 2 new clock value is 25
+00:07:10.282 - multicast recieved by Peer 1 new clock value is 27
+00:07:10.281 - multicast recieved by Peer 4 new clock value is 21
+00:07:10.282 - multicast recieved by Peer 3 new clock value is 25
+00:07:10.282 - multicast recieved by Peer 1 new clock value is 29
+00:07:10.282 - multicast recieved by Peer 4 new clock value is 22
+00:07:10.282 - multicast recieved by Peer 2 new clock value is 27
+00:07:10.283 - multicast recieved by Peer 3 new clock value is 26
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:10.282 - start buy buyer:2, leader:5, item:salt
+00:07:10.283 - multicast recieved by Peer 4 new clock value is 23
+00:07:10.283 - multicast recieved by Peer 5 new clock value is 31
+00:07:10.283 - multicast recieved by Peer 4 new clock value is 24
+00:07:10.284 - multicast recieved by Peer 4 new clock value is 25
+00:07:10.284 - multicast recieved by Peer 2 new clock value is 29
+Item salt unavailable for sale or out of stock
+00:07:10.284 - multicast recieved by Peer 5 new clock value is 32
+00:07:10.284 - multicast recieved by Peer 5 new clock value is 33
+00:07:10.285 - multicast recieved by Peer 4 new clock value is 26
+00:07:10.285 - multicast recieved by Peer 0 new clock value is 30
+00:07:10.285 - multicast recieved by Peer 5 new clock value is 34
+00:07:10.285 - multicast recieved by Peer 2 new clock value is 30
+00:07:10.286 - multicast recieved by Peer 3 new clock value is 27
+00:07:10.286 - multicast recieved by Peer 1 new clock value is 30
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:10.287 - multicast recieved by Peer 5 new clock value is 35
+00:07:10.287 - multicast recieved by Peer 3 new clock value is 28
+00:07:10.288 - multicast recieved by Peer 5 new clock value is 36
+00:07:10.288 - multicast recieved by Peer 0 new clock value is 31
+00:07:10.288 - multicast recieved by Peer 3 new clock value is 29
+00:07:10.288 - multicast recieved by Peer 4 new clock value is 27
+00:07:10.288 - multicast recieved by Peer 2 new clock value is 31
+00:07:10.288 - multicast recieved by Peer 1 new clock value is 31
+00:07:10.288 - multicast recieved by Peer 5 new clock value is 37
+00:07:10.289 - multicast recieved by Peer 4 new clock value is 28
+Item salt unavailable for sale or out of stock
+00:07:10.289 - multicast recieved by Peer 5 new clock value is 38
+00:07:10.289 - multicast recieved by Peer 4 new clock value is 29
+00:07:10.289 - multicast recieved by Peer 1 new clock value is 32
+00:07:10.290 - multicast recieved by Peer 2 new clock value is 32
+00:07:10.290 - multicast recieved by Peer 3 new clock value is 30
+00:07:10.290 - multicast recieved by Peer 2 new clock value is 33
+00:07:10.290 - multicast recieved by Peer 4 new clock value is 30
+00:07:10.290 - multicast recieved by Peer 3 new clock value is 31
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item fish unavailable for sale or out of stock
+00:07:10.290 - multicast recieved by Peer 5 new clock value is 39
+00:07:10.291 - multicast recieved by Peer 3 new clock value is 32
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+00:07:10.291 - multicast recieved by Peer 5 new clock value is 40
+00:07:10.291 - multicast recieved by Peer 4 new clock value is 31
+00:07:10.291 - multicast recieved by Peer 4 new clock value is 32
+00:07:10.291 - multicast recieved by Peer 5 new clock value is 41
+00:07:10.292 - multicast recieved by Peer 5 new clock value is 42
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:10.293 - multicast recieved by Peer 5 new clock value is 43
+00:07:10.293 - multicast recieved by Peer 5 new clock value is 44
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+Election status successfully updated to 1.
+00:07:10.294 - ============leader is falling sick =======================
+00:07:10.297 - sending ok reply to sender 0 from peer 1
+00:07:10.297 - sending ok reply to sender 0 from peer 2
+00:07:10.298 - sending ok reply to sender 0 from peer 3
+00:07:10.298 - setting is_leader to false for 0
+00:07:10.298 - setting is_leader to false for 0
+00:07:10.299 - sending ok reply to sender 0 from peer 4
+00:07:10.300 - setting is_leader to false for 0
+00:07:10.301 - setting is_leader to false for 0
+00:07:10.304 - sending ok reply to sender 1 from peer 2
+00:07:10.304 - sending ok reply to sender 3 from peer 4
+00:07:10.304 - sending ok reply to sender 1 from peer 3
+00:07:10.304 - sending ok reply to sender 1 from peer 4
+00:07:10.305 - setting is_leader to false for 3
+00:07:10.305 - setting is_leader to false for 1
+00:07:10.305 - sending ok reply to sender 2 from peer 3
+00:07:10.306 - setting is_leader to false for 1
+00:07:10.306 - sending ok reply to sender 2 from peer 4
+00:07:10.306 - setting is_leader to false for 1
+00:07:10.307 - setting is_leader to false for 2
+00:07:10.307 - setting is_leader to false for 2
+00:07:10.313 - sending ok reply to sender 2 from peer 3
+00:07:10.313 - sending ok reply to sender 3 from peer 4
+00:07:10.314 - sending ok reply to sender 2 from peer 4
+00:07:10.314 - setting is_leader to false for 2
+00:07:10.314 - sending ok reply to sender 3 from peer 4
+00:07:10.314 - setting is_leader to false for 3
+00:07:10.316 - setting is_leader to false for 2
+00:07:10.316 - setting is_leader to false for 3
+00:07:10.319 - sending ok reply to sender 3 from peer 4
+00:07:10.320 - setting is_leader to false for 3
+00:07:10.376 - waiting for election to complete...
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+0 is starting the election
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:10.376 - start buy buyer:3, leader:5, item:boar
+00:07:10.376 - multicast recieved by Peer 5 new clock value is 46
+00:07:10.378 - multicast recieved by Peer 0 new clock value is 46
+00:07:10.378 - multicast recieved by Peer 1 new clock value is 46
+00:07:10.378 - multicast recieved by Peer 2 new clock value is 46
+00:07:10.378 - multicast recieved by Peer 3 new clock value is 46
+00:07:10.379 - multicast recieved by Peer 4 new clock value is 46
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:10.379 - multicast recieved by Peer 5 new clock value is 47
+00:07:15.310 - New leader elected: 4
+00:07:15.319 - requesting seller list from the leader
+00:07:15.321 - requesting seller list from the leader
+00:07:15.322 - requesting seller list from the leader
+00:07:15.323 - requesting seller list from the leader
+00:07:15.325 - requesting seller list from the leader
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:15.326 - requesting seller list from the leader
+00:07:20.381 - buy: 4, 4, salt
+00:07:20.384 - buy: 0, 4, fish
+Peer [{'leader_id': 4, 'election_in_progress': 0}] has been elected as the new leader!
+00:07:20.384 - start buy buyer:4, leader:4, item:salt
+00:07:20.385 - buy: 1, 4, salt
+00:07:20.385 - start buy buyer:0, leader:4, item:fish
+00:07:20.387 - buy: 2, 4, salt
+00:07:20.387 - multicast recieved by Peer 0 new clock value is 48
+00:07:20.387 - start buy buyer:1, leader:4, item:salt
+00:07:20.390 - multicast recieved by Peer 0 new clock value is 49
+00:07:20.396 - start buy buyer:2, leader:4, item:salt
+00:07:20.397 - buy: 3, 4, boar
+00:07:20.398 - multicast recieved by Peer 1 new clock value is 48
+00:07:20.398 - multicast recieved by Peer 2 new clock value is 49
+00:07:20.398 - multicast recieved by Peer 0 new clock value is 50
+00:07:20.398 - multicast recieved by Peer 1 new clock value is 49
+00:07:20.399 - buy: 4, 4, salt
+00:07:20.399 - multicast recieved by Peer 0 new clock value is 51
+00:07:20.400 - start buy buyer:3, leader:4, item:boar
+00:07:20.400 - multicast recieved by Peer 2 new clock value is 50
+00:07:20.400 - multicast recieved by Peer 3 new clock value is 49
+00:07:20.400 - multicast recieved by Peer 1 new clock value is 50
+00:07:20.401 - buy: 0, 4, fish
+00:07:20.400 - multicast recieved by Peer 1 new clock value is 51
+00:07:20.401 - start buy buyer:4, leader:4, item:salt
+00:07:20.402 - buy: 1, 4, salt
+00:07:20.402 - multicast recieved by Peer 4 new clock value is 53
+00:07:20.402 - multicast recieved by Peer 2 new clock value is 51
+00:07:20.402 - multicast recieved by Peer 3 new clock value is 50
+00:07:20.403 - buy: 2, 4, salt
+00:07:20.402 - multicast recieved by Peer 2 new clock value is 52
+00:07:20.402 - multicast recieved by Peer 0 new clock value is 52
+00:07:20.402 - multicast recieved by Peer 5 new clock value is 49
+Item fish unavailable for sale or out of stock
+00:07:20.402 - start buy buyer:0, leader:4, item:fish
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:20.403 - start buy buyer:1, leader:4, item:salt
+00:07:20.404 - multicast recieved by Peer 0 new clock value is 53
+00:07:20.404 - buy: 3, 4, boar
+00:07:20.404 - multicast recieved by Peer 4 new clock value is 56
+00:07:20.404 - multicast recieved by Peer 3 new clock value is 51
+00:07:20.404 - multicast recieved by Peer 3 new clock value is 52
+00:07:20.405 - multicast recieved by Peer 1 new clock value is 52
+00:07:20.405 - start buy buyer:2, leader:4, item:salt
+00:07:20.405 - multicast recieved by Peer 0 new clock value is 55
+00:07:20.407 - multicast recieved by Peer 1 new clock value is 53
+00:07:20.408 - multicast recieved by Peer 5 new clock value is 50
+00:07:20.409 - buy: 4, 4, salt
+00:07:20.409 - multicast recieved by Peer 0 new clock value is 56
+00:07:20.410 - multicast recieved by Peer 2 new clock value is 53
+00:07:20.414 - buy: 0, 4, fish
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+00:07:20.413 - multicast recieved by Peer 4 new clock value is 58
+00:07:20.413 - multicast recieved by Peer 5 new clock value is 51
+00:07:20.413 - multicast recieved by Peer 0 new clock value is 58
+00:07:20.413 - multicast recieved by Peer 3 new clock value is 53
+00:07:20.413 - multicast recieved by Peer 1 new clock value is 55
+00:07:20.413 - multicast recieved by Peer 2 new clock value is 54
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:20.414 - multicast recieved by Peer 4 new clock value is 59
+00:07:20.415 - start buy buyer:3, leader:4, item:boar
+00:07:20.415 - start buy buyer:4, leader:4, item:salt
+00:07:20.415 - multicast recieved by Peer 2 new clock value is 55
+00:07:20.416 - buy: 1, 4, salt
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:20.416 - start buy buyer:0, leader:4, item:fish
+00:07:20.416 - multicast recieved by Peer 1 new clock value is 58
+00:07:20.417 - multicast recieved by Peer 4 new clock value is 63
+00:07:20.417 - multicast recieved by Peer 1 new clock value is 59
+00:07:20.417 - multicast recieved by Peer 3 new clock value is 54
+00:07:20.418 - multicast recieved by Peer 5 new clock value is 52
+00:07:20.418 - multicast recieved by Peer 3 new clock value is 55
+00:07:20.418 - multicast recieved by Peer 0 new clock value is 61
+00:07:20.419 - buy: 2, 4, salt
+00:07:20.419 - multicast recieved by Peer 0 new clock value is 62
+00:07:20.419 - multicast recieved by Peer 5 new clock value is 53
+00:07:20.419 - multicast recieved by Peer 2 new clock value is 56
+00:07:20.419 - multicast recieved by Peer 2 new clock value is 58
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:20.420 - start buy buyer:1, leader:4, item:salt
+00:07:20.420 - multicast recieved by Peer 4 new clock value is 65
+00:07:20.420 - multicast recieved by Peer 4 new clock value is 66
+00:07:20.420 - multicast recieved by Peer 0 new clock value is 63
+00:07:20.421 - multicast recieved by Peer 1 new clock value is 61
+00:07:20.421 - buy: 3, 4, boar
+00:07:20.421 - multicast recieved by Peer 1 new clock value is 62
+00:07:20.422 - multicast recieved by Peer 3 new clock value is 56
+00:07:20.422 - multicast recieved by Peer 3 new clock value is 58
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:20.422 - start buy buyer:2, leader:4, item:salt
+00:07:20.422 - multicast recieved by Peer 5 new clock value is 54
+00:07:20.422 - multicast recieved by Peer 1 new clock value is 63
+00:07:20.422 - multicast recieved by Peer 5 new clock value is 55
+00:07:20.422 - multicast recieved by Peer 2 new clock value is 61
+00:07:20.423 - buy: 4, 4, salt
+00:07:20.423 - multicast recieved by Peer 0 new clock value is 65
+00:07:20.423 - multicast recieved by Peer 2 new clock value is 62
+00:07:20.423 - multicast recieved by Peer 4 new clock value is 68
+00:07:20.423 - multicast recieved by Peer 4 new clock value is 69
+00:07:20.424 - multicast recieved by Peer 2 new clock value is 63
+00:07:20.424 - start buy buyer:3, leader:4, item:boar
+00:07:20.424 - multicast recieved by Peer 3 new clock value is 61
+00:07:20.424 - buy: 0, 4, fish
+00:07:20.424 - multicast recieved by Peer 3 new clock value is 62
+00:07:20.425 - multicast recieved by Peer 0 new clock value is 68
+00:07:20.425 - multicast recieved by Peer 1 new clock value is 65
+00:07:20.425 - multicast recieved by Peer 5 new clock value is 56
+00:07:20.425 - multicast recieved by Peer 3 new clock value is 63
+00:07:20.426 - multicast recieved by Peer 5 new clock value is 58
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:20.426 - start buy buyer:4, leader:4, item:salt
+00:07:20.426 - multicast recieved by Peer 4 new clock value is 72
+00:07:20.426 - buy: 1, 4, salt
+00:07:20.426 - multicast recieved by Peer 1 new clock value is 68
+00:07:20.426 - multicast recieved by Peer 2 new clock value is 65
+00:07:20.426 - multicast recieved by Peer 4 new clock value is 73
+00:07:20.426 - multicast recieved by Peer 0 new clock value is 71
+00:07:20.427 - multicast recieved by Peer 4 new clock value is 74
+00:07:20.427 - start buy buyer:0, leader:4, item:fish
+00:07:20.428 - buy: 2, 4, salt
+00:07:20.428 - multicast recieved by Peer 5 new clock value is 62
+00:07:20.428 - multicast recieved by Peer 0 new clock value is 72
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Election status successfully updated to 1.
+00:07:20.428 - ============leader is falling sick =======================
+00:07:20.428 - multicast recieved by Peer 2 new clock value is 68
+00:07:20.429 - multicast recieved by Peer 3 new clock value is 65
+0 is starting the election
+00:07:20.429 - start buy buyer:1, leader:4, item:salt
+00:07:20.430 - multicast recieved by Peer 5 new clock value is 63
+00:07:20.430 - multicast recieved by Peer 1 new clock value is 71
+00:07:20.430 - multicast recieved by Peer 5 new clock value is 64
+00:07:20.431 - waiting for election to complete...
+00:07:20.431 - multicast recieved by Peer 0 new clock value is 76
+00:07:20.431 - multicast recieved by Peer 1 new clock value is 72
+00:07:20.432 - multicast recieved by Peer 3 new clock value is 68
+00:07:20.432 - multicast recieved by Peer 4 new clock value is 77
+00:07:20.432 - start buy buyer:2, leader:4, item:salt
+00:07:20.432 - multicast recieved by Peer 2 new clock value is 71
+00:07:20.432 - multicast recieved by Peer 0 new clock value is 77
+00:07:20.433 - multicast recieved by Peer 1 new clock value is 76
+00:07:20.433 - multicast recieved by Peer 2 new clock value is 72
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:20.433 - multicast recieved by Peer 4 new clock value is 79
+00:07:20.434 - multicast recieved by Peer 5 new clock value is 65
+00:07:20.434 - multicast recieved by Peer 3 new clock value is 71
+00:07:20.434 - multicast recieved by Peer 1 new clock value is 77
+00:07:20.435 - multicast recieved by Peer 2 new clock value is 76
+00:07:20.435 - multicast recieved by Peer 0 new clock value is 79
+00:07:20.435 - multicast recieved by Peer 3 new clock value is 72
+00:07:20.435 - multicast recieved by Peer 5 new clock value is 68
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:20.436 - multicast recieved by Peer 4 new clock value is 80
+00:07:20.436 - multicast recieved by Peer 2 new clock value is 77
+00:07:20.436 - multicast recieved by Peer 3 new clock value is 76
+00:07:20.436 - multicast recieved by Peer 1 new clock value is 79
+Item boar unavailable for sale or out of stock
+00:07:20.437 - multicast recieved by Peer 4 new clock value is 81
+00:07:20.437 - multicast recieved by Peer 5 new clock value is 71
+00:07:20.437 - multicast recieved by Peer 3 new clock value is 77
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:20.438 - multicast recieved by Peer 4 new clock value is 82
+00:07:20.438 - multicast recieved by Peer 2 new clock value is 79
+00:07:20.438 - multicast recieved by Peer 5 new clock value is 72
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:20.438 - multicast recieved by Peer 4 new clock value is 83
+00:07:20.438 - multicast recieved by Peer 5 new clock value is 76
+00:07:20.439 - multicast recieved by Peer 3 new clock value is 79
+00:07:20.439 - multicast recieved by Peer 5 new clock value is 77
+Item salt unavailable for sale or out of stock
+00:07:20.439 - multicast recieved by Peer 4 new clock value is 84
+00:07:20.440 - sending ok reply to sender 0 from peer 1
+00:07:20.440 - multicast recieved by Peer 5 new clock value is 79
+00:07:20.440 - sending ok reply to sender 0 from peer 2
+00:07:20.440 - sending ok reply to sender 0 from peer 3
+00:07:20.440 - setting is_leader to false for 0
+00:07:20.441 - setting is_leader to false for 0
+00:07:20.441 - setting is_leader to false for 0
+00:07:20.442 - sending ok reply to sender 1 from peer 2
+00:07:20.443 - sending ok reply to sender 1 from peer 3
+00:07:20.443 - setting is_leader to false for 1
+00:07:20.443 - sending ok reply to sender 2 from peer 3
+00:07:20.444 - setting is_leader to false for 1
+00:07:20.444 - setting is_leader to false for 2
+00:07:20.446 - sending ok reply to sender 2 from peer 3
+00:07:20.447 - setting is_leader to false for 2
+00:07:25.449 - New leader elected: 3
+00:07:25.450 - New leader elected: 3
+00:07:25.451 - New leader elected: 3
+00:07:25.462 - requesting seller list from the leader
+00:07:25.463 - requesting seller list from the leader
+00:07:25.463 - requesting seller list from the leader
+00:07:25.464 - requesting seller list from the leader
+00:07:25.465 - requesting seller list from the leader
+00:07:25.467 - requesting seller list from the leader
+00:07:25.467 - requesting seller list from the leader
+00:07:25.469 - requesting seller list from the leader
+00:07:25.471 - requesting seller list from the leader
+00:07:25.473 - requesting seller list from the leader
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:25.474 - requesting seller list from the leader
+Peer [{'leader_id': 3, 'election_in_progress': 0}] has been elected as the new leader!
+00:07:25.477 - requesting seller list from the leader
+00:07:25.476 - requesting seller list from the leader
+00:07:25.478 - requesting seller list from the leader
+Peer [{'leader_id': 3, 'election_in_progress': 0}] has been elected as the new leader!
+00:07:25.480 - requesting seller list from the leader
+00:07:25.480 - requesting seller list from the leader
+00:07:25.481 - requesting seller list from the leader
+00:07:25.482 - requesting seller list from the leader
+00:07:30.437 - buy: 3, 3, boar
+00:07:30.438 - buy: 4, 3, salt
+Peer [{'leader_id': 3, 'election_in_progress': 0}] has been elected as the new leader!
+00:07:30.438 - start buy buyer:3, leader:3, item:boar
+00:07:30.440 - buy: 0, 3, fish
+00:07:30.440 - start buy buyer:4, leader:3, item:salt
+00:07:30.445 - buy: 1, 3, salt
+00:07:30.445 - multicast recieved by Peer 0 new clock value is 81
+00:07:30.445 - multicast recieved by Peer 1 new clock value is 81
+00:07:30.446 - start buy buyer:0, leader:3, item:fish
+00:07:30.446 - multicast recieved by Peer 0 new clock value is 82
+00:07:30.447 - buy: 2, 3, salt
+00:07:30.447 - multicast recieved by Peer 2 new clock value is 81
+00:07:30.447 - start buy buyer:1, leader:3, item:salt
+00:07:30.448 - multicast recieved by Peer 1 new clock value is 82
+00:07:30.448 - buy: 3, 3, boar
+00:07:30.449 - multicast recieved by Peer 0 new clock value is 83
+00:07:30.449 - start buy buyer:2, leader:3, item:salt
+00:07:30.450 - buy: 4, 3, salt
+00:07:30.450 - multicast recieved by Peer 0 new clock value is 84
+00:07:30.450 - multicast recieved by Peer 2 new clock value is 82
+00:07:30.451 - multicast recieved by Peer 1 new clock value is 83
+00:07:30.452 - multicast recieved by Peer 3 new clock value is 85
+00:07:30.452 - multicast recieved by Peer 0 new clock value is 85
+00:07:30.453 - multicast recieved by Peer 1 new clock value is 84
+00:07:30.453 - multicast recieved by Peer 2 new clock value is 83
+00:07:30.455 - buy: 0, 3, fish
+00:07:30.455 - multicast recieved by Peer 4 new clock value is 85
+00:07:30.456 - buy: 1, 3, salt
+00:07:30.456 - start buy buyer:3, leader:3, item:boar
+00:07:30.456 - multicast recieved by Peer 2 new clock value is 84
+00:07:30.457 - multicast recieved by Peer 3 new clock value is 87
+00:07:30.457 - buy: 2, 3, salt
+00:07:30.457 - multicast recieved by Peer 1 new clock value is 85
+00:07:30.458 - multicast recieved by Peer 4 new clock value is 86
+00:07:30.458 - start buy buyer:4, leader:3, item:salt
+00:07:30.459 - multicast recieved by Peer 0 new clock value is 87
+00:07:30.462 - multicast recieved by Peer 2 new clock value is 85
+00:07:30.462 - multicast recieved by Peer 1 new clock value is 87
+00:07:30.463 - multicast recieved by Peer 4 new clock value is 87
+00:07:30.464 - multicast recieved by Peer 0 new clock value is 89
+00:07:30.464 - multicast recieved by Peer 5 new clock value is 83
+00:07:30.464 - multicast recieved by Peer 4 new clock value is 88
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:30.464 - multicast recieved by Peer 3 new clock value is 89
+00:07:30.464 - multicast recieved by Peer 5 new clock value is 84
+Item salt unavailable for sale or out of stock
+00:07:30.465 - multicast recieved by Peer 3 new clock value is 90
+00:07:30.465 - start buy buyer:0, leader:3, item:fish
+00:07:30.465 - multicast recieved by Peer 5 new clock value is 85
+00:07:30.465 - start buy buyer:1, leader:3, item:salt
+00:07:30.467 - multicast recieved by Peer 5 new clock value is 86
+00:07:30.467 - multicast recieved by Peer 1 new clock value is 89
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:30.467 - multicast recieved by Peer 3 new clock value is 93
+00:07:30.468 - multicast recieved by Peer 2 new clock value is 87
+00:07:30.468 - multicast recieved by Peer 0 new clock value is 92
+00:07:30.469 - multicast recieved by Peer 0 new clock value is 93
+00:07:30.469 - multicast recieved by Peer 2 new clock value is 89
+00:07:30.469 - multicast recieved by Peer 4 new clock value is 89
+00:07:30.469 - multicast recieved by Peer 3 new clock value is 94
+00:07:30.469 - multicast recieved by Peer 1 new clock value is 92
+00:07:30.470 - multicast recieved by Peer 1 new clock value is 93
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:30.470 - multicast recieved by Peer 3 new clock value is 95
+00:07:30.470 - multicast recieved by Peer 5 new clock value is 87
+00:07:30.470 - multicast recieved by Peer 2 new clock value is 92
+00:07:30.470 - multicast recieved by Peer 4 new clock value is 90
+Election status successfully updated to 1.
+00:07:30.471 - ============leader is falling sick =======================
+00:07:30.471 - multicast recieved by Peer 4 new clock value is 91
+00:07:30.472 - multicast recieved by Peer 2 new clock value is 93
+0 is starting the election
+Item boar unavailable for sale or out of stock
+00:07:30.472 - multicast recieved by Peer 3 new clock value is 96
+00:07:30.473 - multicast recieved by Peer 5 new clock value is 88
+00:07:30.473 - multicast recieved by Peer 3 new clock value is 97
+00:07:30.473 - multicast recieved by Peer 5 new clock value is 89
+00:07:30.473 - multicast recieved by Peer 4 new clock value is 92
+00:07:30.474 - multicast recieved by Peer 4 new clock value is 93
+00:07:30.474 - multicast recieved by Peer 5 new clock value is 92
+00:07:30.475 - multicast recieved by Peer 5 new clock value is 93
+00:07:30.478 - sending ok reply to sender 0 from peer 1
+00:07:30.478 - sending ok reply to sender 0 from peer 2
+00:07:30.480 - setting is_leader to false for 0
+00:07:30.480 - setting is_leader to false for 0
+00:07:30.484 - sending ok reply to sender 1 from peer 2
+00:07:30.485 - setting is_leader to false for 1
+00:07:30.561 - waiting for election to complete...
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:30.561 - start buy buyer:2, leader:3, item:salt
+00:07:30.564 - multicast recieved by Peer 0 new clock value is 99
+00:07:30.566 - multicast recieved by Peer 1 new clock value is 99
+00:07:30.567 - multicast recieved by Peer 2 new clock value is 99
+00:07:30.574 - multicast recieved by Peer 4 new clock value is 99
+00:07:30.573 - multicast recieved by Peer 3 new clock value is 99
+00:07:30.578 - multicast recieved by Peer 5 new clock value is 99
+00:07:35.489 - New leader elected: 2
+00:07:35.500 - requesting seller list from the leader
+00:07:35.501 - requesting seller list from the leader
+00:07:35.502 - requesting seller list from the leader
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:35.503 - requesting seller list from the leader
+00:07:35.504 - requesting seller list from the leader
+00:07:35.506 - requesting seller list from the leader
+00:07:40.563 - buy: 3, 2, boar
+00:07:40.567 - buy: 4, 2, salt
+Peer [{'leader_id': 2, 'election_in_progress': 0}] has been elected as the new leader!
+00:07:40.567 - start buy buyer:3, leader:2, item:boar
+00:07:40.569 - buy: 0, 2, fish
+00:07:40.569 - start buy buyer:4, leader:2, item:salt
+00:07:40.572 - multicast recieved by Peer 0 new clock value is 101
+00:07:40.575 - buy: 1, 2, salt
+00:07:40.575 - start buy buyer:0, leader:2, item:fish
+00:07:40.577 - buy: 2, 2, salt
+00:07:40.577 - multicast recieved by Peer 0 new clock value is 102
+00:07:40.584 - start buy buyer:1, leader:2, item:salt
+00:07:40.588 - multicast recieved by Peer 1 new clock value is 101
+00:07:40.588 - multicast recieved by Peer 0 new clock value is 103
+00:07:40.589 - buy: 3, 2, boar
+00:07:40.591 - multicast recieved by Peer 1 new clock value is 102
+00:07:40.591 - start buy buyer:2, leader:2, item:salt
+00:07:40.592 - multicast recieved by Peer 1 new clock value is 103
+00:07:40.592 - buy: 4, 2, salt
+00:07:40.592 - multicast recieved by Peer 2 new clock value is 105
+00:07:40.592 - multicast recieved by Peer 0 new clock value is 104
+00:07:40.593 - start buy buyer:3, leader:2, item:boar
+00:07:40.593 - multicast recieved by Peer 1 new clock value is 104
+00:07:40.593 - multicast recieved by Peer 2 new clock value is 107
+00:07:40.593 - buy: 0, 2, fish
+00:07:40.594 - multicast recieved by Peer 3 new clock value is 101
+00:07:40.594 - multicast recieved by Peer 0 new clock value is 105
+00:07:40.594 - multicast recieved by Peer 2 new clock value is 108
+00:07:40.594 - start buy buyer:4, leader:2, item:salt
+00:07:40.595 - multicast recieved by Peer 3 new clock value is 102
+00:07:40.597 - buy: 1, 2, salt
+00:07:40.597 - multicast recieved by Peer 2 new clock value is 110
+00:07:40.597 - multicast recieved by Peer 3 new clock value is 103
+00:07:40.597 - multicast recieved by Peer 0 new clock value is 107
+00:07:40.597 - multicast recieved by Peer 4 new clock value is 101
+00:07:40.597 - start buy buyer:0, leader:2, item:fish
+00:07:40.598 - multicast recieved by Peer 1 new clock value is 105
+00:07:40.598 - multicast recieved by Peer 0 new clock value is 110
+00:07:40.598 - multicast recieved by Peer 4 new clock value is 102
+00:07:40.599 - buy: 2, 2, salt
+00:07:40.599 - multicast recieved by Peer 3 new clock value is 104
+00:07:40.600 - multicast recieved by Peer 4 new clock value is 103
+00:07:40.600 - multicast recieved by Peer 1 new clock value is 107
+00:07:40.600 - multicast recieved by Peer 5 new clock value is 101
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.601 - start buy buyer:1, leader:2, item:salt
+00:07:40.601 - multicast recieved by Peer 2 new clock value is 113
+00:07:40.601 - multicast recieved by Peer 5 new clock value is 102
+00:07:40.601 - multicast recieved by Peer 1 new clock value is 110
+00:07:40.602 - buy: 3, 2, boar
+00:07:40.603 - multicast recieved by Peer 0 new clock value is 112
+00:07:40.604 - multicast recieved by Peer 4 new clock value is 104
+00:07:40.606 - multicast recieved by Peer 5 new clock value is 103
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+00:07:40.607 - multicast recieved by Peer 2 new clock value is 114
+00:07:40.607 - multicast recieved by Peer 0 new clock value is 113
+00:07:40.609 - multicast recieved by Peer 3 new clock value is 105
+00:07:40.610 - buy: 4, 2, salt
+00:07:40.610 - multicast recieved by Peer 1 new clock value is 112
+00:07:40.610 - multicast recieved by Peer 3 new clock value is 107
+00:07:40.610 - multicast recieved by Peer 5 new clock value is 104
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.610 - start buy buyer:2, leader:2, item:salt
+00:07:40.610 - multicast recieved by Peer 4 new clock value is 105
+00:07:40.610 - multicast recieved by Peer 1 new clock value is 113
+00:07:40.610 - multicast recieved by Peer 3 new clock value is 110
+00:07:40.610 - multicast recieved by Peer 2 new clock value is 116
+00:07:40.611 - start buy buyer:3, leader:2, item:boar
+00:07:40.612 - multicast recieved by Peer 2 new clock value is 118
+00:07:40.613 - buy: 0, 2, fish
+00:07:40.613 - multicast recieved by Peer 4 new clock value is 110
+00:07:40.613 - multicast recieved by Peer 4 new clock value is 111
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.613 - multicast recieved by Peer 2 new clock value is 119
+00:07:40.614 - start buy buyer:4, leader:2, item:salt
+00:07:40.614 - multicast recieved by Peer 5 new clock value is 105
+00:07:40.614 - multicast recieved by Peer 3 new clock value is 112
+00:07:40.614 - multicast recieved by Peer 0 new clock value is 116
+00:07:40.615 - multicast recieved by Peer 0 new clock value is 118
+00:07:40.616 - buy: 1, 2, salt
+00:07:40.616 - multicast recieved by Peer 5 new clock value is 110
+00:07:40.616 - multicast recieved by Peer 3 new clock value is 113
+00:07:40.617 - multicast recieved by Peer 5 new clock value is 111
+00:07:40.617 - multicast recieved by Peer 4 new clock value is 112
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.617 - start buy buyer:0, leader:2, item:fish
+00:07:40.617 - multicast recieved by Peer 1 new clock value is 116
+00:07:40.618 - multicast recieved by Peer 1 new clock value is 118
+00:07:40.619 - multicast recieved by Peer 0 new clock value is 121
+00:07:40.619 - buy: 2, 2, salt
+00:07:40.619 - multicast recieved by Peer 4 new clock value is 113
+00:07:40.619 - multicast recieved by Peer 5 new clock value is 112
+00:07:40.619 - multicast recieved by Peer 1 new clock value is 121
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.619 - multicast recieved by Peer 2 new clock value is 122
+00:07:40.620 - multicast recieved by Peer 5 new clock value is 113
+00:07:40.620 - buy: 3, 2, boar
+00:07:40.620 - multicast recieved by Peer 1 new clock value is 122
+00:07:40.620 - multicast recieved by Peer 3 new clock value is 116
+00:07:40.620 - multicast recieved by Peer 2 new clock value is 123
+00:07:40.620 - multicast recieved by Peer 0 new clock value is 122
+00:07:40.621 - buy: 4, 2, salt
+00:07:40.620 - multicast recieved by Peer 3 new clock value is 118
+00:07:40.620 - multicast recieved by Peer 4 new clock value is 116
+00:07:40.621 - buy: 0, 2, fish
+Item salt unavailable for sale or out of stock
+00:07:40.621 - multicast recieved by Peer 2 new clock value is 124
+00:07:40.621 - multicast recieved by Peer 4 new clock value is 118
+00:07:40.621 - start buy buyer:1, leader:2, item:salt
+00:07:40.621 - multicast recieved by Peer 3 new clock value is 121
+00:07:40.622 - buy: 1, 2, salt
+00:07:40.622 - start buy buyer:2, leader:2, item:salt
+00:07:40.622 - multicast recieved by Peer 5 new clock value is 118
+00:07:40.622 - buy: 2, 2, salt
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+00:07:40.622 - multicast recieved by Peer 2 new clock value is 127
+00:07:40.622 - multicast recieved by Peer 5 new clock value is 119
+00:07:40.622 - multicast recieved by Peer 3 new clock value is 122
+00:07:40.623 - start buy buyer:3, leader:2, item:boar
+00:07:40.623 - multicast recieved by Peer 0 new clock value is 126
+00:07:40.623 - buy: 3, 2, boar
+00:07:40.623 - multicast recieved by Peer 0 new clock value is 127
+00:07:40.623 - multicast recieved by Peer 4 new clock value is 121
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.623 - start buy buyer:4, leader:2, item:salt
+00:07:40.624 - multicast recieved by Peer 4 new clock value is 122
+00:07:40.624 - start buy buyer:0, leader:2, item:fish
+00:07:40.624 - buy: 4, 2, salt
+00:07:40.624 - multicast recieved by Peer 1 new clock value is 126
+00:07:40.624 - multicast recieved by Peer 0 new clock value is 129
+00:07:40.625 - buy: 0, 2, fish
+00:07:40.624 - multicast recieved by Peer 1 new clock value is 127
+Item salt unavailable for sale or out of stock
+00:07:40.624 - start buy buyer:1, leader:2, item:salt
+00:07:40.624 - multicast recieved by Peer 5 new clock value is 121
+00:07:40.625 - multicast recieved by Peer 5 new clock value is 122
+00:07:40.624 - start buy buyer:2, leader:2, item:salt
+00:07:40.625 - buy: 1, 2, salt
+00:07:40.625 - multicast recieved by Peer 0 new clock value is 131
+00:07:40.625 - multicast recieved by Peer 0 new clock value is 132
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.625 - start buy buyer:3, leader:2, item:boar
+00:07:40.626 - multicast recieved by Peer 1 new clock value is 129
+00:07:40.626 - buy: 2, 2, salt
+00:07:40.626 - start buy buyer:4, leader:2, item:salt
+00:07:40.626 - multicast recieved by Peer 3 new clock value is 127
+00:07:40.626 - multicast recieved by Peer 0 new clock value is 133
+00:07:40.626 - multicast recieved by Peer 1 new clock value is 131
+Item salt unavailable for sale or out of stock
+00:07:40.626 - multicast recieved by Peer 2 new clock value is 135
+00:07:40.627 - multicast recieved by Peer 1 new clock value is 132
+00:07:40.627 - buy: 3, 2, boar
+00:07:40.627 - multicast recieved by Peer 2 new clock value is 136
+00:07:40.627 - multicast recieved by Peer 0 new clock value is 134
+00:07:40.628 - buy: 4, 2, salt
+00:07:40.627 - multicast recieved by Peer 3 new clock value is 128
+00:07:40.627 - multicast recieved by Peer 4 new clock value is 127
+00:07:40.627 - multicast recieved by Peer 0 new clock value is 135
+00:07:40.628 - multicast recieved by Peer 1 new clock value is 133
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item fish unavailable for sale or out of stock
+00:07:40.628 - start buy buyer:0, leader:2, item:fish
+00:07:40.628 - multicast recieved by Peer 0 new clock value is 136
+00:07:40.628 - multicast recieved by Peer 1 new clock value is 134
+00:07:40.628 - multicast recieved by Peer 4 new clock value is 128
+00:07:40.629 - multicast recieved by Peer 3 new clock value is 131
+00:07:40.629 - multicast recieved by Peer 1 new clock value is 135
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.629 - start buy buyer:1, leader:2, item:salt
+00:07:40.629 - multicast recieved by Peer 3 new clock value is 132
+00:07:40.629 - multicast recieved by Peer 2 new clock value is 139
+00:07:40.629 - multicast recieved by Peer 3 new clock value is 133
+00:07:40.629 - multicast recieved by Peer 2 new clock value is 140
+00:07:40.630 - multicast recieved by Peer 5 new clock value is 127
+00:07:40.630 - multicast recieved by Peer 0 new clock value is 138
+00:07:40.630 - multicast recieved by Peer 4 new clock value is 129
+00:07:40.630 - multicast recieved by Peer 1 new clock value is 136
+Item salt unavailable for sale or out of stock
+00:07:40.630 - multicast recieved by Peer 2 new clock value is 141
+00:07:40.630 - multicast recieved by Peer 4 new clock value is 131
+00:07:40.631 - multicast recieved by Peer 0 new clock value is 139
+00:07:40.631 - multicast recieved by Peer 5 new clock value is 128
+00:07:40.631 - start buy buyer:3, leader:2, item:boar
+00:07:40.631 - multicast recieved by Peer 4 new clock value is 132
+00:07:40.631 - multicast recieved by Peer 3 new clock value is 134
+00:07:40.631 - multicast recieved by Peer 2 new clock value is 142
+00:07:40.632 - multicast recieved by Peer 5 new clock value is 129
+00:07:40.632 - multicast recieved by Peer 1 new clock value is 138
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.632 - multicast recieved by Peer 2 new clock value is 144
+00:07:40.632 - multicast recieved by Peer 3 new clock value is 135
+00:07:40.632 - multicast recieved by Peer 5 new clock value is 130
+00:07:40.632 - multicast recieved by Peer 1 new clock value is 139
+00:07:40.632 - multicast recieved by Peer 0 new clock value is 144
+00:07:40.632 - multicast recieved by Peer 4 new clock value is 134
+00:07:40.632 - multicast recieved by Peer 5 new clock value is 131
+Item salt unavailable for sale or out of stock
+00:07:40.632 - multicast recieved by Peer 2 new clock value is 145
+00:07:40.633 - multicast recieved by Peer 4 new clock value is 135
+00:07:40.633 - multicast recieved by Peer 3 new clock value is 136
+00:07:40.633 - multicast recieved by Peer 1 new clock value is 144
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.633 - multicast recieved by Peer 2 new clock value is 146
+00:07:40.633 - multicast recieved by Peer 5 new clock value is 133
+Item boar unavailable for sale or out of stock
+00:07:40.634 - multicast recieved by Peer 2 new clock value is 147
+00:07:40.634 - multicast recieved by Peer 5 new clock value is 134
+00:07:40.634 - multicast recieved by Peer 3 new clock value is 139
+00:07:40.634 - multicast recieved by Peer 2 new clock value is 148
+00:07:40.634 - multicast recieved by Peer 3 new clock value is 140
+00:07:40.634 - multicast recieved by Peer 4 new clock value is 136
+00:07:40.635 - multicast recieved by Peer 4 new clock value is 139
+00:07:40.635 - multicast recieved by Peer 5 new clock value is 135
+00:07:40.635 - multicast recieved by Peer 4 new clock value is 140
+00:07:40.635 - multicast recieved by Peer 3 new clock value is 144
+00:07:40.635 - multicast recieved by Peer 5 new clock value is 139
+00:07:40.636 - multicast recieved by Peer 4 new clock value is 144
+00:07:40.636 - multicast recieved by Peer 5 new clock value is 140
+00:07:40.636 - multicast recieved by Peer 5 new clock value is 144
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.736 - multicast recieved by Peer 2 new clock value is 149
+00:07:40.737 - buy: 0, 2, fish
+00:07:40.737 - start buy buyer:4, leader:2, item:salt
+00:07:40.738 - multicast recieved by Peer 3 new clock value is 145
+00:07:40.739 - buy: 1, 2, salt
+00:07:40.739 - start buy buyer:0, leader:2, item:fish
+00:07:40.741 - multicast recieved by Peer 4 new clock value is 145
+00:07:40.743 - buy: 2, 2, salt
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.743 - start buy buyer:1, leader:2, item:salt
+00:07:40.744 - multicast recieved by Peer 0 new clock value is 151
+00:07:40.746 - multicast recieved by Peer 1 new clock value is 151
+00:07:40.744 - multicast recieved by Peer 5 new clock value is 145
+00:07:40.748 - buy: 3, 2, boar
+00:07:40.747 - start buy buyer:2, leader:2, item:salt
+00:07:40.749 - multicast recieved by Peer 0 new clock value is 152
+00:07:40.753 - buy: 4, 2, salt
+00:07:40.750 - multicast recieved by Peer 1 new clock value is 152
+00:07:40.755 - multicast recieved by Peer 2 new clock value is 154
+00:07:40.755 - multicast recieved by Peer 0 new clock value is 153
+00:07:40.757 - start buy buyer:3, leader:2, item:boar
+00:07:40.758 - buy: 0, 2, fish
+00:07:40.758 - multicast recieved by Peer 0 new clock value is 154
+00:07:40.761 - buy: 1, 2, salt
+00:07:40.759 - multicast recieved by Peer 1 new clock value is 154
+00:07:40.762 - multicast recieved by Peer 2 new clock value is 156
+00:07:40.764 - buy: 2, 2, salt
+00:07:40.764 - multicast recieved by Peer 4 new clock value is 152
+00:07:40.764 - multicast recieved by Peer 1 new clock value is 155
+00:07:40.764 - multicast recieved by Peer 3 new clock value is 151
+00:07:40.764 - start buy buyer:4, leader:2, item:salt
+00:07:40.764 - multicast recieved by Peer 0 new clock value is 156
+00:07:40.764 - start buy buyer:0, leader:2, item:fish
+00:07:40.764 - multicast recieved by Peer 3 new clock value is 152
+00:07:40.765 - multicast recieved by Peer 3 new clock value is 154
+00:07:40.765 - multicast recieved by Peer 2 new clock value is 159
+00:07:40.765 - start buy buyer:1, leader:2, item:salt
+00:07:40.766 - multicast recieved by Peer 4 new clock value is 153
+00:07:40.767 - buy: 3, 2, boar
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.767 - multicast recieved by Peer 2 new clock value is 161
+00:07:40.767 - multicast recieved by Peer 5 new clock value is 152
+00:07:40.768 - start buy buyer:2, leader:2, item:salt
+00:07:40.768 - multicast recieved by Peer 1 new clock value is 156
+00:07:40.769 - multicast recieved by Peer 4 new clock value is 154
+00:07:40.769 - multicast recieved by Peer 0 new clock value is 158
+00:07:40.769 - multicast recieved by Peer 0 new clock value is 159
+00:07:40.770 - multicast recieved by Peer 5 new clock value is 153
+00:07:40.770 - buy: 4, 2, salt
+00:07:40.770 - multicast recieved by Peer 0 new clock value is 161
+00:07:40.770 - multicast recieved by Peer 3 new clock value is 155
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.771 - start buy buyer:3, leader:2, item:boar
+00:07:40.771 - multicast recieved by Peer 2 new clock value is 164
+00:07:40.772 - multicast recieved by Peer 5 new clock value is 154
+00:07:40.772 - multicast recieved by Peer 1 new clock value is 158
+00:07:40.772 - multicast recieved by Peer 1 new clock value is 159
+00:07:40.772 - multicast recieved by Peer 0 new clock value is 163
+00:07:40.773 - buy: 0, 2, fish
+00:07:40.773 - multicast recieved by Peer 1 new clock value is 161
+00:07:40.773 - multicast recieved by Peer 4 new clock value is 155
+00:07:40.773 - multicast recieved by Peer 3 new clock value is 156
+00:07:40.773 - start buy buyer:4, leader:2, item:salt
+00:07:40.774 - multicast recieved by Peer 2 new clock value is 166
+00:07:40.774 - multicast recieved by Peer 1 new clock value is 163
+00:07:40.774 - multicast recieved by Peer 2 new clock value is 167
+00:07:40.774 - buy: 1, 2, salt
+00:07:40.774 - multicast recieved by Peer 0 new clock value is 164
+00:07:40.774 - multicast recieved by Peer 2 new clock value is 168
+00:07:40.775 - multicast recieved by Peer 5 new clock value is 155
+00:07:40.775 - multicast recieved by Peer 4 new clock value is 156
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.775 - start buy buyer:0, leader:2, item:fish
+00:07:40.775 - multicast recieved by Peer 3 new clock value is 158
+00:07:40.775 - multicast recieved by Peer 3 new clock value is 159
+00:07:40.776 - multicast recieved by Peer 2 new clock value is 170
+00:07:40.776 - multicast recieved by Peer 1 new clock value is 164
+00:07:40.776 - buy: 2, 2, salt
+00:07:40.776 - multicast recieved by Peer 3 new clock value is 161
+00:07:40.777 - multicast recieved by Peer 0 new clock value is 166
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.777 - start buy buyer:1, leader:2, item:salt
+00:07:40.777 - multicast recieved by Peer 4 new clock value is 159
+00:07:40.777 - multicast recieved by Peer 5 new clock value is 156
+00:07:40.778 - multicast recieved by Peer 4 new clock value is 160
+00:07:40.778 - multicast recieved by Peer 3 new clock value is 163
+00:07:40.778 - multicast recieved by Peer 2 new clock value is 172
+00:07:40.779 - buy: 3, 2, boar
+00:07:40.779 - multicast recieved by Peer 0 new clock value is 170
+00:07:40.779 - multicast recieved by Peer 4 new clock value is 161
+00:07:40.779 - multicast recieved by Peer 1 new clock value is 166
+00:07:40.779 - start buy buyer:2, leader:2, item:salt
+00:07:40.780 - buy: 4, 2, salt
+00:07:40.780 - multicast recieved by Peer 4 new clock value is 163
+00:07:40.780 - multicast recieved by Peer 5 new clock value is 159
+00:07:40.780 - multicast recieved by Peer 0 new clock value is 172
+00:07:40.780 - multicast recieved by Peer 3 new clock value is 164
+00:07:40.780 - multicast recieved by Peer 1 new clock value is 170
+00:07:40.780 - multicast recieved by Peer 5 new clock value is 160
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.780 - start buy buyer:3, leader:2, item:boar
+00:07:40.780 - multicast recieved by Peer 5 new clock value is 161
+00:07:40.781 - buy: 0, 2, fish
+00:07:40.781 - multicast recieved by Peer 2 new clock value is 175
+00:07:40.781 - multicast recieved by Peer 0 new clock value is 174
+00:07:40.781 - multicast recieved by Peer 4 new clock value is 164
+00:07:40.781 - multicast recieved by Peer 5 new clock value is 163
+00:07:40.781 - buy: 1, 2, salt
+00:07:40.781 - multicast recieved by Peer 3 new clock value is 166
+00:07:40.781 - multicast recieved by Peer 1 new clock value is 172
+Item salt unavailable for sale or out of stock
+00:07:40.781 - multicast recieved by Peer 2 new clock value is 176
+00:07:40.781 - start buy buyer:4, leader:2, item:salt
+00:07:40.782 - buy: 2, 2, salt
+00:07:40.782 - multicast recieved by Peer 0 new clock value is 175
+00:07:40.782 - start buy buyer:0, leader:2, item:fish
+00:07:40.782 - multicast recieved by Peer 3 new clock value is 170
+00:07:40.782 - buy: 3, 2, boar
+00:07:40.782 - multicast recieved by Peer 1 new clock value is 174
+00:07:40.782 - multicast recieved by Peer 5 new clock value is 164
+00:07:40.782 - multicast recieved by Peer 4 new clock value is 166
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.782 - start buy buyer:1, leader:2, item:salt
+00:07:40.783 - multicast recieved by Peer 2 new clock value is 180
+00:07:40.783 - buy: 4, 2, salt
+00:07:40.783 - multicast recieved by Peer 0 new clock value is 179
+00:07:40.783 - multicast recieved by Peer 4 new clock value is 170
+00:07:40.783 - multicast recieved by Peer 0 new clock value is 180
+00:07:40.783 - multicast recieved by Peer 3 new clock value is 172
+00:07:40.783 - multicast recieved by Peer 1 new clock value is 175
+Item salt unavailable for sale or out of stock
+00:07:40.783 - start buy buyer:2, leader:2, item:salt
+00:07:40.784 - multicast recieved by Peer 0 new clock value is 181
+00:07:40.784 - buy: 0, 2, fish
+00:07:40.784 - start buy buyer:3, leader:2, item:boar
+00:07:40.784 - multicast recieved by Peer 5 new clock value is 166
+00:07:40.784 - multicast recieved by Peer 1 new clock value is 179
+00:07:40.784 - buy: 1, 2, salt
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.784 - multicast recieved by Peer 2 new clock value is 183
+00:07:40.784 - multicast recieved by Peer 1 new clock value is 180
+00:07:40.784 - multicast recieved by Peer 3 new clock value is 174
+00:07:40.784 - multicast recieved by Peer 4 new clock value is 172
+00:07:40.784 - multicast recieved by Peer 5 new clock value is 170
+00:07:40.785 - buy: 2, 2, salt
+Item boar unavailable for sale or out of stock
+00:07:40.784 - start buy buyer:4, leader:2, item:salt
+00:07:40.785 - multicast recieved by Peer 1 new clock value is 181
+00:07:40.785 - multicast recieved by Peer 0 new clock value is 182
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.785 - multicast recieved by Peer 2 new clock value is 184
+00:07:40.785 - multicast recieved by Peer 0 new clock value is 183
+00:07:40.785 - multicast recieved by Peer 5 new clock value is 172
+00:07:40.786 - buy: 3, 2, boar
+00:07:40.786 - multicast recieved by Peer 4 new clock value is 174
+00:07:40.786 - multicast recieved by Peer 3 new clock value is 175
+00:07:40.785 - start buy buyer:0, leader:2, item:fish
+00:07:40.786 - multicast recieved by Peer 1 new clock value is 183
+00:07:40.786 - buy: 4, 2, salt
+00:07:40.786 - multicast recieved by Peer 0 new clock value is 186
+00:07:40.786 - multicast recieved by Peer 1 new clock value is 184
+00:07:40.786 - multicast recieved by Peer 3 new clock value is 179
+00:07:40.786 - multicast recieved by Peer 5 new clock value is 174
+00:07:40.786 - multicast recieved by Peer 4 new clock value is 175
+00:07:40.787 - buy: 0, 2, fish
+Item salt unavailable for sale or out of stock
+00:07:40.786 - start buy buyer:1, leader:2, item:salt
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.786 - multicast recieved by Peer 2 new clock value is 186
+00:07:40.787 - multicast recieved by Peer 3 new clock value is 180
+00:07:40.787 - buy: 1, 2, salt
+Item fish unavailable for sale or out of stock
+00:07:40.786 - multicast recieved by Peer 2 new clock value is 187
+00:07:40.787 - multicast recieved by Peer 0 new clock value is 189
+00:07:40.788 - multicast recieved by Peer 5 new clock value is 175
+00:07:40.788 - buy: 2, 2, salt
+00:07:40.788 - multicast recieved by Peer 1 new clock value is 186
+00:07:40.788 - multicast recieved by Peer 4 new clock value is 179
+00:07:40.788 - multicast recieved by Peer 0 new clock value is 190
+00:07:40.788 - buy: 3, 2, boar
+00:07:40.788 - multicast recieved by Peer 3 new clock value is 182
+00:07:40.788 - multicast recieved by Peer 4 new clock value is 180
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.787 - start buy buyer:2, leader:2, item:salt
+00:07:40.789 - multicast recieved by Peer 3 new clock value is 183
+Item salt unavailable for sale or out of stock
+00:07:40.787 - multicast recieved by Peer 2 new clock value is 190
+00:07:40.789 - multicast recieved by Peer 1 new clock value is 189
+00:07:40.789 - buy: 4, 2, salt
+00:07:40.789 - multicast recieved by Peer 3 new clock value is 184
+00:07:40.789 - multicast recieved by Peer 4 new clock value is 182
+00:07:40.789 - multicast recieved by Peer 1 new clock value is 190
+00:07:40.789 - multicast recieved by Peer 0 new clock value is 192
+00:07:40.789 - multicast recieved by Peer 5 new clock value is 179
+00:07:40.788 - start buy buyer:3, leader:2, item:boar
+00:07:40.790 - multicast recieved by Peer 5 new clock value is 180
+00:07:40.789 - multicast recieved by Peer 2 new clock value is 192
+00:07:40.790 - multicast recieved by Peer 1 new clock value is 192
+00:07:40.790 - multicast recieved by Peer 3 new clock value is 186
+00:07:40.790 - multicast recieved by Peer 4 new clock value is 183
+00:07:40.790 - multicast recieved by Peer 5 new clock value is 182
+00:07:40.789 - start buy buyer:4, leader:2, item:salt
+00:07:40.790 - multicast recieved by Peer 0 new clock value is 194
+00:07:40.791 - multicast recieved by Peer 5 new clock value is 183
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.791 - start buy buyer:0, leader:2, item:fish
+00:07:40.791 - multicast recieved by Peer 4 new clock value is 184
+00:07:40.791 - start buy buyer:2, leader:2, item:salt
+00:07:40.792 - start buy buyer:1, leader:2, item:salt
+00:07:40.792 - multicast recieved by Peer 4 new clock value is 186
+00:07:40.792 - multicast recieved by Peer 1 new clock value is 194
+00:07:40.792 - multicast recieved by Peer 3 new clock value is 192
+00:07:40.792 - multicast recieved by Peer 0 new clock value is 195
+Item salt unavailable for sale or out of stock
+00:07:40.792 - start buy buyer:3, leader:2, item:boar
+00:07:40.792 - multicast recieved by Peer 3 new clock value is 193
+00:07:40.792 - multicast recieved by Peer 2 new clock value is 199
+00:07:40.792 - multicast recieved by Peer 0 new clock value is 196
+00:07:40.793 - multicast recieved by Peer 4 new clock value is 192
+00:07:40.793 - multicast recieved by Peer 0 new clock value is 197
+00:07:40.793 - multicast recieved by Peer 2 new clock value is 200
+00:07:40.793 - multicast recieved by Peer 1 new clock value is 195
+00:07:40.793 - multicast recieved by Peer 4 new clock value is 193
+00:07:40.793 - multicast recieved by Peer 0 new clock value is 199
+00:07:40.793 - multicast recieved by Peer 5 new clock value is 186
+00:07:40.793 - multicast recieved by Peer 1 new clock value is 196
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.794 - multicast recieved by Peer 2 new clock value is 201
+00:07:40.794 - multicast recieved by Peer 0 new clock value is 200
+00:07:40.794 - multicast recieved by Peer 5 new clock value is 187
+00:07:40.794 - multicast recieved by Peer 5 new clock value is 192
+00:07:40.794 - multicast recieved by Peer 2 new clock value is 202
+00:07:40.794 - multicast recieved by Peer 1 new clock value is 197
+00:07:40.794 - multicast recieved by Peer 3 new clock value is 194
+00:07:40.794 - multicast recieved by Peer 1 new clock value is 199
+00:07:40.795 - multicast recieved by Peer 5 new clock value is 193
+00:07:40.795 - multicast recieved by Peer 3 new clock value is 195
+Item boar unavailable for sale or out of stock
+00:07:40.795 - multicast recieved by Peer 2 new clock value is 203
+00:07:40.795 - multicast recieved by Peer 1 new clock value is 200
+00:07:40.795 - multicast recieved by Peer 2 new clock value is 204
+00:07:40.795 - multicast recieved by Peer 4 new clock value is 194
+00:07:40.796 - multicast recieved by Peer 3 new clock value is 196
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.796 - multicast recieved by Peer 2 new clock value is 205
+00:07:40.796 - multicast recieved by Peer 4 new clock value is 195
+00:07:40.796 - multicast recieved by Peer 3 new clock value is 198
+00:07:40.796 - multicast recieved by Peer 5 new clock value is 194
+00:07:40.796 - multicast recieved by Peer 3 new clock value is 199
+Item salt unavailable for sale or out of stock
+00:07:40.796 - multicast recieved by Peer 2 new clock value is 206
+00:07:40.796 - multicast recieved by Peer 4 new clock value is 198
+00:07:40.796 - multicast recieved by Peer 3 new clock value is 200
+00:07:40.797 - multicast recieved by Peer 5 new clock value is 195
+00:07:40.797 - multicast recieved by Peer 4 new clock value is 199
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.797 - multicast recieved by Peer 2 new clock value is 207
+00:07:40.797 - multicast recieved by Peer 4 new clock value is 200
+00:07:40.797 - multicast recieved by Peer 5 new clock value is 198
+00:07:40.797 - multicast recieved by Peer 4 new clock value is 201
+00:07:40.797 - multicast recieved by Peer 5 new clock value is 199
+00:07:40.798 - multicast recieved by Peer 5 new clock value is 200
+00:07:40.798 - multicast recieved by Peer 5 new clock value is 201
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Election status successfully updated to 1.
+00:07:40.798 - ============leader is falling sick =======================
+00:07:40.800 - sending ok reply to sender 0 from peer 1
+00:07:40.801 - setting is_leader to false for 0
+00:07:40.893 - waiting for election to complete...
+0 is starting the election
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Item boar unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.893 - multicast recieved by Peer 2 new clock value is 208
+00:07:40.896 - start buy buyer:4, leader:2, item:salt
+00:07:40.897 - multicast recieved by Peer 3 new clock value is 201
+00:07:40.898 - multicast recieved by Peer 4 new clock value is 202
+00:07:40.899 - multicast recieved by Peer 0 new clock value is 210
+00:07:40.903 - multicast recieved by Peer 1 new clock value is 210
+00:07:40.903 - multicast recieved by Peer 5 new clock value is 202
+Item fish unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+00:07:40.904 - multicast recieved by Peer 2 new clock value is 210
+00:07:40.906 - multicast recieved by Peer 3 new clock value is 210
+00:07:40.907 - multicast recieved by Peer 4 new clock value is 210
+00:07:40.908 - multicast recieved by Peer 5 new clock value is 210
+00:07:43.809 - Shutting down peers...
+00:07:43.809 - All peers shut down.

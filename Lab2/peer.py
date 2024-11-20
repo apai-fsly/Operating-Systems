@@ -284,7 +284,7 @@ class Peer:
                 print(f"IOError: Could not update the file. {e}")
         
         chance = rand.random()
-        if chance < .004:
+        if chance < .04:
             if not self.election_inprogress:
                 self.election_inprogress = True
         
@@ -346,7 +346,7 @@ class Peer:
         # randomly make it possible for the leader to fall_sick 
         chance = rand.random()
         if chance < 1 or retry:
-            print("============leader is falling sick =======================")
+            logging.info("============leader is falling sick =======================")
 
             election_peer = Peer.peers_by_id.get(0)
             if election_peer.alive and election_peer.peer_id != self.peer_id:

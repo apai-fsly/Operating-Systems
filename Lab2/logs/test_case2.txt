@@ -1,0 +1,1362 @@
+Current working directory: /Users/ashwinpai/src/ash/Operating-Systems/Lab2
+23:56:26.216 - Running Test Case 2
+23:56:26.221 - Peer 0 listening on 127.0.0.1:5000
+23:56:26.222 - Peer 1 listening on 127.0.0.1:5001
+23:56:26.222 - Peer 2 listening on 127.0.0.1:5002
+23:56:26.223 - Peer 3 listening on 127.0.0.1:5003
+23:56:26.225 - Peer 4 listening on 127.0.0.1:5004
+23:56:27.235 - sending ok reply to sender 0 from peer 1
+23:56:27.235 - sending ok reply to sender 0 from peer 2
+23:56:27.236 - sending ok reply to sender 0 from peer 3
+23:56:27.236 - setting is_leader to false for 0
+23:56:27.237 - setting is_leader to false for 0
+23:56:27.237 - sending ok reply to sender 0 from peer 4
+23:56:27.237 - setting is_leader to false for 0
+23:56:27.238 - setting is_leader to false for 0
+23:56:27.242 - sending ok reply to sender 1 from peer 2
+23:56:27.243 - sending ok reply to sender 1 from peer 3
+23:56:27.243 - sending ok reply to sender 2 from peer 3
+23:56:27.244 - sending ok reply to sender 3 from peer 4
+23:56:27.245 - setting is_leader to false for 1
+23:56:27.245 - sending ok reply to sender 1 from peer 4
+23:56:27.245 - setting is_leader to false for 1
+23:56:27.245 - setting is_leader to false for 2
+23:56:27.245 - sending ok reply to sender 2 from peer 4
+23:56:27.246 - setting is_leader to false for 3
+23:56:27.246 - setting is_leader to false for 1
+23:56:27.246 - setting is_leader to false for 2
+23:56:27.249 - sending ok reply to sender 2 from peer 3
+23:56:27.250 - sending ok reply to sender 2 from peer 4
+23:56:27.251 - setting is_leader to false for 2
+23:56:27.251 - sending ok reply to sender 3 from peer 4
+23:56:27.251 - sending ok reply to sender 3 from peer 4
+23:56:27.251 - setting is_leader to false for 2
+23:56:27.252 - setting is_leader to false for 3
+23:56:27.252 - setting is_leader to false for 3
+23:56:27.253 - sending ok reply to sender 3 from peer 4
+23:56:27.254 - setting is_leader to false for 3
+23:56:32.249 - New leader elected: 4
+23:56:32.255 - requesting seller list from the leader
+23:56:32.256 - requesting seller list from the leader
+23:56:32.256 - requesting seller list from the leader
+23:56:32.257 - Seller Peer 1 is selling product: salt, stock: 100
+23:56:32.257 - requesting seller list from the leader
+23:56:32.258 - Seller Peer 2 is selling product: boar, stock: 100
+23:56:32.267 - requesting seller list from the leader
+23:56:32.268 - Seller Peer 3 is selling product: fish, stock: 100
+Peer [{'leader_id': 4, 'election_in_progress': 0}] has been elected as the new leader!
+23:56:37.289 - start buy buyer:0, leader:4, item:salt
+23:56:37.294 - multicast recieved by Peer 0 new clock value is 2
+23:56:37.295 - multicast recieved by Peer 1 new clock value is 2
+23:56:37.296 - multicast recieved by Peer 2 new clock value is 2
+23:56:37.298 - multicast recieved by Peer 3 new clock value is 2
+23:56:37.299 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.300 - multicast recieved by Peer 4 new clock value is 2
+23:56:37.302 - Seller 1 sold a product and received cash 1$, total cash accumulated: 1$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.344 - start buy buyer:0, leader:4, item:salt
+23:56:37.348 - multicast recieved by Peer 1 new clock value is 4
+23:56:37.347 - multicast recieved by Peer 0 new clock value is 4
+23:56:37.349 - multicast recieved by Peer 2 new clock value is 4
+23:56:37.352 - multicast recieved by Peer 3 new clock value is 4
+23:56:37.354 - multicast recieved by Peer 4 new clock value is 4
+23:56:37.355 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.356 - Seller 1 sold a product and received cash 1$, total cash accumulated: 2$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.402 - start buy buyer:0, leader:4, item:salt
+23:56:37.404 - multicast recieved by Peer 0 new clock value is 6
+23:56:37.404 - multicast recieved by Peer 1 new clock value is 6
+23:56:37.405 - multicast recieved by Peer 2 new clock value is 6
+23:56:37.406 - multicast recieved by Peer 3 new clock value is 6
+23:56:37.407 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.408 - multicast recieved by Peer 4 new clock value is 6
+23:56:37.412 - Seller 1 sold a product and received cash 1$, total cash accumulated: 3$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.460 - start buy buyer:0, leader:4, item:salt
+23:56:37.463 - multicast recieved by Peer 0 new clock value is 8
+23:56:37.466 - multicast recieved by Peer 1 new clock value is 8
+23:56:37.467 - multicast recieved by Peer 2 new clock value is 8
+23:56:37.468 - multicast recieved by Peer 3 new clock value is 8
+23:56:37.471 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.474 - multicast recieved by Peer 4 new clock value is 8
+23:56:37.476 - Seller 1 sold a product and received cash 1$, total cash accumulated: 4$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.518 - start buy buyer:0, leader:4, item:salt
+23:56:37.521 - multicast recieved by Peer 0 new clock value is 10
+23:56:37.524 - multicast recieved by Peer 1 new clock value is 10
+23:56:37.526 - multicast recieved by Peer 2 new clock value is 10
+23:56:37.528 - multicast recieved by Peer 3 new clock value is 10
+23:56:37.529 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.531 - multicast recieved by Peer 4 new clock value is 10
+23:56:37.534 - Seller 1 sold a product and received cash 1$, total cash accumulated: 5$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.575 - start buy buyer:0, leader:4, item:salt
+23:56:37.578 - multicast recieved by Peer 0 new clock value is 12
+23:56:37.580 - multicast recieved by Peer 1 new clock value is 12
+23:56:37.583 - multicast recieved by Peer 2 new clock value is 12
+23:56:37.584 - multicast recieved by Peer 3 new clock value is 12
+23:56:37.585 - multicast recieved by Peer 4 new clock value is 12
+23:56:37.589 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.593 - Seller 1 sold a product and received cash 1$, total cash accumulated: 6$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.633 - start buy buyer:0, leader:4, item:salt
+23:56:37.637 - multicast recieved by Peer 0 new clock value is 14
+23:56:37.638 - multicast recieved by Peer 1 new clock value is 14
+23:56:37.641 - multicast recieved by Peer 2 new clock value is 14
+23:56:37.643 - multicast recieved by Peer 3 new clock value is 14
+23:56:37.644 - multicast recieved by Peer 4 new clock value is 14
+23:56:37.645 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.649 - Seller 1 sold a product and received cash 1$, total cash accumulated: 7$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.689 - start buy buyer:0, leader:4, item:salt
+23:56:37.691 - multicast recieved by Peer 0 new clock value is 16
+23:56:37.693 - multicast recieved by Peer 1 new clock value is 16
+23:56:37.694 - multicast recieved by Peer 2 new clock value is 16
+23:56:37.694 - multicast recieved by Peer 3 new clock value is 16
+23:56:37.695 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.696 - multicast recieved by Peer 4 new clock value is 16
+23:56:37.697 - Seller 1 sold a product and received cash 1$, total cash accumulated: 8$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.745 - start buy buyer:0, leader:4, item:salt
+23:56:37.746 - multicast recieved by Peer 0 new clock value is 18
+23:56:37.747 - multicast recieved by Peer 1 new clock value is 18
+23:56:37.748 - multicast recieved by Peer 2 new clock value is 18
+23:56:37.749 - multicast recieved by Peer 3 new clock value is 18
+23:56:37.749 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.750 - multicast recieved by Peer 4 new clock value is 18
+23:56:37.751 - Seller 1 sold a product and received cash 1$, total cash accumulated: 9$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.797 - start buy buyer:0, leader:4, item:salt
+23:56:37.798 - multicast recieved by Peer 0 new clock value is 20
+23:56:37.799 - multicast recieved by Peer 1 new clock value is 20
+23:56:37.799 - multicast recieved by Peer 2 new clock value is 20
+23:56:37.800 - multicast recieved by Peer 3 new clock value is 20
+23:56:37.801 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.802 - multicast recieved by Peer 4 new clock value is 20
+23:56:37.803 - Seller 1 sold a product and received cash 1$, total cash accumulated: 10$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.852 - start buy buyer:0, leader:4, item:salt
+23:56:37.854 - multicast recieved by Peer 0 new clock value is 22
+23:56:37.855 - multicast recieved by Peer 1 new clock value is 22
+23:56:37.855 - multicast recieved by Peer 2 new clock value is 22
+23:56:37.856 - multicast recieved by Peer 3 new clock value is 22
+23:56:37.856 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.857 - multicast recieved by Peer 4 new clock value is 22
+23:56:37.858 - Seller 1 sold a product and received cash 1$, total cash accumulated: 11$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.907 - start buy buyer:0, leader:4, item:salt
+23:56:37.909 - multicast recieved by Peer 0 new clock value is 24
+23:56:37.910 - multicast recieved by Peer 1 new clock value is 24
+23:56:37.912 - multicast recieved by Peer 3 new clock value is 24
+23:56:37.914 - multicast recieved by Peer 2 new clock value is 24
+23:56:37.915 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.916 - multicast recieved by Peer 4 new clock value is 24
+23:56:37.918 - Seller 1 sold a product and received cash 1$, total cash accumulated: 12$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:37.962 - start buy buyer:0, leader:4, item:salt
+23:56:37.965 - multicast recieved by Peer 0 new clock value is 26
+23:56:37.967 - multicast recieved by Peer 1 new clock value is 26
+23:56:37.969 - multicast recieved by Peer 3 new clock value is 26
+23:56:37.968 - multicast recieved by Peer 2 new clock value is 26
+23:56:37.972 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:37.973 - multicast recieved by Peer 4 new clock value is 26
+23:56:37.974 - Seller 1 sold a product and received cash 1$, total cash accumulated: 13$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.018 - start buy buyer:0, leader:4, item:salt
+23:56:38.020 - multicast recieved by Peer 0 new clock value is 28
+23:56:38.021 - multicast recieved by Peer 1 new clock value is 28
+23:56:38.023 - multicast recieved by Peer 3 new clock value is 28
+23:56:38.022 - multicast recieved by Peer 2 new clock value is 28
+23:56:38.024 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.025 - multicast recieved by Peer 4 new clock value is 28
+23:56:38.026 - Seller 1 sold a product and received cash 1$, total cash accumulated: 14$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.076 - start buy buyer:0, leader:4, item:salt
+23:56:38.078 - multicast recieved by Peer 0 new clock value is 30
+23:56:38.080 - multicast recieved by Peer 1 new clock value is 30
+23:56:38.081 - multicast recieved by Peer 2 new clock value is 30
+23:56:38.082 - multicast recieved by Peer 3 new clock value is 30
+23:56:38.083 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.083 - multicast recieved by Peer 4 new clock value is 30
+23:56:38.086 - Seller 1 sold a product and received cash 1$, total cash accumulated: 15$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.128 - start buy buyer:0, leader:4, item:salt
+23:56:38.131 - multicast recieved by Peer 0 new clock value is 32
+23:56:38.135 - multicast recieved by Peer 1 new clock value is 32
+23:56:38.136 - multicast recieved by Peer 2 new clock value is 32
+23:56:38.137 - multicast recieved by Peer 3 new clock value is 32
+23:56:38.138 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.139 - multicast recieved by Peer 4 new clock value is 32
+23:56:38.143 - Seller 1 sold a product and received cash 1$, total cash accumulated: 16$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.186 - start buy buyer:0, leader:4, item:salt
+23:56:38.191 - multicast recieved by Peer 1 new clock value is 34
+23:56:38.191 - multicast recieved by Peer 0 new clock value is 34
+23:56:38.193 - multicast recieved by Peer 2 new clock value is 34
+23:56:38.198 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.196 - multicast recieved by Peer 3 new clock value is 34
+23:56:38.202 - Seller 1 sold a product and received cash 1$, total cash accumulated: 17$
+23:56:38.202 - multicast recieved by Peer 4 new clock value is 34
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.244 - start buy buyer:0, leader:4, item:salt
+23:56:38.248 - multicast recieved by Peer 0 new clock value is 36
+23:56:38.248 - multicast recieved by Peer 1 new clock value is 36
+23:56:38.249 - multicast recieved by Peer 2 new clock value is 36
+23:56:38.251 - multicast recieved by Peer 3 new clock value is 36
+23:56:38.252 - multicast recieved by Peer 4 new clock value is 36
+23:56:38.254 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.256 - Seller 1 sold a product and received cash 1$, total cash accumulated: 18$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.302 - start buy buyer:0, leader:4, item:salt
+23:56:38.305 - multicast recieved by Peer 0 new clock value is 38
+23:56:38.308 - multicast recieved by Peer 1 new clock value is 38
+23:56:38.308 - multicast recieved by Peer 2 new clock value is 38
+23:56:38.314 - multicast recieved by Peer 3 new clock value is 38
+23:56:38.315 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.316 - multicast recieved by Peer 4 new clock value is 38
+23:56:38.318 - Seller 1 sold a product and received cash 1$, total cash accumulated: 19$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.356 - start buy buyer:0, leader:4, item:salt
+23:56:38.361 - multicast recieved by Peer 0 new clock value is 40
+23:56:38.363 - multicast recieved by Peer 1 new clock value is 40
+23:56:38.364 - multicast recieved by Peer 2 new clock value is 40
+23:56:38.367 - multicast recieved by Peer 3 new clock value is 40
+23:56:38.368 - multicast recieved by Peer 4 new clock value is 40
+23:56:38.369 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.374 - Seller 1 sold a product and received cash 1$, total cash accumulated: 20$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.413 - start buy buyer:0, leader:4, item:salt
+23:56:38.421 - multicast recieved by Peer 0 new clock value is 42
+23:56:38.424 - multicast recieved by Peer 1 new clock value is 42
+23:56:38.425 - multicast recieved by Peer 2 new clock value is 42
+23:56:38.425 - multicast recieved by Peer 3 new clock value is 42
+23:56:38.426 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.431 - multicast recieved by Peer 4 new clock value is 42
+23:56:38.439 - Seller 1 sold a product and received cash 1$, total cash accumulated: 21$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.465 - start buy buyer:0, leader:4, item:salt
+23:56:38.469 - multicast recieved by Peer 0 new clock value is 44
+23:56:38.474 - multicast recieved by Peer 1 new clock value is 44
+23:56:38.476 - multicast recieved by Peer 2 new clock value is 44
+23:56:38.482 - multicast recieved by Peer 3 new clock value is 44
+23:56:38.483 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.485 - multicast recieved by Peer 4 new clock value is 44
+23:56:38.487 - Seller 1 sold a product and received cash 1$, total cash accumulated: 22$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.522 - start buy buyer:0, leader:4, item:salt
+23:56:38.523 - multicast recieved by Peer 0 new clock value is 46
+23:56:38.524 - multicast recieved by Peer 1 new clock value is 46
+23:56:38.524 - multicast recieved by Peer 2 new clock value is 46
+23:56:38.525 - multicast recieved by Peer 3 new clock value is 46
+23:56:38.525 - multicast recieved by Peer 4 new clock value is 46
+23:56:38.528 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.531 - Seller 1 sold a product and received cash 1$, total cash accumulated: 23$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.578 - start buy buyer:0, leader:4, item:salt
+23:56:38.582 - multicast recieved by Peer 0 new clock value is 48
+23:56:38.583 - multicast recieved by Peer 1 new clock value is 48
+23:56:38.586 - multicast recieved by Peer 2 new clock value is 48
+23:56:38.588 - multicast recieved by Peer 3 new clock value is 48
+23:56:38.589 - multicast recieved by Peer 4 new clock value is 48
+23:56:38.590 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.595 - Seller 1 sold a product and received cash 1$, total cash accumulated: 24$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.634 - start buy buyer:0, leader:4, item:salt
+23:56:38.637 - multicast recieved by Peer 0 new clock value is 50
+23:56:38.641 - multicast recieved by Peer 1 new clock value is 50
+23:56:38.646 - multicast recieved by Peer 3 new clock value is 50
+23:56:38.646 - multicast recieved by Peer 2 new clock value is 50
+23:56:38.649 - multicast recieved by Peer 4 new clock value is 50
+23:56:38.651 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.654 - Seller 1 sold a product and received cash 1$, total cash accumulated: 25$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.687 - start buy buyer:0, leader:4, item:salt
+23:56:38.692 - multicast recieved by Peer 1 new clock value is 52
+23:56:38.690 - multicast recieved by Peer 0 new clock value is 52
+23:56:38.695 - multicast recieved by Peer 2 new clock value is 52
+23:56:38.696 - multicast recieved by Peer 3 new clock value is 52
+23:56:38.698 - multicast recieved by Peer 4 new clock value is 52
+23:56:38.699 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.702 - Seller 1 sold a product and received cash 1$, total cash accumulated: 26$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.743 - start buy buyer:0, leader:4, item:salt
+23:56:38.746 - multicast recieved by Peer 0 new clock value is 54
+23:56:38.748 - multicast recieved by Peer 1 new clock value is 54
+23:56:38.750 - multicast recieved by Peer 2 new clock value is 54
+23:56:38.752 - multicast recieved by Peer 4 new clock value is 54
+23:56:38.751 - multicast recieved by Peer 3 new clock value is 54
+23:56:38.754 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.757 - Seller 1 sold a product and received cash 1$, total cash accumulated: 27$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.797 - start buy buyer:0, leader:4, item:salt
+23:56:38.800 - multicast recieved by Peer 0 new clock value is 56
+23:56:38.803 - multicast recieved by Peer 1 new clock value is 56
+23:56:38.805 - multicast recieved by Peer 2 new clock value is 56
+23:56:38.806 - multicast recieved by Peer 3 new clock value is 56
+23:56:38.807 - multicast recieved by Peer 4 new clock value is 56
+23:56:38.808 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.814 - Seller 1 sold a product and received cash 1$, total cash accumulated: 28$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.855 - start buy buyer:0, leader:4, item:salt
+23:56:38.858 - multicast recieved by Peer 0 new clock value is 58
+23:56:38.859 - multicast recieved by Peer 1 new clock value is 58
+23:56:38.860 - multicast recieved by Peer 2 new clock value is 58
+23:56:38.862 - multicast recieved by Peer 3 new clock value is 58
+23:56:38.863 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.866 - multicast recieved by Peer 4 new clock value is 58
+23:56:38.868 - Seller 1 sold a product and received cash 1$, total cash accumulated: 29$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.914 - start buy buyer:0, leader:4, item:salt
+23:56:38.916 - multicast recieved by Peer 0 new clock value is 60
+23:56:38.918 - multicast recieved by Peer 2 new clock value is 60
+23:56:38.917 - multicast recieved by Peer 1 new clock value is 60
+23:56:38.922 - multicast recieved by Peer 3 new clock value is 60
+23:56:38.924 - multicast recieved by Peer 4 new clock value is 60
+23:56:38.925 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.928 - Seller 1 sold a product and received cash 1$, total cash accumulated: 30$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:38.971 - start buy buyer:0, leader:4, item:salt
+23:56:38.974 - multicast recieved by Peer 0 new clock value is 62
+23:56:38.975 - multicast recieved by Peer 1 new clock value is 62
+23:56:38.977 - multicast recieved by Peer 2 new clock value is 62
+23:56:38.977 - multicast recieved by Peer 3 new clock value is 62
+23:56:38.979 - multicast recieved by Peer 4 new clock value is 62
+23:56:38.980 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:38.982 - Seller 1 sold a product and received cash 1$, total cash accumulated: 31$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.027 - start buy buyer:0, leader:4, item:salt
+23:56:39.032 - multicast recieved by Peer 0 new clock value is 64
+23:56:39.034 - multicast recieved by Peer 2 new clock value is 64
+23:56:39.033 - multicast recieved by Peer 1 new clock value is 64
+23:56:39.035 - multicast recieved by Peer 3 new clock value is 64
+23:56:39.037 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.038 - multicast recieved by Peer 4 new clock value is 64
+23:56:39.041 - Seller 1 sold a product and received cash 1$, total cash accumulated: 32$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.082 - start buy buyer:0, leader:4, item:salt
+23:56:39.085 - multicast recieved by Peer 1 new clock value is 66
+23:56:39.085 - multicast recieved by Peer 0 new clock value is 66
+23:56:39.088 - multicast recieved by Peer 2 new clock value is 66
+23:56:39.090 - multicast recieved by Peer 3 new clock value is 66
+23:56:39.090 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.091 - multicast recieved by Peer 4 new clock value is 66
+23:56:39.094 - Seller 1 sold a product and received cash 1$, total cash accumulated: 33$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.140 - start buy buyer:0, leader:4, item:salt
+23:56:39.142 - multicast recieved by Peer 0 new clock value is 68
+23:56:39.143 - multicast recieved by Peer 1 new clock value is 68
+23:56:39.145 - multicast recieved by Peer 2 new clock value is 68
+23:56:39.148 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.147 - multicast recieved by Peer 3 new clock value is 68
+23:56:39.150 - multicast recieved by Peer 4 new clock value is 68
+23:56:39.152 - Seller 1 sold a product and received cash 1$, total cash accumulated: 34$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.197 - start buy buyer:0, leader:4, item:salt
+23:56:39.200 - multicast recieved by Peer 0 new clock value is 70
+23:56:39.202 - multicast recieved by Peer 1 new clock value is 70
+23:56:39.203 - multicast recieved by Peer 2 new clock value is 70
+23:56:39.204 - multicast recieved by Peer 3 new clock value is 70
+23:56:39.205 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.206 - multicast recieved by Peer 4 new clock value is 70
+23:56:39.208 - Seller 1 sold a product and received cash 1$, total cash accumulated: 35$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.254 - start buy buyer:0, leader:4, item:salt
+23:56:39.257 - multicast recieved by Peer 0 new clock value is 72
+23:56:39.259 - multicast recieved by Peer 1 new clock value is 72
+23:56:39.262 - multicast recieved by Peer 2 new clock value is 72
+23:56:39.263 - multicast recieved by Peer 3 new clock value is 72
+23:56:39.264 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.265 - multicast recieved by Peer 4 new clock value is 72
+23:56:39.269 - Seller 1 sold a product and received cash 1$, total cash accumulated: 36$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.312 - start buy buyer:0, leader:4, item:salt
+23:56:39.315 - multicast recieved by Peer 0 new clock value is 74
+23:56:39.317 - multicast recieved by Peer 1 new clock value is 74
+23:56:39.318 - multicast recieved by Peer 2 new clock value is 74
+23:56:39.320 - multicast recieved by Peer 3 new clock value is 74
+23:56:39.321 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.321 - multicast recieved by Peer 4 new clock value is 74
+23:56:39.323 - Seller 1 sold a product and received cash 1$, total cash accumulated: 37$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.364 - start buy buyer:0, leader:4, item:salt
+23:56:39.366 - multicast recieved by Peer 0 new clock value is 76
+23:56:39.366 - multicast recieved by Peer 1 new clock value is 76
+23:56:39.368 - multicast recieved by Peer 2 new clock value is 76
+23:56:39.369 - multicast recieved by Peer 3 new clock value is 76
+23:56:39.369 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.371 - multicast recieved by Peer 4 new clock value is 76
+23:56:39.372 - Seller 1 sold a product and received cash 1$, total cash accumulated: 38$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.417 - start buy buyer:0, leader:4, item:salt
+23:56:39.420 - multicast recieved by Peer 0 new clock value is 78
+23:56:39.424 - multicast recieved by Peer 1 new clock value is 78
+23:56:39.426 - multicast recieved by Peer 2 new clock value is 78
+23:56:39.427 - multicast recieved by Peer 3 new clock value is 78
+23:56:39.427 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.428 - multicast recieved by Peer 4 new clock value is 78
+23:56:39.429 - Seller 1 sold a product and received cash 1$, total cash accumulated: 39$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.475 - start buy buyer:0, leader:4, item:salt
+23:56:39.477 - multicast recieved by Peer 0 new clock value is 80
+23:56:39.478 - multicast recieved by Peer 1 new clock value is 80
+23:56:39.480 - multicast recieved by Peer 2 new clock value is 80
+23:56:39.482 - multicast recieved by Peer 3 new clock value is 80
+23:56:39.483 - multicast recieved by Peer 4 new clock value is 80
+23:56:39.484 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.485 - Seller 1 sold a product and received cash 1$, total cash accumulated: 40$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.534 - start buy buyer:0, leader:4, item:salt
+23:56:39.537 - multicast recieved by Peer 0 new clock value is 82
+23:56:39.538 - multicast recieved by Peer 1 new clock value is 82
+23:56:39.540 - multicast recieved by Peer 2 new clock value is 82
+23:56:39.543 - multicast recieved by Peer 3 new clock value is 82
+23:56:39.544 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.544 - multicast recieved by Peer 4 new clock value is 82
+23:56:39.546 - Seller 1 sold a product and received cash 1$, total cash accumulated: 41$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.588 - start buy buyer:0, leader:4, item:salt
+23:56:39.591 - multicast recieved by Peer 0 new clock value is 84
+23:56:39.595 - multicast recieved by Peer 1 new clock value is 84
+23:56:39.597 - multicast recieved by Peer 2 new clock value is 84
+23:56:39.598 - multicast recieved by Peer 3 new clock value is 84
+23:56:39.601 - multicast recieved by Peer 4 new clock value is 84
+23:56:39.603 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.607 - Seller 1 sold a product and received cash 1$, total cash accumulated: 42$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.643 - start buy buyer:0, leader:4, item:salt
+23:56:39.645 - multicast recieved by Peer 0 new clock value is 86
+23:56:39.647 - multicast recieved by Peer 1 new clock value is 86
+23:56:39.648 - multicast recieved by Peer 2 new clock value is 86
+23:56:39.649 - multicast recieved by Peer 3 new clock value is 86
+23:56:39.651 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.657 - multicast recieved by Peer 4 new clock value is 86
+23:56:39.657 - Seller 1 sold a product and received cash 1$, total cash accumulated: 43$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.700 - start buy buyer:0, leader:4, item:salt
+23:56:39.705 - multicast recieved by Peer 1 new clock value is 88
+23:56:39.704 - multicast recieved by Peer 0 new clock value is 88
+23:56:39.707 - multicast recieved by Peer 2 new clock value is 88
+23:56:39.709 - multicast recieved by Peer 3 new clock value is 88
+23:56:39.710 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.711 - multicast recieved by Peer 4 new clock value is 88
+23:56:39.715 - Seller 1 sold a product and received cash 1$, total cash accumulated: 44$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:39.758 - start buy buyer:0, leader:4, item:salt
+23:56:39.761 - multicast recieved by Peer 0 new clock value is 90
+23:56:39.763 - multicast recieved by Peer 1 new clock value is 90
+23:56:39.764 - multicast recieved by Peer 2 new clock value is 90
+23:56:39.766 - multicast recieved by Peer 3 new clock value is 90
+23:56:39.766 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.768 - multicast recieved by Peer 4 new clock value is 90
+23:56:39.772 - Seller 1 sold a product and received cash 1$, total cash accumulated: 45$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Election status successfully updated to 1.
+23:56:39.775 - ============leader is falling sick =======================
+23:56:39.787 - sending ok reply to sender 0 from peer 2
+23:56:39.786 - sending ok reply to sender 0 from peer 1
+23:56:39.791 - sending ok reply to sender 0 from peer 3
+23:56:39.795 - setting is_leader to false for 0
+23:56:39.798 - setting is_leader to false for 0
+23:56:39.800 - setting is_leader to false for 0
+23:56:39.806 - sending ok reply to sender 1 from peer 2
+23:56:39.807 - sending ok reply to sender 2 from peer 3
+23:56:39.808 - sending ok reply to sender 1 from peer 3
+23:56:39.808 - setting is_leader to false for 1
+23:56:39.809 - setting is_leader to false for 2
+23:56:39.810 - setting is_leader to false for 1
+0 is starting the election
+23:56:39.813 - start buy buyer:0, leader:4, item:salt
+23:56:39.815 - sending ok reply to sender 2 from peer 3
+23:56:39.815 - multicast recieved by Peer 0 new clock value is 92
+23:56:39.816 - multicast recieved by Peer 1 new clock value is 92
+23:56:39.816 - multicast recieved by Peer 2 new clock value is 92
+23:56:39.817 - multicast recieved by Peer 3 new clock value is 92
+23:56:39.817 - setting is_leader to false for 2
+23:56:39.818 - multicast recieved by Peer 4 new clock value is 92
+23:56:39.818 - Purchase successful: Buyer 0 bought 1 of salt from Leader 4.
+23:56:39.820 - Seller 1 sold a product and received cash 1$, total cash accumulated: 46$
+23:56:44.814 - New leader elected: 3
+23:56:44.822 - requesting seller list from the leader
+23:56:44.823 - requesting seller list from the leader
+23:56:44.824 - requesting seller list from the leader
+23:56:44.825 - requesting seller list from the leader
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:44.827 - requesting seller list from the leader
+Peer [{'leader_id': 3, 'election_in_progress': 0}] has been elected as the new leader!
+23:56:44.828 - Seller Peer 1 is selling product: salt, stock: 54
+23:56:44.842 - Seller Peer 2 is selling product: boar, stock: 100
+23:56:44.894 - start buy buyer:0, leader:3, item:salt
+23:56:44.897 - multicast recieved by Peer 0 new clock value is 94
+23:56:44.898 - multicast recieved by Peer 1 new clock value is 94
+23:56:44.900 - multicast recieved by Peer 3 new clock value is 94
+23:56:44.900 - multicast recieved by Peer 2 new clock value is 94
+23:56:44.903 - multicast recieved by Peer 4 new clock value is 94
+23:56:44.903 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:44.906 - Seller 1 sold a product and received cash 1$, total cash accumulated: 47$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:44.949 - start buy buyer:0, leader:3, item:salt
+23:56:44.952 - multicast recieved by Peer 0 new clock value is 96
+23:56:44.955 - multicast recieved by Peer 1 new clock value is 96
+23:56:44.958 - multicast recieved by Peer 2 new clock value is 96
+23:56:44.959 - multicast recieved by Peer 3 new clock value is 96
+23:56:44.961 - multicast recieved by Peer 4 new clock value is 96
+23:56:44.961 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:44.964 - Seller 1 sold a product and received cash 1$, total cash accumulated: 48$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.003 - start buy buyer:0, leader:3, item:salt
+23:56:45.007 - multicast recieved by Peer 0 new clock value is 98
+23:56:45.008 - multicast recieved by Peer 1 new clock value is 98
+23:56:45.009 - multicast recieved by Peer 2 new clock value is 98
+23:56:45.014 - multicast recieved by Peer 3 new clock value is 98
+23:56:45.016 - multicast recieved by Peer 4 new clock value is 98
+23:56:45.016 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.020 - Seller 1 sold a product and received cash 1$, total cash accumulated: 49$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.057 - start buy buyer:0, leader:3, item:salt
+23:56:45.060 - multicast recieved by Peer 0 new clock value is 100
+23:56:45.062 - multicast recieved by Peer 1 new clock value is 100
+23:56:45.062 - multicast recieved by Peer 2 new clock value is 100
+23:56:45.066 - multicast recieved by Peer 3 new clock value is 100
+23:56:45.075 - multicast recieved by Peer 4 new clock value is 100
+23:56:45.076 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.082 - Seller 1 sold a product and received cash 1$, total cash accumulated: 50$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.113 - start buy buyer:0, leader:3, item:salt
+23:56:45.115 - multicast recieved by Peer 0 new clock value is 102
+23:56:45.116 - multicast recieved by Peer 1 new clock value is 102
+23:56:45.117 - multicast recieved by Peer 2 new clock value is 102
+23:56:45.118 - multicast recieved by Peer 3 new clock value is 102
+23:56:45.119 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.119 - multicast recieved by Peer 4 new clock value is 102
+23:56:45.121 - Seller 1 sold a product and received cash 1$, total cash accumulated: 51$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.168 - start buy buyer:0, leader:3, item:salt
+23:56:45.171 - multicast recieved by Peer 0 new clock value is 104
+23:56:45.173 - multicast recieved by Peer 1 new clock value is 104
+23:56:45.174 - multicast recieved by Peer 2 new clock value is 104
+23:56:45.176 - multicast recieved by Peer 3 new clock value is 104
+23:56:45.177 - multicast recieved by Peer 4 new clock value is 104
+23:56:45.177 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.180 - Seller 1 sold a product and received cash 1$, total cash accumulated: 52$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.222 - start buy buyer:0, leader:3, item:salt
+23:56:45.225 - multicast recieved by Peer 0 new clock value is 106
+23:56:45.226 - multicast recieved by Peer 1 new clock value is 106
+23:56:45.228 - multicast recieved by Peer 2 new clock value is 106
+23:56:45.229 - multicast recieved by Peer 3 new clock value is 106
+23:56:45.231 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.231 - multicast recieved by Peer 4 new clock value is 106
+23:56:45.236 - Seller 1 sold a product and received cash 1$, total cash accumulated: 53$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.282 - start buy buyer:0, leader:3, item:salt
+23:56:45.285 - multicast recieved by Peer 0 new clock value is 108
+23:56:45.286 - multicast recieved by Peer 1 new clock value is 108
+23:56:45.288 - multicast recieved by Peer 2 new clock value is 108
+23:56:45.291 - multicast recieved by Peer 3 new clock value is 108
+23:56:45.296 - multicast recieved by Peer 4 new clock value is 108
+23:56:45.296 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.300 - Seller 1 sold a product and received cash 1$, total cash accumulated: 54$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.336 - start buy buyer:0, leader:3, item:salt
+23:56:45.340 - multicast recieved by Peer 0 new clock value is 110
+23:56:45.342 - multicast recieved by Peer 1 new clock value is 110
+23:56:45.344 - multicast recieved by Peer 2 new clock value is 110
+23:56:45.345 - multicast recieved by Peer 3 new clock value is 110
+23:56:45.348 - multicast recieved by Peer 4 new clock value is 110
+23:56:45.348 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.353 - Seller 1 sold a product and received cash 1$, total cash accumulated: 55$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.394 - start buy buyer:0, leader:3, item:salt
+23:56:45.397 - multicast recieved by Peer 0 new clock value is 112
+23:56:45.403 - multicast recieved by Peer 1 new clock value is 112
+23:56:45.403 - multicast recieved by Peer 2 new clock value is 112
+23:56:45.407 - multicast recieved by Peer 3 new clock value is 112
+23:56:45.408 - multicast recieved by Peer 4 new clock value is 112
+23:56:45.408 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.411 - Seller 1 sold a product and received cash 1$, total cash accumulated: 56$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.448 - start buy buyer:0, leader:3, item:salt
+23:56:45.451 - multicast recieved by Peer 0 new clock value is 114
+23:56:45.456 - multicast recieved by Peer 1 new clock value is 114
+23:56:45.458 - multicast recieved by Peer 2 new clock value is 114
+23:56:45.460 - multicast recieved by Peer 3 new clock value is 114
+23:56:45.463 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.463 - multicast recieved by Peer 4 new clock value is 114
+23:56:45.467 - Seller 1 sold a product and received cash 1$, total cash accumulated: 57$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.505 - start buy buyer:0, leader:3, item:salt
+23:56:45.510 - multicast recieved by Peer 1 new clock value is 116
+23:56:45.507 - multicast recieved by Peer 0 new clock value is 116
+23:56:45.513 - multicast recieved by Peer 2 new clock value is 116
+23:56:45.515 - multicast recieved by Peer 3 new clock value is 116
+23:56:45.518 - multicast recieved by Peer 4 new clock value is 116
+23:56:45.518 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.521 - Seller 1 sold a product and received cash 1$, total cash accumulated: 58$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.562 - start buy buyer:0, leader:3, item:salt
+23:56:45.564 - multicast recieved by Peer 0 new clock value is 118
+23:56:45.567 - multicast recieved by Peer 1 new clock value is 118
+23:56:45.568 - multicast recieved by Peer 2 new clock value is 118
+23:56:45.569 - multicast recieved by Peer 3 new clock value is 118
+23:56:45.572 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.573 - multicast recieved by Peer 4 new clock value is 118
+23:56:45.578 - Seller 1 sold a product and received cash 1$, total cash accumulated: 59$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.616 - start buy buyer:0, leader:3, item:salt
+23:56:45.620 - multicast recieved by Peer 1 new clock value is 120
+23:56:45.618 - multicast recieved by Peer 0 new clock value is 120
+23:56:45.622 - multicast recieved by Peer 2 new clock value is 120
+23:56:45.624 - multicast recieved by Peer 3 new clock value is 120
+23:56:45.625 - multicast recieved by Peer 4 new clock value is 120
+23:56:45.625 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.628 - Seller 1 sold a product and received cash 1$, total cash accumulated: 60$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.674 - start buy buyer:0, leader:3, item:salt
+23:56:45.678 - multicast recieved by Peer 0 new clock value is 122
+23:56:45.680 - multicast recieved by Peer 1 new clock value is 122
+23:56:45.681 - multicast recieved by Peer 2 new clock value is 122
+23:56:45.685 - multicast recieved by Peer 3 new clock value is 122
+23:56:45.687 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.687 - multicast recieved by Peer 4 new clock value is 122
+23:56:45.691 - Seller 1 sold a product and received cash 1$, total cash accumulated: 61$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.727 - start buy buyer:0, leader:3, item:salt
+23:56:45.730 - multicast recieved by Peer 0 new clock value is 124
+23:56:45.732 - multicast recieved by Peer 1 new clock value is 124
+23:56:45.735 - multicast recieved by Peer 2 new clock value is 124
+23:56:45.737 - multicast recieved by Peer 3 new clock value is 124
+23:56:45.737 - multicast recieved by Peer 4 new clock value is 124
+23:56:45.738 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.741 - Seller 1 sold a product and received cash 1$, total cash accumulated: 62$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.782 - start buy buyer:0, leader:3, item:salt
+23:56:45.785 - multicast recieved by Peer 0 new clock value is 126
+23:56:45.786 - multicast recieved by Peer 1 new clock value is 126
+23:56:45.788 - multicast recieved by Peer 2 new clock value is 126
+23:56:45.790 - multicast recieved by Peer 3 new clock value is 126
+23:56:45.793 - multicast recieved by Peer 4 new clock value is 126
+23:56:45.796 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.799 - Seller 1 sold a product and received cash 1$, total cash accumulated: 63$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.839 - start buy buyer:0, leader:3, item:salt
+23:56:45.848 - multicast recieved by Peer 0 new clock value is 128
+23:56:45.850 - multicast recieved by Peer 1 new clock value is 128
+23:56:45.851 - multicast recieved by Peer 2 new clock value is 128
+23:56:45.851 - multicast recieved by Peer 3 new clock value is 128
+23:56:45.852 - multicast recieved by Peer 4 new clock value is 128
+23:56:45.852 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.854 - Seller 1 sold a product and received cash 1$, total cash accumulated: 64$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.894 - start buy buyer:0, leader:3, item:salt
+23:56:45.897 - multicast recieved by Peer 0 new clock value is 130
+23:56:45.899 - multicast recieved by Peer 1 new clock value is 130
+23:56:45.901 - multicast recieved by Peer 2 new clock value is 130
+23:56:45.902 - multicast recieved by Peer 3 new clock value is 130
+23:56:45.904 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.904 - multicast recieved by Peer 4 new clock value is 130
+23:56:45.907 - Seller 1 sold a product and received cash 1$, total cash accumulated: 65$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:45.951 - start buy buyer:0, leader:3, item:salt
+23:56:45.954 - multicast recieved by Peer 0 new clock value is 132
+23:56:45.955 - multicast recieved by Peer 1 new clock value is 132
+23:56:45.956 - multicast recieved by Peer 2 new clock value is 132
+23:56:45.957 - multicast recieved by Peer 3 new clock value is 132
+23:56:45.958 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:45.958 - multicast recieved by Peer 4 new clock value is 132
+23:56:45.961 - Seller 1 sold a product and received cash 1$, total cash accumulated: 66$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.008 - start buy buyer:0, leader:3, item:salt
+23:56:46.014 - multicast recieved by Peer 1 new clock value is 134
+23:56:46.013 - multicast recieved by Peer 0 new clock value is 134
+23:56:46.015 - multicast recieved by Peer 2 new clock value is 134
+23:56:46.017 - multicast recieved by Peer 3 new clock value is 134
+23:56:46.019 - multicast recieved by Peer 4 new clock value is 134
+23:56:46.019 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.022 - Seller 1 sold a product and received cash 1$, total cash accumulated: 67$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.062 - start buy buyer:0, leader:3, item:salt
+23:56:46.071 - multicast recieved by Peer 1 new clock value is 136
+23:56:46.067 - multicast recieved by Peer 0 new clock value is 136
+23:56:46.075 - multicast recieved by Peer 2 new clock value is 136
+23:56:46.079 - multicast recieved by Peer 3 new clock value is 136
+23:56:46.080 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.080 - multicast recieved by Peer 4 new clock value is 136
+23:56:46.082 - Seller 1 sold a product and received cash 1$, total cash accumulated: 68$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.119 - start buy buyer:0, leader:3, item:salt
+23:56:46.122 - multicast recieved by Peer 0 new clock value is 138
+23:56:46.124 - multicast recieved by Peer 1 new clock value is 138
+23:56:46.125 - multicast recieved by Peer 2 new clock value is 138
+23:56:46.126 - multicast recieved by Peer 3 new clock value is 138
+23:56:46.130 - multicast recieved by Peer 4 new clock value is 138
+23:56:46.131 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.135 - Seller 1 sold a product and received cash 1$, total cash accumulated: 69$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.175 - start buy buyer:0, leader:3, item:salt
+23:56:46.177 - multicast recieved by Peer 0 new clock value is 140
+23:56:46.178 - multicast recieved by Peer 1 new clock value is 140
+23:56:46.182 - multicast recieved by Peer 2 new clock value is 140
+23:56:46.184 - multicast recieved by Peer 3 new clock value is 140
+23:56:46.186 - multicast recieved by Peer 4 new clock value is 140
+23:56:46.186 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.190 - Seller 1 sold a product and received cash 1$, total cash accumulated: 70$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.238 - start buy buyer:0, leader:3, item:salt
+23:56:46.241 - multicast recieved by Peer 0 new clock value is 142
+23:56:46.243 - multicast recieved by Peer 1 new clock value is 142
+23:56:46.244 - multicast recieved by Peer 2 new clock value is 142
+23:56:46.245 - multicast recieved by Peer 3 new clock value is 142
+23:56:46.246 - multicast recieved by Peer 4 new clock value is 142
+23:56:46.246 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.248 - Seller 1 sold a product and received cash 1$, total cash accumulated: 71$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.294 - start buy buyer:0, leader:3, item:salt
+23:56:46.298 - multicast recieved by Peer 0 new clock value is 144
+23:56:46.302 - multicast recieved by Peer 2 new clock value is 144
+23:56:46.301 - multicast recieved by Peer 1 new clock value is 144
+23:56:46.305 - multicast recieved by Peer 3 new clock value is 144
+23:56:46.307 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.307 - multicast recieved by Peer 4 new clock value is 144
+23:56:46.311 - Seller 1 sold a product and received cash 1$, total cash accumulated: 72$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.349 - start buy buyer:0, leader:3, item:salt
+23:56:46.357 - multicast recieved by Peer 0 new clock value is 146
+23:56:46.361 - multicast recieved by Peer 1 new clock value is 146
+23:56:46.368 - multicast recieved by Peer 3 new clock value is 146
+23:56:46.365 - multicast recieved by Peer 2 new clock value is 146
+23:56:46.373 - multicast recieved by Peer 4 new clock value is 146
+23:56:46.373 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.387 - Seller 1 sold a product and received cash 1$, total cash accumulated: 73$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.401 - start buy buyer:0, leader:3, item:salt
+23:56:46.403 - multicast recieved by Peer 0 new clock value is 148
+23:56:46.404 - multicast recieved by Peer 1 new clock value is 148
+23:56:46.405 - multicast recieved by Peer 2 new clock value is 148
+23:56:46.406 - multicast recieved by Peer 3 new clock value is 148
+23:56:46.408 - multicast recieved by Peer 4 new clock value is 148
+23:56:46.408 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.411 - Seller 1 sold a product and received cash 1$, total cash accumulated: 74$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.457 - start buy buyer:0, leader:3, item:salt
+23:56:46.459 - multicast recieved by Peer 0 new clock value is 150
+23:56:46.463 - multicast recieved by Peer 2 new clock value is 150
+23:56:46.463 - multicast recieved by Peer 1 new clock value is 150
+23:56:46.465 - multicast recieved by Peer 3 new clock value is 150
+23:56:46.466 - multicast recieved by Peer 4 new clock value is 150
+23:56:46.466 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.470 - Seller 1 sold a product and received cash 1$, total cash accumulated: 75$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.514 - start buy buyer:0, leader:3, item:salt
+23:56:46.517 - multicast recieved by Peer 0 new clock value is 152
+23:56:46.522 - multicast recieved by Peer 1 new clock value is 152
+23:56:46.524 - multicast recieved by Peer 2 new clock value is 152
+23:56:46.524 - multicast recieved by Peer 3 new clock value is 152
+23:56:46.528 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.528 - multicast recieved by Peer 4 new clock value is 152
+23:56:46.533 - Seller 1 sold a product and received cash 1$, total cash accumulated: 76$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.567 - start buy buyer:0, leader:3, item:salt
+23:56:46.569 - multicast recieved by Peer 0 new clock value is 154
+23:56:46.572 - multicast recieved by Peer 2 new clock value is 154
+23:56:46.572 - multicast recieved by Peer 1 new clock value is 154
+23:56:46.575 - multicast recieved by Peer 3 new clock value is 154
+23:56:46.576 - multicast recieved by Peer 4 new clock value is 154
+23:56:46.577 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.581 - Seller 1 sold a product and received cash 1$, total cash accumulated: 77$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:46.623 - start buy buyer:0, leader:3, item:salt
+23:56:46.625 - multicast recieved by Peer 0 new clock value is 156
+23:56:46.629 - multicast recieved by Peer 1 new clock value is 156
+23:56:46.629 - multicast recieved by Peer 2 new clock value is 156
+23:56:46.631 - multicast recieved by Peer 3 new clock value is 156
+23:56:46.634 - multicast recieved by Peer 4 new clock value is 156
+23:56:46.634 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.638 - Seller 1 sold a product and received cash 1$, total cash accumulated: 78$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Election status successfully updated to 1.
+23:56:46.639 - ============leader is falling sick =======================
+23:56:46.648 - sending ok reply to sender 0 from peer 1
+23:56:46.651 - sending ok reply to sender 0 from peer 2
+23:56:46.655 - setting is_leader to false for 0
+23:56:46.658 - setting is_leader to false for 0
+23:56:46.666 - sending ok reply to sender 1 from peer 2
+23:56:46.670 - setting is_leader to false for 1
+0 is starting the election
+23:56:46.680 - start buy buyer:0, leader:3, item:salt
+23:56:46.682 - multicast recieved by Peer 0 new clock value is 158
+23:56:46.684 - multicast recieved by Peer 1 new clock value is 158
+23:56:46.686 - multicast recieved by Peer 2 new clock value is 158
+23:56:46.687 - multicast recieved by Peer 3 new clock value is 158
+23:56:46.688 - multicast recieved by Peer 4 new clock value is 158
+23:56:46.688 - Purchase successful: Buyer 0 bought 1 of salt from Leader 3.
+23:56:46.690 - Seller 1 sold a product and received cash 1$, total cash accumulated: 79$
+23:56:51.676 - New leader elected: 2
+23:56:51.683 - requesting seller list from the leader
+23:56:51.684 - requesting seller list from the leader
+23:56:51.684 - requesting seller list from the leader
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:51.686 - requesting seller list from the leader
+23:56:51.687 - Seller Peer 1 is selling product: salt, stock: 21
+23:56:51.689 - requesting seller list from the leader
+Peer [{'leader_id': 2, 'election_in_progress': 0}] has been elected as the new leader!
+23:56:52.763 - start buy buyer:0, leader:2, item:salt
+23:56:52.765 - multicast recieved by Peer 0 new clock value is 160
+23:56:52.766 - multicast recieved by Peer 1 new clock value is 160
+23:56:52.767 - multicast recieved by Peer 2 new clock value is 160
+23:56:52.768 - multicast recieved by Peer 3 new clock value is 160
+23:56:52.769 - Purchase successful: Buyer 0 bought 1 of salt from Leader 2.
+23:56:52.769 - multicast recieved by Peer 4 new clock value is 160
+23:56:52.773 - Seller 1 sold a product and received cash 1$, total cash accumulated: 80$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:52.818 - start buy buyer:0, leader:2, item:salt
+23:56:52.823 - multicast recieved by Peer 0 new clock value is 162
+23:56:52.825 - multicast recieved by Peer 1 new clock value is 162
+23:56:52.826 - multicast recieved by Peer 2 new clock value is 162
+23:56:52.828 - multicast recieved by Peer 3 new clock value is 162
+23:56:52.834 - Purchase successful: Buyer 0 bought 1 of salt from Leader 2.
+23:56:52.834 - multicast recieved by Peer 4 new clock value is 162
+23:56:52.836 - Seller 1 sold a product and received cash 1$, total cash accumulated: 81$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:52.872 - start buy buyer:0, leader:2, item:salt
+23:56:52.873 - multicast recieved by Peer 0 new clock value is 164
+23:56:52.873 - multicast recieved by Peer 1 new clock value is 164
+23:56:52.874 - multicast recieved by Peer 2 new clock value is 164
+23:56:52.875 - multicast recieved by Peer 3 new clock value is 164
+23:56:52.875 - multicast recieved by Peer 4 new clock value is 164
+23:56:52.875 - Purchase successful: Buyer 0 bought 1 of salt from Leader 2.
+23:56:52.877 - Seller 1 sold a product and received cash 1$, total cash accumulated: 82$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:52.929 - start buy buyer:0, leader:2, item:salt
+23:56:52.934 - multicast recieved by Peer 1 new clock value is 166
+23:56:52.932 - multicast recieved by Peer 0 new clock value is 166
+23:56:52.936 - multicast recieved by Peer 2 new clock value is 166
+23:56:52.938 - multicast recieved by Peer 3 new clock value is 166
+23:56:52.939 - Purchase successful: Buyer 0 bought 1 of salt from Leader 2.
+23:56:52.940 - multicast recieved by Peer 4 new clock value is 166
+23:56:52.943 - Seller 1 sold a product and received cash 1$, total cash accumulated: 83$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:52.982 - start buy buyer:0, leader:2, item:salt
+23:56:52.984 - multicast recieved by Peer 0 new clock value is 168
+23:56:52.984 - multicast recieved by Peer 1 new clock value is 168
+23:56:52.984 - multicast recieved by Peer 2 new clock value is 168
+23:56:52.986 - multicast recieved by Peer 3 new clock value is 168
+23:56:52.986 - Purchase successful: Buyer 0 bought 1 of salt from Leader 2.
+23:56:52.986 - multicast recieved by Peer 4 new clock value is 168
+23:56:52.987 - Seller 1 sold a product and received cash 1$, total cash accumulated: 84$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:53.038 - start buy buyer:0, leader:2, item:salt
+23:56:53.039 - multicast recieved by Peer 0 new clock value is 170
+23:56:53.039 - multicast recieved by Peer 1 new clock value is 170
+23:56:53.040 - multicast recieved by Peer 2 new clock value is 170
+23:56:53.040 - multicast recieved by Peer 3 new clock value is 170
+23:56:53.040 - Purchase successful: Buyer 0 bought 1 of salt from Leader 2.
+23:56:53.040 - multicast recieved by Peer 4 new clock value is 170
+23:56:53.042 - Seller 1 sold a product and received cash 1$, total cash accumulated: 85$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:53.090 - start buy buyer:0, leader:2, item:salt
+23:56:53.092 - multicast recieved by Peer 0 new clock value is 172
+23:56:53.092 - multicast recieved by Peer 1 new clock value is 172
+23:56:53.093 - multicast recieved by Peer 2 new clock value is 172
+23:56:53.093 - multicast recieved by Peer 3 new clock value is 172
+23:56:53.094 - Purchase successful: Buyer 0 bought 1 of salt from Leader 2.
+23:56:53.094 - multicast recieved by Peer 4 new clock value is 172
+23:56:53.095 - Seller 1 sold a product and received cash 1$, total cash accumulated: 86$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:53.142 - start buy buyer:0, leader:2, item:salt
+23:56:53.143 - multicast recieved by Peer 0 new clock value is 174
+23:56:53.144 - multicast recieved by Peer 1 new clock value is 174
+23:56:53.145 - multicast recieved by Peer 2 new clock value is 174
+23:56:53.146 - multicast recieved by Peer 3 new clock value is 174
+23:56:53.146 - Purchase successful: Buyer 0 bought 1 of salt from Leader 2.
+23:56:53.146 - multicast recieved by Peer 4 new clock value is 174
+23:56:53.147 - Seller 1 sold a product and received cash 1$, total cash accumulated: 87$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:53.199 - start buy buyer:0, leader:2, item:salt
+23:56:53.201 - multicast recieved by Peer 0 new clock value is 176
+23:56:53.202 - multicast recieved by Peer 1 new clock value is 176
+23:56:53.202 - multicast recieved by Peer 2 new clock value is 176
+23:56:53.203 - multicast recieved by Peer 3 new clock value is 176
+23:56:53.204 - Purchase successful: Buyer 0 bought 1 of salt from Leader 2.
+23:56:53.204 - multicast recieved by Peer 4 new clock value is 176
+23:56:53.205 - Seller 1 sold a product and received cash 1$, total cash accumulated: 88$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Election status successfully updated to 1.
+23:56:53.205 - ============leader is falling sick =======================
+23:56:53.208 - sending ok reply to sender 0 from peer 1
+23:56:53.209 - setting is_leader to false for 0
+0 is starting the election
+23:56:53.252 - start buy buyer:0, leader:2, item:salt
+23:56:53.253 - multicast recieved by Peer 0 new clock value is 178
+23:56:53.253 - multicast recieved by Peer 1 new clock value is 178
+23:56:53.254 - multicast recieved by Peer 2 new clock value is 178
+23:56:53.254 - multicast recieved by Peer 3 new clock value is 178
+23:56:53.255 - Purchase successful: Buyer 0 bought 1 of salt from Leader 2.
+23:56:53.255 - multicast recieved by Peer 4 new clock value is 178
+23:56:53.256 - Seller 1 sold a product and received cash 1$, total cash accumulated: 89$
+23:56:58.217 - New leader elected: 1
+23:56:58.229 - requesting seller list from the leader
+23:56:58.230 - requesting seller list from the leader
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.231 - requesting seller list from the leader
+23:56:58.233 - requesting seller list from the leader
+23:56:58.234 - requesting seller list from the leader
+Peer [{'leader_id': 1, 'election_in_progress': 0}] has been elected as the new leader!
+23:56:58.338 - start buy buyer:0, leader:1, item:salt
+23:56:58.341 - multicast recieved by Peer 0 new clock value is 180
+23:56:58.345 - multicast recieved by Peer 1 new clock value is 180
+23:56:58.345 - multicast recieved by Peer 2 new clock value is 180
+23:56:58.347 - multicast recieved by Peer 3 new clock value is 180
+23:56:58.348 - multicast recieved by Peer 4 new clock value is 180
+23:56:58.348 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.350 - Seller 1 sold a product and received cash 1$, total cash accumulated: 90$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.394 - start buy buyer:0, leader:1, item:salt
+23:56:58.396 - multicast recieved by Peer 0 new clock value is 182
+23:56:58.397 - multicast recieved by Peer 1 new clock value is 182
+23:56:58.398 - multicast recieved by Peer 2 new clock value is 182
+23:56:58.402 - multicast recieved by Peer 3 new clock value is 182
+23:56:58.402 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.403 - multicast recieved by Peer 4 new clock value is 182
+23:56:58.405 - Seller 1 sold a product and received cash 1$, total cash accumulated: 91$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.451 - start buy buyer:0, leader:1, item:salt
+23:56:58.455 - multicast recieved by Peer 0 new clock value is 184
+23:56:58.456 - multicast recieved by Peer 1 new clock value is 184
+23:56:58.458 - multicast recieved by Peer 2 new clock value is 184
+23:56:58.459 - multicast recieved by Peer 3 new clock value is 184
+23:56:58.461 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.462 - multicast recieved by Peer 4 new clock value is 184
+23:56:58.465 - Seller 1 sold a product and received cash 1$, total cash accumulated: 92$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.507 - start buy buyer:0, leader:1, item:salt
+23:56:58.509 - multicast recieved by Peer 0 new clock value is 186
+23:56:58.509 - multicast recieved by Peer 1 new clock value is 186
+23:56:58.510 - multicast recieved by Peer 2 new clock value is 186
+23:56:58.511 - multicast recieved by Peer 3 new clock value is 186
+23:56:58.512 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.513 - multicast recieved by Peer 4 new clock value is 186
+23:56:58.514 - Seller 1 sold a product and received cash 1$, total cash accumulated: 93$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.560 - start buy buyer:0, leader:1, item:salt
+23:56:58.561 - multicast recieved by Peer 0 new clock value is 188
+23:56:58.562 - multicast recieved by Peer 1 new clock value is 188
+23:56:58.563 - multicast recieved by Peer 2 new clock value is 188
+23:56:58.563 - multicast recieved by Peer 3 new clock value is 188
+23:56:58.564 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.565 - multicast recieved by Peer 4 new clock value is 188
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.568 - Seller 1 sold a product and received cash 1$, total cash accumulated: 94$
+23:56:58.613 - start buy buyer:0, leader:1, item:salt
+23:56:58.616 - multicast recieved by Peer 0 new clock value is 190
+23:56:58.619 - multicast recieved by Peer 2 new clock value is 190
+23:56:58.618 - multicast recieved by Peer 1 new clock value is 190
+23:56:58.620 - multicast recieved by Peer 3 new clock value is 190
+23:56:58.621 - multicast recieved by Peer 4 new clock value is 190
+23:56:58.621 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.623 - Seller 1 sold a product and received cash 1$, total cash accumulated: 95$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.671 - start buy buyer:0, leader:1, item:salt
+23:56:58.673 - multicast recieved by Peer 0 new clock value is 192
+23:56:58.674 - multicast recieved by Peer 1 new clock value is 192
+23:56:58.675 - multicast recieved by Peer 2 new clock value is 192
+23:56:58.677 - multicast recieved by Peer 3 new clock value is 192
+23:56:58.678 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.677 - multicast recieved by Peer 4 new clock value is 192
+23:56:58.680 - Seller 1 sold a product and received cash 1$, total cash accumulated: 96$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.724 - start buy buyer:0, leader:1, item:salt
+23:56:58.726 - multicast recieved by Peer 0 new clock value is 194
+23:56:58.726 - multicast recieved by Peer 1 new clock value is 194
+23:56:58.732 - multicast recieved by Peer 2 new clock value is 194
+23:56:58.734 - multicast recieved by Peer 3 new clock value is 194
+23:56:58.735 - multicast recieved by Peer 4 new clock value is 194
+23:56:58.735 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.737 - Seller 1 sold a product and received cash 1$, total cash accumulated: 97$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.776 - start buy buyer:0, leader:1, item:salt
+23:56:58.778 - multicast recieved by Peer 0 new clock value is 196
+23:56:58.780 - multicast recieved by Peer 1 new clock value is 196
+23:56:58.781 - multicast recieved by Peer 2 new clock value is 196
+23:56:58.782 - multicast recieved by Peer 3 new clock value is 196
+23:56:58.784 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.784 - multicast recieved by Peer 4 new clock value is 196
+23:56:58.786 - Seller 1 sold a product and received cash 1$, total cash accumulated: 98$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.833 - start buy buyer:0, leader:1, item:salt
+23:56:58.835 - multicast recieved by Peer 0 new clock value is 198
+23:56:58.837 - multicast recieved by Peer 1 new clock value is 198
+23:56:58.837 - multicast recieved by Peer 2 new clock value is 198
+23:56:58.839 - multicast recieved by Peer 3 new clock value is 198
+23:56:58.840 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.840 - multicast recieved by Peer 4 new clock value is 198
+23:56:58.842 - Seller 1 sold a product and received cash 1$, total cash accumulated: 99$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.889 - start buy buyer:0, leader:1, item:salt
+23:56:58.891 - multicast recieved by Peer 0 new clock value is 200
+23:56:58.894 - multicast recieved by Peer 1 new clock value is 200
+23:56:58.895 - multicast recieved by Peer 2 new clock value is 200
+23:56:58.897 - multicast recieved by Peer 3 new clock value is 200
+23:56:58.898 - Purchase successful: Buyer 0 bought 1 of salt from Leader 1.
+23:56:58.898 - multicast recieved by Peer 4 new clock value is 200
+23:56:58.901 - Seller 1 sold a product and received cash 1$, total cash accumulated: 100$
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:58.946 - start buy buyer:0, leader:1, item:salt
+23:56:58.948 - multicast recieved by Peer 0 new clock value is 202
+23:56:58.949 - multicast recieved by Peer 1 new clock value is 202
+23:56:58.950 - multicast recieved by Peer 2 new clock value is 202
+23:56:58.951 - multicast recieved by Peer 3 new clock value is 202
+23:56:58.953 - multicast recieved by Peer 4 new clock value is 202
+23:56:58.954 - Peer 1 is being restocked with 100 fish 
+23:56:58.956 - requesting seller list from the leader
+23:56:58.957 - salt removed from inventory as stock is 0.
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.002 - start buy buyer:0, leader:1, item:salt
+23:56:59.003 - multicast recieved by Peer 0 new clock value is 204
+23:56:59.004 - multicast recieved by Peer 1 new clock value is 204
+23:56:59.005 - multicast recieved by Peer 2 new clock value is 204
+23:56:59.006 - multicast recieved by Peer 3 new clock value is 204
+23:56:59.007 - multicast recieved by Peer 4 new clock value is 204
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.059 - start buy buyer:0, leader:1, item:salt
+23:56:59.062 - multicast recieved by Peer 1 new clock value is 206
+23:56:59.061 - multicast recieved by Peer 0 new clock value is 206
+23:56:59.063 - multicast recieved by Peer 2 new clock value is 206
+23:56:59.074 - multicast recieved by Peer 3 new clock value is 206
+23:56:59.077 - multicast recieved by Peer 4 new clock value is 206
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.116 - start buy buyer:0, leader:1, item:salt
+23:56:59.119 - multicast recieved by Peer 1 new clock value is 208
+23:56:59.118 - multicast recieved by Peer 0 new clock value is 208
+23:56:59.120 - multicast recieved by Peer 2 new clock value is 208
+23:56:59.122 - multicast recieved by Peer 3 new clock value is 208
+23:56:59.123 - multicast recieved by Peer 4 new clock value is 208
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.175 - start buy buyer:0, leader:1, item:salt
+23:56:59.178 - multicast recieved by Peer 1 new clock value is 210
+23:56:59.177 - multicast recieved by Peer 0 new clock value is 210
+23:56:59.179 - multicast recieved by Peer 2 new clock value is 210
+23:56:59.181 - multicast recieved by Peer 3 new clock value is 210
+23:56:59.182 - multicast recieved by Peer 4 new clock value is 210
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.233 - start buy buyer:0, leader:1, item:salt
+23:56:59.236 - multicast recieved by Peer 0 new clock value is 212
+23:56:59.237 - multicast recieved by Peer 1 new clock value is 212
+23:56:59.239 - multicast recieved by Peer 2 new clock value is 212
+23:56:59.243 - multicast recieved by Peer 3 new clock value is 212
+23:56:59.244 - multicast recieved by Peer 4 new clock value is 212
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.290 - start buy buyer:0, leader:1, item:salt
+23:56:59.295 - multicast recieved by Peer 0 new clock value is 214
+23:56:59.296 - multicast recieved by Peer 1 new clock value is 214
+23:56:59.296 - multicast recieved by Peer 2 new clock value is 214
+23:56:59.298 - multicast recieved by Peer 3 new clock value is 214
+23:56:59.300 - multicast recieved by Peer 4 new clock value is 214
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.349 - start buy buyer:0, leader:1, item:salt
+23:56:59.353 - multicast recieved by Peer 0 new clock value is 216
+23:56:59.355 - multicast recieved by Peer 1 new clock value is 216
+23:56:59.355 - multicast recieved by Peer 2 new clock value is 216
+23:56:59.357 - multicast recieved by Peer 3 new clock value is 216
+23:56:59.358 - multicast recieved by Peer 4 new clock value is 216
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.405 - start buy buyer:0, leader:1, item:salt
+23:56:59.406 - multicast recieved by Peer 1 new clock value is 218
+23:56:59.406 - multicast recieved by Peer 0 new clock value is 218
+23:56:59.414 - multicast recieved by Peer 2 new clock value is 218
+23:56:59.414 - multicast recieved by Peer 3 new clock value is 218
+23:56:59.416 - multicast recieved by Peer 4 new clock value is 218
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.463 - start buy buyer:0, leader:1, item:salt
+23:56:59.465 - multicast recieved by Peer 0 new clock value is 220
+23:56:59.466 - multicast recieved by Peer 1 new clock value is 220
+23:56:59.467 - multicast recieved by Peer 2 new clock value is 220
+23:56:59.468 - multicast recieved by Peer 3 new clock value is 220
+23:56:59.470 - multicast recieved by Peer 4 new clock value is 220
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.520 - start buy buyer:0, leader:1, item:salt
+23:56:59.525 - multicast recieved by Peer 0 new clock value is 222
+23:56:59.527 - multicast recieved by Peer 1 new clock value is 222
+23:56:59.527 - multicast recieved by Peer 2 new clock value is 222
+23:56:59.528 - multicast recieved by Peer 3 new clock value is 222
+23:56:59.530 - multicast recieved by Peer 4 new clock value is 222
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.579 - start buy buyer:0, leader:1, item:salt
+23:56:59.582 - multicast recieved by Peer 0 new clock value is 224
+23:56:59.584 - multicast recieved by Peer 1 new clock value is 224
+23:56:59.585 - multicast recieved by Peer 2 new clock value is 224
+23:56:59.586 - multicast recieved by Peer 3 new clock value is 224
+23:56:59.587 - multicast recieved by Peer 4 new clock value is 224
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.637 - start buy buyer:0, leader:1, item:salt
+23:56:59.641 - multicast recieved by Peer 0 new clock value is 226
+23:56:59.644 - multicast recieved by Peer 1 new clock value is 226
+23:56:59.646 - multicast recieved by Peer 2 new clock value is 226
+23:56:59.647 - multicast recieved by Peer 3 new clock value is 226
+23:56:59.649 - multicast recieved by Peer 4 new clock value is 226
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.695 - start buy buyer:0, leader:1, item:salt
+23:56:59.697 - multicast recieved by Peer 0 new clock value is 228
+23:56:59.698 - multicast recieved by Peer 1 new clock value is 228
+23:56:59.704 - multicast recieved by Peer 3 new clock value is 228
+23:56:59.702 - multicast recieved by Peer 2 new clock value is 228
+23:56:59.707 - multicast recieved by Peer 4 new clock value is 228
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.752 - start buy buyer:0, leader:1, item:salt
+23:56:59.755 - multicast recieved by Peer 0 new clock value is 230
+23:56:59.756 - multicast recieved by Peer 1 new clock value is 230
+23:56:59.757 - multicast recieved by Peer 2 new clock value is 230
+23:56:59.758 - multicast recieved by Peer 3 new clock value is 230
+23:56:59.759 - multicast recieved by Peer 4 new clock value is 230
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.811 - start buy buyer:0, leader:1, item:salt
+23:56:59.814 - multicast recieved by Peer 0 new clock value is 232
+23:56:59.814 - multicast recieved by Peer 1 new clock value is 232
+23:56:59.817 - multicast recieved by Peer 2 new clock value is 232
+23:56:59.817 - multicast recieved by Peer 3 new clock value is 232
+23:56:59.819 - multicast recieved by Peer 4 new clock value is 232
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.864 - start buy buyer:0, leader:1, item:salt
+23:56:59.866 - multicast recieved by Peer 1 new clock value is 234
+23:56:59.865 - multicast recieved by Peer 0 new clock value is 234
+23:56:59.867 - multicast recieved by Peer 2 new clock value is 234
+23:56:59.868 - multicast recieved by Peer 3 new clock value is 234
+23:56:59.869 - multicast recieved by Peer 4 new clock value is 234
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.916 - start buy buyer:0, leader:1, item:salt
+23:56:59.918 - multicast recieved by Peer 0 new clock value is 236
+23:56:59.922 - multicast recieved by Peer 1 new clock value is 236
+23:56:59.926 - multicast recieved by Peer 2 new clock value is 236
+23:56:59.929 - multicast recieved by Peer 3 new clock value is 236
+23:56:59.929 - multicast recieved by Peer 4 new clock value is 236
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:56:59.974 - start buy buyer:0, leader:1, item:salt
+23:56:59.976 - multicast recieved by Peer 0 new clock value is 238
+23:56:59.977 - multicast recieved by Peer 1 new clock value is 238
+23:56:59.978 - multicast recieved by Peer 2 new clock value is 238
+23:56:59.979 - multicast recieved by Peer 3 new clock value is 238
+23:56:59.983 - multicast recieved by Peer 4 new clock value is 238
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.029 - start buy buyer:0, leader:1, item:salt
+23:57:00.034 - multicast recieved by Peer 0 new clock value is 240
+23:57:00.034 - multicast recieved by Peer 1 new clock value is 240
+23:57:00.037 - multicast recieved by Peer 2 new clock value is 240
+23:57:00.038 - multicast recieved by Peer 3 new clock value is 240
+23:57:00.040 - multicast recieved by Peer 4 new clock value is 240
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.086 - start buy buyer:0, leader:1, item:salt
+23:57:00.088 - multicast recieved by Peer 0 new clock value is 242
+23:57:00.090 - multicast recieved by Peer 1 new clock value is 242
+23:57:00.091 - multicast recieved by Peer 2 new clock value is 242
+23:57:00.094 - multicast recieved by Peer 3 new clock value is 242
+23:57:00.095 - multicast recieved by Peer 4 new clock value is 242
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.143 - start buy buyer:0, leader:1, item:salt
+23:57:00.145 - multicast recieved by Peer 0 new clock value is 244
+23:57:00.146 - multicast recieved by Peer 1 new clock value is 244
+23:57:00.148 - multicast recieved by Peer 2 new clock value is 244
+23:57:00.149 - multicast recieved by Peer 3 new clock value is 244
+23:57:00.150 - multicast recieved by Peer 4 new clock value is 244
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.200 - start buy buyer:0, leader:1, item:salt
+23:57:00.204 - multicast recieved by Peer 0 new clock value is 246
+23:57:00.205 - multicast recieved by Peer 1 new clock value is 246
+23:57:00.205 - multicast recieved by Peer 2 new clock value is 246
+23:57:00.207 - multicast recieved by Peer 3 new clock value is 246
+23:57:00.208 - multicast recieved by Peer 4 new clock value is 246
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.255 - start buy buyer:0, leader:1, item:salt
+23:57:00.258 - multicast recieved by Peer 0 new clock value is 248
+23:57:00.259 - multicast recieved by Peer 1 new clock value is 248
+23:57:00.259 - multicast recieved by Peer 2 new clock value is 248
+23:57:00.262 - multicast recieved by Peer 3 new clock value is 248
+23:57:00.263 - multicast recieved by Peer 4 new clock value is 248
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.314 - start buy buyer:0, leader:1, item:salt
+23:57:00.316 - multicast recieved by Peer 0 new clock value is 250
+23:57:00.317 - multicast recieved by Peer 1 new clock value is 250
+23:57:00.318 - multicast recieved by Peer 2 new clock value is 250
+23:57:00.319 - multicast recieved by Peer 3 new clock value is 250
+23:57:00.321 - multicast recieved by Peer 4 new clock value is 250
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.372 - start buy buyer:0, leader:1, item:salt
+23:57:00.376 - multicast recieved by Peer 0 new clock value is 252
+23:57:00.378 - multicast recieved by Peer 1 new clock value is 252
+23:57:00.380 - multicast recieved by Peer 2 new clock value is 252
+23:57:00.383 - multicast recieved by Peer 3 new clock value is 252
+23:57:00.385 - multicast recieved by Peer 4 new clock value is 252
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.428 - start buy buyer:0, leader:1, item:salt
+23:57:00.432 - multicast recieved by Peer 0 new clock value is 254
+23:57:00.434 - multicast recieved by Peer 1 new clock value is 254
+23:57:00.435 - multicast recieved by Peer 2 new clock value is 254
+23:57:00.438 - multicast recieved by Peer 3 new clock value is 254
+23:57:00.439 - multicast recieved by Peer 4 new clock value is 254
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.482 - start buy buyer:0, leader:1, item:salt
+23:57:00.485 - multicast recieved by Peer 0 new clock value is 256
+23:57:00.488 - multicast recieved by Peer 1 new clock value is 256
+23:57:00.488 - multicast recieved by Peer 2 new clock value is 256
+23:57:00.493 - multicast recieved by Peer 3 new clock value is 256
+23:57:00.494 - multicast recieved by Peer 4 new clock value is 256
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.539 - start buy buyer:0, leader:1, item:salt
+23:57:00.542 - multicast recieved by Peer 0 new clock value is 258
+23:57:00.543 - multicast recieved by Peer 1 new clock value is 258
+23:57:00.544 - multicast recieved by Peer 2 new clock value is 258
+23:57:00.546 - multicast recieved by Peer 3 new clock value is 258
+23:57:00.547 - multicast recieved by Peer 4 new clock value is 258
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.595 - start buy buyer:0, leader:1, item:salt
+23:57:00.597 - multicast recieved by Peer 0 new clock value is 260
+23:57:00.598 - multicast recieved by Peer 1 new clock value is 260
+23:57:00.599 - multicast recieved by Peer 2 new clock value is 260
+23:57:00.600 - multicast recieved by Peer 3 new clock value is 260
+23:57:00.601 - multicast recieved by Peer 4 new clock value is 260
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.651 - start buy buyer:0, leader:1, item:salt
+23:57:00.656 - multicast recieved by Peer 0 new clock value is 262
+23:57:00.656 - multicast recieved by Peer 1 new clock value is 262
+23:57:00.658 - multicast recieved by Peer 2 new clock value is 262
+23:57:00.660 - multicast recieved by Peer 3 new clock value is 262
+23:57:00.663 - multicast recieved by Peer 4 new clock value is 262
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.709 - start buy buyer:0, leader:1, item:salt
+23:57:00.713 - multicast recieved by Peer 0 new clock value is 264
+23:57:00.714 - multicast recieved by Peer 1 new clock value is 264
+23:57:00.716 - multicast recieved by Peer 2 new clock value is 264
+23:57:00.717 - multicast recieved by Peer 3 new clock value is 264
+23:57:00.718 - multicast recieved by Peer 4 new clock value is 264
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.764 - start buy buyer:0, leader:1, item:salt
+23:57:00.767 - multicast recieved by Peer 1 new clock value is 266
+23:57:00.767 - multicast recieved by Peer 0 new clock value is 266
+23:57:00.769 - multicast recieved by Peer 2 new clock value is 266
+23:57:00.770 - multicast recieved by Peer 3 new clock value is 266
+23:57:00.772 - multicast recieved by Peer 4 new clock value is 266
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.823 - start buy buyer:0, leader:1, item:salt
+23:57:00.826 - multicast recieved by Peer 1 new clock value is 268
+23:57:00.826 - multicast recieved by Peer 0 new clock value is 268
+23:57:00.828 - multicast recieved by Peer 3 new clock value is 268
+23:57:00.827 - multicast recieved by Peer 2 new clock value is 268
+23:57:00.830 - multicast recieved by Peer 4 new clock value is 268
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.882 - start buy buyer:0, leader:1, item:salt
+23:57:00.886 - multicast recieved by Peer 1 new clock value is 270
+23:57:00.885 - multicast recieved by Peer 0 new clock value is 270
+23:57:00.887 - multicast recieved by Peer 2 new clock value is 270
+23:57:00.888 - multicast recieved by Peer 3 new clock value is 270
+23:57:00.890 - multicast recieved by Peer 4 new clock value is 270
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.938 - start buy buyer:0, leader:1, item:salt
+23:57:00.940 - multicast recieved by Peer 0 new clock value is 272
+23:57:00.941 - multicast recieved by Peer 1 new clock value is 272
+23:57:00.943 - multicast recieved by Peer 2 new clock value is 272
+23:57:00.945 - multicast recieved by Peer 3 new clock value is 272
+23:57:00.946 - multicast recieved by Peer 4 new clock value is 272
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:00.996 - start buy buyer:0, leader:1, item:salt
+23:57:00.999 - multicast recieved by Peer 0 new clock value is 274
+23:57:00.999 - multicast recieved by Peer 1 new clock value is 274
+23:57:01.002 - multicast recieved by Peer 2 new clock value is 274
+23:57:01.004 - multicast recieved by Peer 3 new clock value is 274
+23:57:01.005 - multicast recieved by Peer 4 new clock value is 274
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:01.054 - start buy buyer:0, leader:1, item:salt
+23:57:01.056 - multicast recieved by Peer 0 new clock value is 276
+23:57:01.057 - multicast recieved by Peer 1 new clock value is 276
+23:57:01.059 - multicast recieved by Peer 2 new clock value is 276
+23:57:01.060 - multicast recieved by Peer 3 new clock value is 276
+23:57:01.068 - multicast recieved by Peer 4 new clock value is 276
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+23:57:01.112 - start buy buyer:0, leader:1, item:salt
+23:57:01.115 - multicast recieved by Peer 0 new clock value is 278
+23:57:01.118 - multicast recieved by Peer 1 new clock value is 278
+23:57:01.119 - multicast recieved by Peer 2 new clock value is 278
+23:57:01.123 - multicast recieved by Peer 3 new clock value is 278
+Item salt unavailable for sale or out of stock
+Inventory updated in /Users/ashwinpai/src/ash/Operating-Systems/Lab2/seller_goods.csv
+Election status successfully updated to 1.
+23:57:01.124 - ============leader is falling sick =======================
+23:57:01.124 - multicast recieved by Peer 4 new clock value is 278
+0 is starting the election
+23:57:01.169 - start buy buyer:0, leader:1, item:salt
+23:57:01.171 - multicast recieved by Peer 0 new clock value is 280
+23:57:01.174 - multicast recieved by Peer 1 new clock value is 280
+23:57:01.175 - multicast recieved by Peer 2 new clock value is 280
+23:57:01.176 - multicast recieved by Peer 3 new clock value is 280
+23:57:01.176 - multicast recieved by Peer 4 new clock value is 280
+Clean up for seller_goods.csv done
+start election node 0
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+waiting for election to complete...
+23:57:14.251 - Shutting down peers...
+23:57:14.258 - All peers shut down.
+23:57:14.258 - Invalid mode. Please specify either 'test_case1', 'test_case2', 'test_case3' or 'normal'.
+23:57:14.258 - All peers shut down.

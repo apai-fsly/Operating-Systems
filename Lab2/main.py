@@ -225,7 +225,7 @@ if __name__ == "__main__":
             time.sleep(10)
             for i in range(1000):
                 election_flag = int(read_election_in_progress(leader_path))
-                while election_flag:
+                while election_flag == 1 or election_flag == None:
                     print("waiting for election to complete...")
                     time.sleep(15)
                     election_flag = int(read_election_in_progress(leader_path))
@@ -302,7 +302,7 @@ if __name__ == "__main__":
             time.sleep(10)
             for i in range(1000):
                 election_flag = int(read_election_in_progress(leader_path))
-                while election_flag:
+                while election_flag == 1 or election_flag == None:
                     print("waiting for election to complete...")
                     time.sleep(15)
                     election_flag = int(read_election_in_progress(leader_path))
@@ -348,14 +348,12 @@ if __name__ == "__main__":
         time.sleep(10)
         leader = read_leader_id(leader_path)
         try:
-            for x in range(100):
+            for x in range(1000):
                 for i, peer in enumerate(peers):
-                    time.sleep(1)
-
                     election_flag = int(read_election_in_progress(leader_path))
-                    while election_flag:
+                    while election_flag == 1 or election_flag == None:
                         logging.info("waiting for election to complete...")
-                        time.sleep(1)
+                        time.sleep(10)
                         election_flag = int(read_election_in_progress(leader_path))
                     
                     leader = read_leader_id(leader_path)

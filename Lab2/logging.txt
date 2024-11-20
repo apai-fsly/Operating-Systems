@@ -1,0 +1,12 @@
+Current working directory: /Users/ashwinpai/src/ash/Operating-Systems/Lab2
+23:49:39.676 - Running Test Case 2
+23:49:39.685 - Peer 0 listening on 127.0.0.1:5000
+23:49:39.686 - Peer 1 listening on 127.0.0.1:5001
+23:49:39.690 - Peer 2 listening on 127.0.0.1:5002
+23:49:39.692 - Peer 3 listening on 127.0.0.1:5003
+23:49:39.695 - Peer 4 listening on 127.0.0.1:5004
+Clean up for seller_goods.csv done
+23:49:40.442 - Shutting down peers...
+23:49:40.447 - All peers shut down.
+23:49:40.447 - Invalid mode. Please specify either 'test_case1', 'test_case2', 'test_case3' or 'normal'.
+23:49:40.447 - All peers shut down.
