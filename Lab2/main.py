@@ -1,3 +1,4 @@
+import datetime
 import threading
 import multiprocessing
 import random
@@ -36,20 +37,22 @@ def setup_peers(num_peers):
     if num_peers == 3: 
         role = random.choice(products)
 
-        p1 = Peer(peer_id=1, role="seller", product=random.choice(products), network_size=3, leader=True)
-        p2 = Peer(peer_id=2, role="buyer", product=None, network_size=3, leader=True)
+        p1 = Peer(peer_id=0, role="seller", product=random.choice(products), network_size=3, leader=True)
+        p2 = Peer(peer_id=1, role="buyer", product=random.choice(products), network_size=3, leader=True)
         
         role=random.choice(roles)
-        product = random.choice(products) if role == 'seller' else None
-        p3 = Peer(peer_id=3, role=role, product=product, network_size=3, leader=True)
+        product = random.choice(products)
+        p3 = Peer(peer_id=2, role=role, product=product, network_size=3, leader=True)
         peers.append(p1, p2, p3)
 
     # if the network size is more than 3 randomize everything
     else:
         for i in range(num_peers):
             role = random.choice(roles)
-            product = random.choice(products) if role == 'seller' else None
+            product = random.choice(products)
             peer = Peer(peer_id=i, role=role, product=product, network_size=num_peers)
+
+            logging.info(f"{peer.peer_id}, {peer.role}, {peer.product}")
             peers.append(peer)
 
 
@@ -74,9 +77,7 @@ def shutdown_processes(processes):
             process.join()
 
 def setup_test_case1():
-    # peer 0 is fish buyer and peer 3 is fish seller, can connect with seller with passing two middle peers 1 and 2
     peer_0 = Peer(peer_id=0, role="buyer", network_size=7, product="salt", leader=True)
-    # 0 --> 1 --> 2 --> 3 --> 4
     peer_1 = Peer(peer_id=1, role="seller", network_size=7, product="salt", leader=True)
     peer_2 = Peer(peer_id=2, role="seller", network_size=7, product="boar", leader=True)
     peer_3 = Peer(peer_id=3, role="buyer", network_size=7, product="fish", leader=True)
@@ -96,9 +97,7 @@ def setup_test_case1():
     return [peer_0, peer_1, peer_2, peer_3, peer_4, peer_5, peer_6]
 
 def setup_test_case2():
-    # peer 0 is fish buyer and peer 3 is fish seller, can connect with seller with passing two middle peers 1 and 2
     peer_0 = Peer(peer_id=0, role="buyer", network_size=5, product="salt", leader=True)
-    # 0 --> 1 --> 2 --> 3 --> 4
     peer_1 = Peer(peer_id=1, role="seller", network_size=5, product="salt", leader=True)
     peer_2 = Peer(peer_id=2, role="seller", network_size=5, product="boar", leader=True)
     peer_3 = Peer(peer_id=3, role="seller", network_size=5, product="fish", leader=True)
@@ -110,14 +109,12 @@ def setup_test_case2():
     peer_3.neighbors = [peer_0, peer_1, peer_2, peer_4]
     peer_4.neighbors = [peer_0, peer_1, peer_2, peer_3]
 
-    peer_4.alive = False
+    # peer_4.alive = False
 
     return [peer_0, peer_1, peer_2, peer_3, peer_4]
 
 def setup_test_case3():
-    # peer 0 is fish buyer and peer 3 is fish seller, can connect with seller with passing two middle peers 1 and 2
     peer_0 = Peer(peer_id=0, role="buyer", network_size=7, product="salt", leader=True)
-    # 0 --> 1 --> 2 --> 3 --> 4
     peer_1 = Peer(peer_id=1, role="seller", network_size=7, product="salt", leader=True)
     peer_2 = Peer(peer_id=2, role="seller", network_size=7, product="boar", leader=True)
     peer_3 = Peer(peer_id=3, role="buyer", network_size=7, product="salt", leader=True)
@@ -185,7 +182,6 @@ def read_election_in_progress(leader_path):
             reader = csv.DictReader(file)
             # Read the first (and only) row
             row = next(reader, None)
-            print(f"row is {row}")
             if row:
                 return row['election_in_progress']  # Return the election_in_progress field
             else:
@@ -200,6 +196,7 @@ def read_election_in_progress(leader_path):
 
 if __name__ == "__main__":
     # Check command-line arguments
+    multiprocessing.set_start_method("fork", force=True)
     if len(sys.argv) < 2:
         logging.error("Please specify 'test_case1' or 'normal' as an argument.")
         sys.exit(1)
@@ -224,29 +221,17 @@ if __name__ == "__main__":
         try:
             time.sleep(1)
             print(f"start election node {peers[0].peer_id}")
-            higher_peer_id = []
-            for peer in range(peers[0].network_size):
-                print(f"peer is {peer} and {peers[0].peer_id}")
-                if peer > peers[0].peer_id: 
-                    higher_peer_id.append(peer)
-                    print(f"peer id list {higher_peer_id}")
-            
-                    # all bigger peer IDs are in the list
-            for peer in higher_peer_id: 
-                peers[0].send_request_to_specific_id("are_you_alive", f"{peers[0].peer_id}", peer)
-
+            peers[0].send_request_to_specific_id("run_election", f"{peers[0].peer_id}", int(peers[0].peer_id))
             time.sleep(10)
             for i in range(1000):
                 election_flag = int(read_election_in_progress(leader_path))
                 while election_flag:
-                    print("waiting")
+                    print("waiting for election to complete...")
                     time.sleep(15)
                     election_flag = int(read_election_in_progress(leader_path))
                 leader = read_leader_id(leader_path)
-                print(f"Buy:: {peers[0].peer_id}, {leader}, {peers[0].product}")
                 peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{leader},{peers[0].product},{peers[0].lamport_clock}", int(leader))
                 time.sleep(1)
-                print(f"Buy:: {peers[3].peer_id}, {leader}, {peers[3].product}")
                 peers[3].send_request_to_specific_id("buy", f"{peers[3].peer_id},{leader},{peers[3].product},{peers[3].lamport_clock}", int(leader))
                 # time.sleep(1)
 
@@ -257,6 +242,7 @@ if __name__ == "__main__":
 
     elif mode == 'test_case2':
         logging.info("Running Test Case 2")
+        now = datetime.datetime.now()
         peers = setup_test_case2()
         # processes = run_peers(peers)
         for i, peer in enumerate(peers):
@@ -273,34 +259,24 @@ if __name__ == "__main__":
         try:
             time.sleep(1)
             print(f"start election node {peers[0].peer_id}")
-            higher_peer_id = []
-            for peer in range(peers[0].network_size):
-                print(f"peer is {peer} and {peers[0].peer_id}")
-                if peer > peers[0].peer_id: 
-                    higher_peer_id.append(peer)
-                    print(f"peer id list {higher_peer_id}")
+            peers[0].send_request_to_specific_id("run_election", f"{peers[0].peer_id}", int(peers[0].peer_id))
             
-                    # all bigger peer IDs are in the list
-            for peer in higher_peer_id: 
-                peers[0].send_request_to_specific_id("are_you_alive", f"{peers[0].peer_id}", peer)
 
             time.sleep(10)
             for i in range(1000):
                 election_flag = int(read_election_in_progress(leader_path))
-                while election_flag:
-                    print("waiting")
-                    time.sleep(15)
+                while election_flag == 1 or election_flag == None:
+                    print("waiting for election to complete...")
+                    time.sleep(1)
                     election_flag = int(read_election_in_progress(leader_path))
                 leader = read_leader_id(leader_path)
-                print(f"Buy:: {peers[0].peer_id}, {leader}, {peers[0].product}")
+                time.sleep(.05)
                 peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{leader},{peers[0].product},{peers[0].lamport_clock}", int(leader))
                 # time.sleep(1)
-
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")
             shutdown_processes(processes)
             logging.info("All peers shut down.")
-
 
     if mode == 'test_case3':
         peers = setup_test_case3()
@@ -318,92 +294,42 @@ if __name__ == "__main__":
 
         try:
             time.sleep(1)
+            # start timer here
             print(f"start election node {peers[0].peer_id}")
-            higher_peer_id = []
-            for peer in range(peers[0].network_size):
-                print(f"peer is {peer} and {peers[0].peer_id}")
-                if peer > peers[0].peer_id: 
-                    higher_peer_id.append(peer)
-                    print(f"peer id list {higher_peer_id}")
+            peers[0].send_request_to_specific_id("run_election", f"{peers[0].peer_id}", int(peers[0].peer_id))
             
-                    # all bigger peer IDs are in the list
-            for peer in higher_peer_id: 
-                peers[0].send_request_to_specific_id("are_you_alive", f"{peers[0].peer_id}", peer)
 
             time.sleep(10)
             for i in range(1000):
                 election_flag = int(read_election_in_progress(leader_path))
                 while election_flag:
-                    print("waiting")
+                    print("waiting for election to complete...")
                     time.sleep(15)
                     election_flag = int(read_election_in_progress(leader_path))
                 leader = read_leader_id(leader_path)
-                print(f"Buy:: {peers[0].peer_id}, {leader}, {peers[0].product}")
                 peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{leader},{peers[0].product},{peers[0].lamport_clock}", int(leader))
                 time.sleep(1)
-                print(f"Buy:: {peers[3].peer_id}, {leader}, {peers[3].product}")
                 peers[3].send_request_to_specific_id("buy", f"{peers[3].peer_id},{leader},{peers[3].product},{peers[3].lamport_clock}", int(leader))
                 # time.sleep(1)
+            
+            # end time
 
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")
             shutdown_processes(processes)
             logging.info("All peers shut down.")
-
-    if mode == 'test_case4':
-        logging.info("Running Test Case 4")
-
-        peers = setup_test_case4()
-
-        new_entry = {
-            "seller_id": 1, 
-            "product_name": "salt", 
-            "product_stock": 10
-        }
-
-        new_entry2 = {
-            "seller_id": 2, 
-            "product_name": "fish", 
-            "product_stock": 100
-        }
-
-
-        peers[0].handle_file_write(new_entry["seller_id"], new_entry["product_name"], new_entry["product_stock"])
-        peers[1].handle_file_write(new_entry2["seller_id"], new_entry2["product_name"], new_entry2["product_stock"])
-
-    if mode == 'test_case5':
-        peers = setup_test_case5()
-
-        peers[0].fall_sick()
-    if mode == 'test_case6':
-
-        # returns peers with peer_2 assigned as the leader/tradesman
-        peers = setup_test_case6() 
-
-        for i, peer in enumerate(peers):
-            run_peer(peer, host='127.0.0.1', port=5000 + i)
-
-        peer_0 = peers[0]
-        peer_0.product = "salt"
-        peer_1 = peers[1]
-        peer_2 = peers[2]
-        peer_3 = peers[3]
-
-        #    peer_3
-        #      |
-        #    peer_2
-        #   /      \
-        # peer_0   peer_1
-        buyer_id = peer_3.peer_id
-        leader_id = peer_2.peer_id
-        peer_0.send_request_to_specific_id("buy", f"{peers[0].peer_id},{peers[0].leader_id},{peers[0].product},{peers[0].lamport_clock}", int(peers[0].leader_id))
-        time.sleep(3)
-        peer_1.send_request_to_specific_id("buy", f"{peers[1].peer_id},{peers[1].leader_id},{peers[0].product},{peers[1].lamport_clock}", int(peers[1].leader_id))
-
-
-
     elif mode == 'normal':
         logging.info("Running Normal Mode")
+        
+        # clear out the seller_goods.csv file
+        try:
+            with open(file_path, mode='w', newline='') as file:
+                writer = csv.DictWriter(file, fieldnames=["seller_id", "product_name", "product_stock"])
+                writer.writeheader()
+            print("Clean up for seller_goods.csv done")
+        except IOError as e:
+            print(f"IOError: Could not update the file. {e}")
+
         num_peers = int(sys.argv[2]) if len(sys.argv) > 2 else 6  # Get the number of peers from command line or default to 6
         if num_peers < 3: 
             print("Network requires at least 3 peers to be a valid network")
@@ -416,22 +342,28 @@ if __name__ == "__main__":
             run_peer(peer, host='127.0.0.1', port=5000 + i)  # Each peer listens on a unique port
 
         # # Simulate buyers looking for products periodically
-        try:
-            pass
-        #     while True:
-        #         for peer in peers:
-        #             if peer.role == 'buyer':
-        #                 # Randomly select a product to look for
-        #                 product = random.choice(['fish', 'salt', 'boar'])
-        #                 logging.info(f"Peer {peer.peer_id} is looking for {product}")  # Log the lookup action
-        #                 buytime = time.time()
-        #                 peer.send_request('lookup', f'{peer.peer_id},{buytime},{product},{peer.hop_limit},[{peer.peer_id}]')  # Send lookup request
-        #                 time.sleep(random.uniform(1, 3))  # Wait for a random period before the next lookup
+        random_election_starter = random.randrange(0, num_peers-1)
 
-        #             elif peer.role == 'seller' and peer.stock == 0:
-        #                 peer.stock = 10
-        #                 peer.product = random.choice(["boar", "salt", "fish"])
-        #                 logging.info(f"Peer {peer.peer_id} is being restocked with {peer.stock} {peer.product}")
+        peers[random_election_starter].send_request_to_specific_id("run_election", f"{peers[random_election_starter].peer_id}", int(peers[random_election_starter].peer_id))
+        time.sleep(10)
+        leader = read_leader_id(leader_path)
+        try:
+            for x in range(100):
+                for i, peer in enumerate(peers):
+                    time.sleep(1)
+
+                    election_flag = int(read_election_in_progress(leader_path))
+                    while election_flag:
+                        logging.info("waiting for election to complete...")
+                        time.sleep(1)
+                        election_flag = int(read_election_in_progress(leader_path))
+                    
+                    leader = read_leader_id(leader_path)
+
+                    if peer.role == "buyer" and peer.peer_id != leader:
+                        logging.info(f"buy: {peers[i].peer_id}, {leader}, {peers[i].product}")
+                        peer.send_request_to_specific_id("buy", f"{peers[i].peer_id},{leader},{peers[i].product},{peers[i].lamport_clock}", int(leader))
+
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")
             for peer in peers:

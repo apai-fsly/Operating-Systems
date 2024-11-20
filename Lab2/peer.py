@@ -1,3 +1,4 @@
+import datetime
 import threading
 import multiprocessing
 import socket
@@ -30,55 +31,80 @@ def is_file_empty(file_path):
 
 file_exists = os.path.exists(file_path)
 
-"""
-Peer class defines the peer used within the network
 
-    peer_id: int: representing the ID of the Peer
-    role: str: representing whether the peer is a ["buyer", "seller"]
-    product: str: representing the produce the peer is selling ["boar", "fish", "salt"] 
-    hop_limit: int: representing the number of hops before a request terminates
-    stock: int: number of items in inventory (only applies to sellers)
-    lock: represents a lock on the peer when accessing resources (stock of items)
-    neighbors: list: represents a list of the neighboring peers
-
-    peers_by_id: map: representing a map of peer_id to peer. 
-"""
 class Peer:
+    # Class variable to store all peers by their peer_id
     peers_by_id = {}
-    def __init__(self, peer_id, role, network_size, leader=False, product=None, neighbors=None):
-        self.leader = True
-        self.leader_id = -1
-        self.election_inprogress = False
-        self.alive = True
-        self.peer_id = peer_id
-        self.role = role
-        self.network_size = network_size
-        self.product = product
-        self.neighbors = neighbors or []
-        self.lock = threading.Lock()
-        self.stock = 100 if role == "seller" else 0 # if the role is seller set the stock to 10 otherwise 0
-        self.request_already_sent = False
-        Peer.peers_by_id[self.peer_id] = self
-        self.cash_received = 0 # received total amount by seller after product sale, assume 1 dollar for each product
-        self.lamport_clock = 0  # Initialize Lamport clock
-        self.request_queue = []  # Queue to manage buy requests based on timestamps
 
+    def __init__(self, peer_id, role, network_size, leader=False, product=None, neighbors=None):
+        """
+        Initialize a new Peer instance with the given attributes.
+
+        Args:
+            peer_id (int): The unique identifier for the peer.
+            role (str): The role of the peer (e.g., "seller", "buyer").
+            network_size (int): The size of the network (total number of peers).
+            leader (bool): Whether the peer is the leader. Default is False.
+            product (str): The product that the peer is selling (if applicable).
+            neighbors (list): A list of neighbors (other peer_ids) the peer communicates with. Default is empty.
+        """
+        self.leader = True  # Indicates whether the peer is the leader (default True).
+        self.leader_id = -1  # The ID of the leader (initialized to -1).
+        self.election_inprogress = False  # Flag to track if an election is in progress.
+        self.alive = True  # Flag indicating whether the peer is alive.
+        self.peer_id = peer_id  # The unique identifier for this peer.
+        self.role = role  # The role of the peer (e.g., seller, buyer).
+        self.network_size = network_size  # Total number of peers in the network.
+        self.product = product  # The product being sold by the peer, if any.
+        self.neighbors = neighbors or []  # List of neighboring peer IDs.
+        self.lock = threading.Lock()  # Lock for thread synchronization.
+        self.stock = 100 if role == "seller" else 0  # Stock of the product, 1000 for sellers, 0 for others.
+        self.request_already_sent = False  # Flag to track if a request has already been sent.
+        Peer.peers_by_id[self.peer_id] = self  # Add this peer to the global dictionary by its peer_id.
+        self.cash_received = 0  # Total amount of cash received by the seller after product sales (1 dollar per product).
+        self.lamport_clock = 0  # Initialize the Lamport clock to 0 for synchronization across peers.
+        self.request_queue = []  # Queue to manage buy requests based on Lamport timestamps (for FIFO processing).
     def increment_clock(self):
+        """
+        Increment the Lamport clock by 1.
+        
+        This function is called when an event occurs locally (e.g., sending a message or processing an action).
+        It ensures that the local Lamport clock is increased to reflect the passage of time in the system.
+        """
         self.lamport_clock += 1
 
     def update_clock(self, other_clock):
-        # Update local clock with the max of local and received clocks
+        """
+        Update the Lamport clock based on the clock received from another process.
+
+        This function is called when a message is received from another process. 
+        The Lamport clock is updated to the maximum of the local clock and the received clock, 
+        and then incremented by 1 to reflect the "happens-before" relationship.
+        
+        Args:
+            other_clock (int): The Lamport clock value from the other process.
+        """
         self.lamport_clock = max(self.lamport_clock, other_clock) + 1
 
-    def run_election(self):
 
+    def run_election(self):
+        """
+        This function handles the election process to elect a new leader in a distributed network.
+        It sends election requests to higher peers and waits for their responses. If no higher peer
+        responds, it assumes itself as the leader and broadcasts the election result to the network.
+
+        The election process follows these steps:
+        1. Notify the network that an election is in progress.
+        2. Send requests to peers with higher peer IDs.
+        3. Wait for responses from peers.
+        4. If no higher peer responds, declare itself as the new leader.
+        5. Broadcast the new leader's ID to the network and log it to a file.
+        """
         self.send_request("election_inprogress", data=None)
         higher_peer_id = []
         for peer in range(self.network_size):
-            print(f"peer is {peer} and {self.peer_id}")
             if peer > self.peer_id: 
                 higher_peer_id.append(peer)
-                print(f"peer id list {higher_peer_id}")
 
                 # all bigger peer IDs are in the list
         for peer in higher_peer_id: 
@@ -88,7 +114,7 @@ class Peer:
         time.sleep(5)
 
         if(self.leader == True and self.request_already_sent == False):
-            print(f"New leader elected: {self.peer_id}")
+            logging.info(f"New leader elected: {self.peer_id}")
             leader_id = self.peer_id
             self.request_already_sent = True
             # for peer in range(self.network_size):
@@ -103,9 +129,8 @@ class Peer:
                         # if not leader_exists:
                         writer.writeheader()
                         election_outcome=[{"leader_id":leader_id, "election_in_progress":0}]
-                        print(f"Election outcome is  ============== {election_outcome}")
+                        print(f"Peer {election_outcome} has been elected as the new leader!")
                         writer.writerows(election_outcome)  # Write each item as a row
-                    print(f"New Leader written to {leader_path}")
                 except FileNotFoundError:
                     print(f"Error: The file path {leader_path} could not be found.")
                 except IOError as e:
@@ -130,24 +155,15 @@ class Peer:
             client_socket, address = server_socket.accept()
             threading.Thread(target=self.handle_request, args=(client_socket,)).start()
 
-    """
-        handle_request(self, client_sock)
-
-        When the peer is polling for connections it must handle each type of request uniquely.
-        There are 3 types of requests that the Peer can handle: [lookup, reply, buy] 
-
-        lookup: is used when the request is being propagated to via the neighboring peers. This code path 
-                look to see if they are the seller of the project.
-
-                if y: it will attempt to reply by backtracking on the search path
-                if n: it will forward the message along via another lookup and decrement the hop_count
-        
-        reply: is used when the request has found a buyer and is working backward in the search path until the search path is itself. 
-                At this point the buyer has returned to itself and can perform the stock decrement via the handle_buy
-        
-        buy: is used when the buyer has reached itself and is ready to perform the stock inventory decrement on the seller Peer via the peers_by_id map.  
-    """
     def handle_request(self, client_socket):
+        """
+            This function handles incoming requests from other peers in the network. It processes different types of requests
+            and performs the corresponding actions based on the request type. These actions include handling buy requests,
+            leader election updates, inventory updates, and more.
+
+            Args:
+                client_socket (socket): The socket object representing the connection with the client peer.
+        """
         try:
             request = client_socket.recv(1024).decode()
             
@@ -156,17 +172,16 @@ class Peer:
             if request_type == "buy":
                 buyer_id, leader_id, product_name, buyer_clock = data.split(',')
                 # once we have updated our own node we will multicast the request to everyone else. 
-                print(f"start buy buyer:{buyer_id}, leader:{leader_id}, item:{product_name}")
+                logging.info(f"start buy buyer:{buyer_id}, leader:{leader_id}, item:{product_name}")
                 self.update_clock(int(buyer_clock))
                 self.multicast_request()
                 self.handle_buy_from_leader(buyer_id, leader_id, product_name)
             elif request_type == "set_leader":
                 self.leader_id = data
                 self.election_inprogress = False
-                print(f"leader Set complete on {self.peer_id} and leader is {self.leader_id}")
             elif request_type == "ok":
                 sender_id = data
-                print(f"setting is_leader to false for {self.peer_id}")
+                logging.info(f"setting is_leader to false for {self.peer_id}")
                 self.leader = False
                 self.request_already_sent = False
             elif request_type == "are_you_alive":
@@ -174,18 +189,20 @@ class Peer:
                 self.handle_alive(sender_id[0])
             elif request_type == "give_seller_list":
                 leader_id = data
-                print("requesting seller list from the leader")
+                logging.info("requesting seller list from the leader")
                 self.handle_seller_list(leader_id)        # you might not even need leader_id here because each peer know 
             elif request_type == "selling_list":
                 seller_id, seller_product, product_stock = data.split(',')
-                print(f"=============Items for sale is from {seller_id}, {seller_product}, {product_stock}")
+                logging.info(f"Seller Peer {seller_id} is selling product: {seller_product}, stock: {product_stock}")
                 self.handle_file_write(int(seller_id), seller_product, int(product_stock))
             elif request_type == "item_bought":
                 self.stock -= 1
                 self.cash_received += 1
-                print(f"Seller {self.peer_id} sold a product and received cash 1$, total cash accumulated: {self.cash_received}$")
+
+                # add a print statement that can be used for comparing timestamps
+                # print(f"CASH RECIEVED: {self.cash_received} {datetime.datetime.now()}")
+                logging.info(f"Seller {self.peer_id} sold a product and received cash 1$, total cash accumulated: {self.cash_received}$")
             elif request_type == "election_inprogress":
-                print(f"{self.peer_id} has detected an election") 
                 self.election_inprogress = True
             elif request_type == "run_election":
                 self.run_election()
@@ -197,13 +214,28 @@ class Peer:
                 # if the node is getting a mutlicast request we need to compare clocks
                 new_clock = data
                 self.update_clock(int(new_clock))
-                print(f"{self.peer_id} peer's new clock value is {self.lamport_clock}")
+                logging.info(f"multicast recieved by Peer {self.peer_id} new clock value is {self.lamport_clock}")
         except Exception as e:
             logging.info(f"Error handling request: {e}")
         finally:
             client_socket.close() #close the socket after the connection.
 
     def handle_buy_from_leader(self, buyer_id, leader_id, product_name):
+
+        """
+            This function handles the process of a buyer purchasing a product from the leader.
+            It checks inventory for product availability, deducts stock, and updates the inventory.
+            It also handles a possibility of triggering a leader election based on a random chance.
+
+            Args:
+                buyer_id (str): The ID of the buyer making the purchase request.
+                leader_id (str): The ID of the leader who is processing the request.
+                product_name (str): The name of the product being purchased.
+            
+            Returns:
+                bool: Returns False if an error occurs (e.g., product not found).
+        """
+
         if not file_exists:
             print("Error: No product file found.")
             return False
@@ -213,7 +245,6 @@ class Peer:
             # Queue the request with timestamp
             self.request_queue.append((self.lamport_clock, buyer_id, product_name))
             self.request_queue.sort()  # Sort queue by timestamp for fairness
-            print(f"request queue:{self.request_queue}")
             # Load current inventory
             inventory = []
             with open(file_path, mode='r', newline='') as file:
@@ -223,15 +254,13 @@ class Peer:
             # Check if the product is available and has enough stock
             # Process requests in order of Lamport clocks
             while self.request_queue:
-                print(len(self.request_queue))
                 _, current_buyer, requested_product = self.request_queue.pop(0)
                 transaction_complete = False
                 for entry in inventory:
-                    print(f'{entry["product_name"]}, {entry["product_stock"]}')
                     if entry["product_name"] == requested_product and int(entry["product_stock"]) > 0:
                         # Deduct stock
                         entry["product_stock"] = str(int(entry["product_stock"]) - 1)
-                        print(f"Purchase successful: Buyer {buyer_id} bought {1} of {requested_product} from Leader {leader_id}.")
+                        logging.info(f"Purchase successful: Buyer {buyer_id} bought {1} of {requested_product} from Leader {leader_id}.")
                         self.send_request_to_specific_id("item_bought", f"{self.peer_id}", eval(entry["seller_id"]))
                         transaction_complete = True
                         break
@@ -239,7 +268,7 @@ class Peer:
                         self.send_request_to_specific_id("restock_item", f"{self.peer_id}", eval(entry["seller_id"]))
                         self.send_request_to_specific_id("give_seller_list", f"{self.peer_id}", eval(entry["seller_id"]))
                         inventory.remove(entry)
-                        print(f"{requested_product} removed from inventory as stock is 0.")
+                        logging.info(f"{requested_product} removed from inventory as stock is 0.")
 
                 if transaction_complete == False:
                     print(f"Item {product_name} unavailable for sale or out of stock")
@@ -254,9 +283,8 @@ class Peer:
             except IOError as e:
                 print(f"IOError: Could not update the file. {e}")
         
-        # print("checking if leader is falling sick")
         chance = rand.random()
-        if chance < 0.05:
+        if chance < .004:
             if not self.election_inprogress:
                 self.election_inprogress = True
         
@@ -287,6 +315,15 @@ class Peer:
                 self.fall_sick()
 
     def multicast_request(self):
+
+        """
+        This function sends the current Lamport clock value to all peers in the network.
+        It is used to keep all peers' clocks synchronized.
+        
+        It iterates through all peers in the network and sends a multicast request with the
+        current Lamport clock value. This helps to propagate the clock updates across all peers.
+        """
+
         # update all nodes with the latest lamport clock value
         request_type = "multicast"
         lamport_clock = self.lamport_clock
@@ -296,20 +333,25 @@ class Peer:
             
     
     def fall_sick(self, retry=False):    
+        """
+        Simulates the leader "falling sick" (becoming unavailable). When the leader falls sick,
+        an election is triggered to select a new leader.
+        
+        The probability of falling sick is random, but can be forced by passing `retry=True`.
+        If the leader falls sick, an election is initiated with another peer.
+
+        Args:
+            retry (bool): If True, forces the function to retry the election process.
+        """
         # randomly make it possible for the leader to fall_sick 
-        # of gaurentee sickness if the 
-        # print("checking if leader is falling sick")
         chance = rand.random()
         if chance < 1 or retry:
             print("============leader is falling sick =======================")
-            # one of the other nodes should start an election
-            election_peer_id = rand.randint(0, self.network_size-1)
-            # election_peer = Peer.peers_by_id.get(election_peer_id)
+
             election_peer = Peer.peers_by_id.get(0)
             if election_peer.alive and election_peer.peer_id != self.peer_id:
                 print(f"{election_peer.peer_id} is starting the election")
                 self.alive = False
-                # election_peer.run_election()
                 self.send_request_to_specific_id("run_election", f"{self.peer_id}", int(0))
                 time.sleep(1)
             else: 
@@ -318,6 +360,18 @@ class Peer:
                 self.fall_sick(retry=True)
         
     def handle_file_write(self, seller_id, seller_product, product_stock):
+        """
+        This function handles writing or updating a product's data in the CSV file.
+
+        It first reads the CSV file into a DataFrame. If a row with the same seller_id and product_name
+        already exists, it updates the product_stock. If no such row exists, it appends a new entry for
+        that seller and product.
+
+        Args:
+            seller_id (int): The ID of the seller.
+            seller_product (str): The name of the product being sold.
+            product_stock (int): The current stock of the product.
+        """
         # Write data to the CSV file in the current directory open(file_path, mode='a' if file_exists else 'w', newline='')
         with self.lock:
             seller_id = int(seller_id)
@@ -349,27 +403,47 @@ class Peer:
             df.to_csv(file_path, index=False)
 
     def handle_seller_list(self, leader_id):
+        """
+        This function handles sending the list of products a seller has available to the leader.
+
+        If the peer is a seller (but not the leader) and is alive, it sends a request to the leader
+        with the product's information (product name, stock, and peer ID).
+
+        Args:
+            leader_id (int): The ID of the current leader.
+        """
         if(self.alive == True):
             if(self.role == "seller" and not self.leader):
                 self.send_request_to_specific_id("selling_list", f"{self.peer_id},{self.product},{self.stock}", int(self.leader_id))
 
     def handle_alive(self, sender_id):
+        """
+            This function handles an "are_you_alive" request from another peer.
+
+            If the sender's ID is smaller than the current peer's ID, the current peer assumes the role of the leader.
+            The peer then sends an "ok" response to acknowledge the sender's request and initiates a new election if necessary.
+
+            Args:
+                sender_id (int): The ID of the peer that sent the "are_you_alive" request.
+        """
         if(self.alive == True):
             if int(sender_id) < self.peer_id:
                 self.leader = True
-            print(f"sending ok reply to sender {sender_id} from peer {self.peer_id}")
+            logging.info(f"sending ok reply to sender {sender_id} from peer {self.peer_id}")
             self.send_request_to_specific_id("ok", f"{self.peer_id}", eval(sender_id))
             self.run_election()
 
-
-    """
-        send_request(request_type, data)
-
-        is a wrapper function for sending data to its own neighbors. 
-
-        request_type can be: [lookup, reply, buy] as seen in the handle_request function. 
-    """
     def send_request(self, request_type, data):
+        """
+            This function sends a request to all peers in the network.
+
+            For each peer in the network, it creates a socket, connects to the peer at a specific port,
+            and sends a request with the specified type and data.
+
+            Args:
+                request_type (str): The type of the request (e.g., "buy", "set_leader").
+                data (str): The data to be sent with the request.
+        """
         for peer_number in range(self.network_size):
             try:
                 peer = Peer.peers_by_id.get(peer_number)
@@ -381,7 +455,16 @@ class Peer:
                 logging.info(f"Error sending request to Peer {peer_number}: {e}")
 
     def send_request_to_specific_id(self, request_type, data, peer_id):
-        print(f"request_type:{request_type} data:{data}")
+        """
+            This function sends a request to a specific peer identified by peer_id.
+
+            It creates a socket, connects to the specified peer, and sends the request with the given type and data.
+
+            Args:
+                request_type (str): The type of the request (e.g., "buy", "set_leader").
+                data (str): The data to be sent with the request.
+                peer_id (int): The ID of the peer to which the request is being sent.
+        """
         try:
             peer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             peer_socket.connect(('127.0.0.1', 5000 + peer_id))
@@ -389,22 +472,3 @@ class Peer:
             peer_socket.close()
         except Exception as e:
             logging.info(f"Error sending request to Peer {peer_id}: {e}")
-
-    """
-        send_reply_request(request_type, data, next_peer_id)
-
-        attempts to send a reply request to the next peer to the corresponding peer via the map. 
-    """
-    def send_reply_request(self, request_type, data, next_peer_id):
-        try:
-            next_peer = Peer.peers_by_id.get(next_peer_id)
-            if next_peer:
-                peer_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                peer_socket.connect(('127.0.0.1', 5000 + next_peer.peer_id))
-                peer_socket.send(f"{request_type}|{data}".encode())
-                peer_socket.close()
-                logging.debug(f"Reply request 'from Peer {self.peer_id} to Peer {next_peer.peer_id}.")
-            else:
-                logging.info(f"Next peer {next_peer_id} not found.")
-        except Exception as e:
-            logging.info(f"Error sending reply request to Peer {next_peer_id}: {e}")
