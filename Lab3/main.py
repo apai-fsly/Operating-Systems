@@ -218,7 +218,7 @@ if __name__ == "__main__":
     if mode == 'test_case1':
         logging.info("Running Test Case 1")
 
-        run_warehouse(host='127.0.0.1', port=8080)
+        run_warehouse(host='127.0.0.1', port=8081)
 
         peers = setup_test_case1()
         for i, peer in enumerate(peers):

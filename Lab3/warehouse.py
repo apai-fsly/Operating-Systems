@@ -19,7 +19,7 @@ def run_warehouse(host, port):
 def main():
     # Dictionary to define products and initial stock values
    
-    run_warehouse("127.0.0.1", 8080)
+    run_warehouse("127.0.0.1", 8081)
 
 
     # Example of starting a multiprocessing process
@@ -27,7 +27,7 @@ def main():
     # server.start()
     # server.join()
 
-def server_function(host="127.0.0.1", port=8080):
+def server_function(host="127.0.0.1", port=8081):
 
     productDictionary = {
         "salt": 0,
@@ -137,7 +137,7 @@ def worker_function(name):
 def generate_csv(productDictionary): 
      for product, stock in productDictionary.items():
         # Create a new file for each product
-        csvFilePath = f"Lab3/{product}.csv"
+        csvFilePath = f"{product}.csv"
 
         # Initialize the CSV file with headers if it doesn't exist or is empty
         try:
@@ -153,7 +153,7 @@ def generate_csv(productDictionary):
 
 
 def decrement(product, value): 
-        csvFilePath = f"Lab3/{product}.csv"
+        csvFilePath = f"{product}.csv"
 
         # here we want to take a lock on the file
         with csv_lock[product+".csv"]:
@@ -177,7 +177,7 @@ def decrement(product, value):
         
 
 def restock(product, value): 
-    csvFilePath = f"Lab3/{product}.csv"
+    csvFilePath = f"{product}.csv"
 
     # Initialize the CSV file with headers if it doesn't exist or is empty
     with csv_lock[product+".csv"]:
