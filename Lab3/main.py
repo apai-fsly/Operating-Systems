@@ -10,14 +10,6 @@ import csv
 from peer import Peer
 from warehouse import run_warehouse
 
-# adding logging handler to easily get timestamps
-logging.basicConfig(
-    stream=sys.stdout,
-    level=logging.INFO,
-    format='%(asctime)s.%(msecs)03d - %(message)s',
-    datefmt='%H:%M:%S'
-) 
-
 current_directory = os.getcwd()
 
 file_name = "seller_goods.csv"

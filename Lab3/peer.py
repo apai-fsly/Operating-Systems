@@ -222,6 +222,8 @@ class Peer:
             elif request_type == "no_item":
                 product = data
                 logging.info(f"Unable to complete the buy {product} Out of stock:")
+            elif request_type == "purchase_success": 
+                logging.info(f"trader {self.peer_id} purchased goods from the warehouse")
             else: 
                 print("request type was not supported")
             
