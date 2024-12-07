@@ -23,8 +23,8 @@ current_directory = os.getcwd()
 file_name = "seller_goods.csv"
 file_path = os.path.join(current_directory, file_name)
 
-leader_name = "leader.csv"
-leader_path = os.path.join(current_directory, leader_name)
+leader_file = "leader.csv"
+leader_path = os.path.join(current_directory, leader_file)
 
 processes = []
 
@@ -91,10 +91,10 @@ def setup_test_case1():
     peer_0 = Peer(peer_id=0, role="buyer", network_size=7, product="salt", leader=False)
     peer_1 = Peer(peer_id=1, role="seller", network_size=7, product="fish", leader=False)
     peer_2 = Peer(peer_id=2, role="seller", network_size=7, product="boar", leader=False)
-    peer_3 = Peer(peer_id=3, role="trader", network_size=7, product=None, leader=True)
+    peer_3 = Peer(peer_id=3, role="seller", network_size=7, product="salt", leader=False)
     peer_4 = Peer(peer_id=4, role="buyer", network_size=7, product="fish", leader=False)
     peer_5 = Peer(peer_id=5, role="seller", network_size=7, product="salt", leader=False)
-    peer_6 = Peer(peer_id=6, role="trader", network_size=7, product=None, leader=True)
+    peer_6 = Peer(peer_id=6, role="buyer", network_size=7, product="boar", leader=False)
 
 
     peer_0.neighbors = [peer_1, peer_2, peer_3, peer_4, peer_5, peer_6]
@@ -171,20 +171,21 @@ def setup_test_case6():
 
     return [peer_0, peer_1, peer_2, peer_3]
 
-def read_leader_id(leader_path):
-    try:
-        with open(leader_path, mode='r', newline='') as file:
-            reader = csv.DictReader(file)
-            # Read the first row and return the leader_id
-            for row in reader:
-                return row['leader_id']  # Return the first leader_id found
-            
-    except FileNotFoundError:
-        print(f"Error: The file {leader_path} could not be found.")
-    except IOError as e:
-        print(f"IOError: {e}")
-    
-    return None  # Return None if no leader_id is found or an error occurs
+def initialize_csv():
+    """Ensure the CSV file exists."""
+    if not os.path.exists(leader_path):
+        open(leader_path, mode='w').close()  # Create an empty file
+        print(f"{leader_path} initialized.")
+    else:
+        print(f"{leader_path} already exists.")
+
+def clear_leaders():
+    """Clear all leaders from the CSV file."""
+    if os.path.exists(leader_path):
+        open(leader_path, mode='w').close()  # Truncate the file
+        print("All leaders cleared from the file.")
+    else:
+        print(f"{leader_path} does not exist.")
 
 def read_election_in_progress(leader_path):
     try:
@@ -220,25 +221,45 @@ if __name__ == "__main__":
 
         run_warehouse(host='127.0.0.1', port=8081)
 
+        initialize_csv()
+
         peers = setup_test_case1()
         for i, peer in enumerate(peers):
             run_peer(peer, host='127.0.0.1', port=5000 + i)
 
+        time.sleep(1)
+        Number_of_peer = 7
+        Number_of_trader = 2
+        print(f"start election node {peers[0].peer_id}")
+        peers[0].send_request_to_specific_id("run_election", f"{Number_of_peer},{Number_of_trader}", int(peers[0].peer_id))
+        
+        time.sleep(2)
+
         try:
             time.sleep(1)
-            leader_id = [3, 6]
+            leader_id = [0, 6]
             # Create and start the thread for seller to sell the items ater Ts=15 seconds
             seller_thread = threading.Thread(target=send_item, args=(peers,leader_id,))
             seller_thread.daemon = True  # Daemon thread to terminate with the main program
             seller_thread.start()
             time.sleep(2)
             value = 5
-            for i in range(100):
+            for i in range(2):
                 leader = random.choice(leader_id)
                 peers[4].send_request_to_specific_id("buy", f"{peers[4].peer_id},{leader},{peers[4].product},{value}", int(leader))
-                time.sleep(20)
+                time.sleep(5)
+
+            # Simulate trader1 failure
+            print("[Simulation] Simulating Trader1 failure.")
+            peers[0].send_request_to_specific_id("fall_sick", f"", 0)
+
+            for i in range(5):
+                leader = random.choice(leader_id)
+                peers[4].send_request_to_specific_id("buy", f"{peers[4].peer_id},{leader},{peers[4].product},{value}", int(leader))
+                time.sleep(5)
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")
+            clear_leaders()
             shutdown_processes(processes)
             logging.info("All peers shut down.")
 

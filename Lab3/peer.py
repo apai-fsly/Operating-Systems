@@ -11,6 +11,7 @@ import random as rand
 import random
 
 
+FAULT_TOLERANT = True
 # shared file among the leaders
 # Get and display the current working directory
 current_directory = os.getcwd()
@@ -20,8 +21,8 @@ print(f"Current working directory: {current_directory}")
 file_name = "seller_goods.csv"
 file_path = os.path.join(current_directory, file_name)
 
-leader_name = "leader.csv"
-leader_path = os.path.join(current_directory, leader_name)
+leader_file = "leader.csv"
+leader_path = os.path.join(current_directory, leader_file)
 leader_exists = os.path.exists(leader_path)
 
 HEARTBEAT_INTERVAL = 2
@@ -52,7 +53,7 @@ class Peer:
             neighbors (list): A list of neighbors (other peer_ids) the peer communicates with. Default is empty.
         """
         self.leader = True  # Indicates whether the peer is the leader (default True).
-        self.leader_id = -1  # The ID of the leader (initialized to -1).
+        self.trader_ids = set()  # Set to store the current trader list
         self.election_inprogress = False  # Flag to track if an election is in progress.
         self.alive = True  # Flag indicating whether the peer is alive.
         self.peer_id = peer_id  # The unique identifier for this peer.
@@ -91,7 +92,7 @@ class Peer:
         self.lamport_clock = max(self.lamport_clock, other_clock) + 1
 
 
-    def run_election(self):
+    def run_election(self, number_of_peer, number_of_trader):
         """
         This function handles the election process to elect a new leader in a distributed network.
         It sends election requests to higher peers and waits for their responses. If no higher peer
@@ -104,47 +105,18 @@ class Peer:
         4. If no higher peer responds, declare itself as the new leader.
         5. Broadcast the new leader's ID to the network and log it to a file.
         """
-        self.send_request("election_inprogress", data=None)
-        higher_peer_id = []
-        for peer in range(self.network_size):
-            if peer > self.peer_id: 
-                higher_peer_id.append(peer)
+        step = (int(number_of_peer) - 1) // (int(number_of_trader) - 1)  # Calculate step size
+        trader_list = [i * step for i in range(int(number_of_trader))]
+        for peer in trader_list:
+            print(f"TRADER is {peer}")
+            self.send_request_to_specific_id("set_leader", f"{self.peer_id}", peer)
 
-                # all bigger peer IDs are in the list
-        for peer in higher_peer_id: 
-            self.send_request_to_specific_id("are_you_alive", f"{self.peer_id}", peer)
-
-        # wait for a reply from peers
-        time.sleep(5)
-
-        if(self.leader == True and self.request_already_sent == False):
-            logging.info(f"New leader elected: {self.peer_id}")
-            leader_id = self.peer_id
-            self.request_already_sent = True
-            # for peer in range(self.network_size):
-            self.send_request("set_leader", leader_id)
-            self.send_request("give_seller_list", leader_id)
-            # write leader to file
-            with self.lock:
-                try:
-                    with open(leader_path, mode ='w', newline='') as file:
-                        writer = csv.DictWriter(file, fieldnames=["leader_id", "election_in_progress"])
-                        # Write header only if the file is being created for the first time
-                        # if not leader_exists:
-                        writer.writeheader()
-                        election_outcome=[{"leader_id":leader_id, "election_in_progress":0}]
-                        print(f"Peer {election_outcome} has been elected as the new leader!")
-                        writer.writerows(election_outcome)  # Write each item as a row
-                except FileNotFoundError:
-                    print(f"Error: The file path {leader_path} could not be found.")
-                except IOError as e:
-                    print(f"IOError: {e}")  
 
     def heartbeat(self):
-        if self.peer_id == 3:
+        if self.peer_id == 0:
             other_trader_id = 6
         else:
-            other_trader_id = 3
+            other_trader_id = 0
         while self.alive:
             try:
                 self.send_request_to_specific_id("heartbeat", f"", other_trader_id)
@@ -154,14 +126,48 @@ class Peer:
 
     def monitor_trader(self):
         while self.alive:
+            print(f"Monitor *** {time.time()}, {self.last_heartbeat}")
             if time.time() - self.last_heartbeat > TIMEOUT:
                 print(f"Other trader is unresponsive. Taking over as primary.")
-                # self.is_primary = True
-                print(f"trader failed")
-                # self.notify_failover()
+                self.send_request("trader_fail", f"0")
+                print("checkpoint")
                 break
             time.sleep(1)
 
+    def get_leaders(self):
+        """Retrieve all leaders from the CSV file as a set."""
+        if not os.path.exists(leader_path):
+            return set()
+        with open(leader_path, mode='r') as file:
+            reader = csv.reader(file)
+            return {int(row[0]) for row in reader if row}  # Convert to integers
+
+    def add_leader(self,leader_number):
+        """Add a new leader number to the CSV file if not already present."""
+        leaders = self.get_leaders()
+        if leader_number in leaders:
+            print(f"Leader {leader_number} already exists.")
+            return
+
+        with open(leader_path, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([leader_number])
+        print(f"Leader {leader_number} added.")
+
+    def remove_leader(self,leader_number):
+        """Remove a leader by their number."""
+        leaders = self.get_leaders()
+        if leader_number not in leaders:
+            print(f"Leader {leader_number} not found.")
+            return
+
+        leaders.remove(leader_number)  # Remove from the set
+        with open(leader_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            for leader in leaders:
+                writer.writerow([leader])
+        print(f"Leader {leader_number} removed.")
+            
     """
         listen_for_requests(self, host, port)
 
@@ -170,10 +176,6 @@ class Peer:
         in the p2p network.
     """
     def listen_for_requests(self, host, port):
-        if self.role == "trader":
-            threading.Thread(target=self.monitor_trader,daemon=True).start()
-            threading.Thread(target=self.heartbeat, daemon=True).start()
-
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.bind((host, port))
         server_socket.listen(5)
@@ -208,8 +210,22 @@ class Peer:
                 logging.info(f"Seller Peer {seller_id} is selling product: {seller_product}")
                 self.handle_sell(seller_product, value)
             elif request_type == "set_leader":
-                self.leader_id = data
-                self.election_inprogress = False
+                self.leader = True
+                self.role = "trader"
+                self.handle_trader()
+                self.add_leader(self.peer_id)
+                if FAULT_TOLERANT:
+                    threading.Thread(target=self.monitor_trader,).start()
+                    threading.Thread(target=self.heartbeat,).start()
+            elif request_type == "i_am_trader":
+                trader = data
+                self.trader_ids.add(trader)
+            elif request_type == "fall_sick":
+                self.remove_leader(self.peer_id)
+                self.alive = False
+            elif request_type == "trader_fail":
+                failed_trader = data
+                self.trader_ids.remove(failed_trader)
             elif request_type == "ok":
                 sender_id = data
                 logging.info(f"setting is_leader to false for {self.peer_id}")
@@ -236,7 +252,8 @@ class Peer:
             elif request_type == "election_inprogress":
                 self.election_inprogress = True
             elif request_type == "run_election":
-                self.run_election()
+                number_of_peer, number_of_trader = data.split(',')
+                self.run_election(number_of_peer, number_of_trader)
             elif request_type == "restock_item":
                 self.stock = 100
                 self.product = random.choice(["boar", "salt", "fish"])
@@ -255,7 +272,8 @@ class Peer:
             elif request_type == "heartbeat":
                 if self.alive == True:
                     self.last_heartbeat = time.time()
-                    logging.info(f"Received heartbeat")
+                    logging.info(f"Received heartbeat {self.last_heartbeat}")
+                    print(f"self trader id are {self.trader_ids}")
             else: 
                 print("request type was not supported")
             
@@ -263,6 +281,9 @@ class Peer:
             logging.info(f"Error handling request: {e}")
         finally:
             client_socket.close() #close the socket after the connection.
+
+    def handle_trader(self):
+        self.send_request("i_am_trader", f"{self.peer_id}")        
 
     def handle_buy(self, buyer_id, trader_id, product_name, value):
         self.send_request_to_database("decrement", f"{product_name},{value},{buyer_id},{trader_id}")
@@ -405,7 +426,7 @@ class Peer:
             if election_peer.alive and election_peer.peer_id != self.peer_id:
                 print(f"{election_peer.peer_id} is starting the election")
                 self.alive = False
-                self.send_request_to_specific_id("run_election", f"{self.peer_id}", int(0))
+                # self.send_request_to_specific_id("run_election", f"{self.peer_id}", int(0))
                 time.sleep(1)
             else: 
                 print("peer is not alive retrying running the election")
@@ -484,7 +505,7 @@ class Peer:
                 self.leader = True
             logging.info(f"sending ok reply to sender {sender_id} from peer {self.peer_id}")
             self.send_request_to_specific_id("ok", f"{self.peer_id}", eval(sender_id))
-            self.run_election()
+            # self.run_election()
 
     def send_request(self, request_type, data):
         """
