@@ -24,6 +24,9 @@ leader_name = "leader.csv"
 leader_path = os.path.join(current_directory, leader_name)
 leader_exists = os.path.exists(leader_path)
 
+HEARTBEAT_INTERVAL = 2
+TIMEOUT = 5
+
 # Function to check if the file has entries
 def is_file_empty(file_path):
     # Check if the file exists and if it has a size greater than 0
@@ -64,6 +67,7 @@ class Peer:
         self.cash_received = 0  # Total amount of cash received by the seller after product sales (1 dollar per product).
         self.lamport_clock = 0  # Initialize the Lamport clock to 0 for synchronization across peers.
         self.request_queue = []  # Queue to manage buy requests based on Lamport timestamps (for FIFO processing).
+        self.last_heartbeat = time.time()
     def increment_clock(self):
         """
         Increment the Lamport clock by 1.
@@ -136,6 +140,28 @@ class Peer:
                 except IOError as e:
                     print(f"IOError: {e}")  
 
+    def heartbeat(self):
+        if self.peer_id == 3:
+            other_trader_id = 6
+        else:
+            other_trader_id = 3
+        while self.alive:
+            try:
+                self.send_request_to_specific_id("heartbeat", f"", other_trader_id)
+            except Exception as e:
+                print(f"[{self.name}] Error sending heartbeat: {e}")
+            time.sleep(HEARTBEAT_INTERVAL)
+
+    def monitor_trader(self):
+        while self.alive:
+            if time.time() - self.last_heartbeat > TIMEOUT:
+                print(f"Other trader is unresponsive. Taking over as primary.")
+                # self.is_primary = True
+                print(f"trader failed")
+                # self.notify_failover()
+                break
+            time.sleep(1)
+
     """
         listen_for_requests(self, host, port)
 
@@ -144,6 +170,10 @@ class Peer:
         in the p2p network.
     """
     def listen_for_requests(self, host, port):
+        if self.role == "trader":
+            threading.Thread(target=self.monitor_trader,daemon=True).start()
+            threading.Thread(target=self.heartbeat, daemon=True).start()
+
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.bind((host, port))
         server_socket.listen(5)
@@ -222,6 +252,10 @@ class Peer:
             elif request_type == "no_item":
                 product = data
                 logging.info(f"Unable to complete the buy {product} Out of stock:")
+            elif request_type == "heartbeat":
+                if self.alive == True:
+                    self.last_heartbeat = time.time()
+                    logging.info(f"Received heartbeat")
             else: 
                 print("request type was not supported")
             
