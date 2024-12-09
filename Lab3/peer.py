@@ -159,7 +159,7 @@ class Peer:
         logger.info(f"Peer {self.peer_id} listening on {host}:{port}")
         logger.info(f"Peer {self.peer_id} has caching set to {self.use_caching}")
 
-        if self.role == "trader": 
+        if self.role == "trader" and self.use_caching: 
             logger.info(f"{self.peer_id} performing intial cache loading")
             self.load_inital_cache(logger)
 
@@ -200,13 +200,15 @@ class Peer:
                 buyer_id, trader_id, product_name, value = data.split(',') 
                 logger.info(f"start buy buyer:{buyer_id}, leader:{trader_id}, item:{product_name}")
                 
-                if self.cache.get(product_name) != None and int(self.cache.get(product_name)) >= int(value):
-                    logger.info(f"{product_name} was found in the trader {self.peer_id} cache with value {self.cache.get(product_name) }")
-                    self.handle_buy(buyer_id, trader_id, product_name, value)
+                if self.use_caching:
+                    if self.cache.get(product_name) != None and int(self.cache.get(product_name)) >= int(value):
+                        logger.info(f"{product_name} was found in the trader {self.peer_id} cache with value {self.cache.get(product_name) }")
+                        self.handle_buy(buyer_id, trader_id, product_name, value)
+                    else: 
+                        # should we check what the stock is from warehouse
+                        self.send_request_to_database("load_cache", f"{self.peer_id}")
                 else: 
-                    # should we check what the stock is from warehouse?
-                    logger.info("rejecting the buy request")
-                    self.send_request_to_database("load_cache", f"{self.peer_id}")
+                    self.handle_buy(buyer_id, trader_id, product_name, value)
             elif request_type == "sell":
                 seller_id, seller_product, value = data.split(',')
                 logger.info(f"Seller Peer {seller_id} is selling product: {seller_product}")
