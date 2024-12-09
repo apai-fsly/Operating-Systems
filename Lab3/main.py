@@ -214,6 +214,8 @@ if __name__ == "__main__":
 
         run_warehouse(host='127.0.0.1', port=8081)
 
+        time.sleep(3)
+
         peers = setup_test_case1(use_caching=USE_CACHING)
         for i, peer in enumerate(peers):
             run_peer(peer, host='127.0.0.1', port=5000 + i)

@@ -65,6 +65,7 @@ class Peer:
         self.lamport_clock = 0  # Initialize the Lamport clock to 0 for synchronization across peers.
         self.request_queue = []  # Queue to manage buy requests based on Lamport timestamps (for FIFO processing).
         self.use_caching = use_caching
+        self.cache = {}
     def increment_clock(self):
         """
         Increment the Lamport clock by 1.
@@ -137,6 +138,12 @@ class Peer:
                 except IOError as e:
                     print(f"IOError: {e}")  
 
+        
+    # send request 
+    def load_inital_cache(self, logger):
+        logger.info("sending inital cache request")
+        self.send_request_to_database("load_cache", f"{self.peer_id}")
+
     """
         listen_for_requests(self, host, port)
 
@@ -151,6 +158,10 @@ class Peer:
         server_socket.listen(5)
         logger.info(f"Peer {self.peer_id} listening on {host}:{port}")
         logger.info(f"Peer {self.peer_id} has caching set to {self.use_caching}")
+
+        if self.role == "trader": 
+            logger.info(f"{self.peer_id} performing intial cache loading")
+            self.load_inital_cache(logger)
 
         # listen on the port indefinetly for requests
         while True:
@@ -171,11 +182,31 @@ class Peer:
             request = client_socket.recv(1024).decode()
             
             request_type, data = request.split('|', 1) # seperates the request body into the request_type, and data on the |
+            if request_type == "update_cache": 
+                logger.info("warehouse has responded to our update cache request!")
 
-            if request_type == "buy":
+                # data is in the form of product,quantity
+                salt, squant, boar, bquant, fish, fquant = data.split(',')
+
+                self.cache = {
+                    salt: int(squant),
+                    fish: int(fquant),
+                    boar: int(bquant)
+                }
+
+                logger.info(f"trader {self.peer_id} has loaded their cache")
+
+            elif request_type == "buy":
                 buyer_id, trader_id, product_name, value = data.split(',') 
                 logger.info(f"start buy buyer:{buyer_id}, leader:{trader_id}, item:{product_name}")
-                self.handle_buy(buyer_id, trader_id, product_name, value)
+                
+                if self.cache.get(product_name) != None and int(self.cache.get(product_name)) >= int(value):
+                    logger.info(f"{product_name} was found in the trader {self.peer_id} cache with value {self.cache.get(product_name) }")
+                    self.handle_buy(buyer_id, trader_id, product_name, value)
+                else: 
+                    # should we check what the stock is from warehouse?
+                    logger.info("rejecting the buy request")
+                    self.send_request_to_database("load_cache", f"{self.peer_id}")
             elif request_type == "sell":
                 seller_id, seller_product, value = data.split(',')
                 logger.info(f"Seller Peer {seller_id} is selling product: {seller_product}")
@@ -228,7 +259,7 @@ class Peer:
             elif request_type == "purchase_success": 
                 logger.info(f"trader {self.peer_id} purchased goods from the warehouse")
             else: 
-                print("request type was not supported")
+                print(f"request type {request_type} was not supported")
             
         except Exception as e:
             logger.info(f"Error handling request: {e}")
@@ -236,6 +267,12 @@ class Peer:
             client_socket.close() #close the socket after the connection.
 
     def handle_buy(self, buyer_id, trader_id, product_name, value):
+        
+        # if we are using cache update the peers internal cache
+        if self.use_caching: 
+            self.cache[product_name] = self.cache.get(product_name) - int(value)
+            print(f"trader {self.peer_id} has updated its internal cache for product {product_name} to {self.cache[product_name]}")
+
         self.send_request_to_database("decrement", f"{product_name},{value},{buyer_id},{trader_id}")
     
     def handle_sell(self, product, value): 
