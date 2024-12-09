@@ -36,7 +36,7 @@ class Peer:
     # Class variable to store all peers by their peer_id
     peers_by_id = {}
 
-    def __init__(self, peer_id, role, network_size, leader=False, product=None, neighbors=None):
+    def __init__(self, peer_id, role, network_size, use_caching, leader=False, product=None, neighbors=None):
         """
         Initialize a new Peer instance with the given attributes.
 
@@ -64,6 +64,7 @@ class Peer:
         self.cash_received = 0  # Total amount of cash received by the seller after product sales (1 dollar per product).
         self.lamport_clock = 0  # Initialize the Lamport clock to 0 for synchronization across peers.
         self.request_queue = []  # Queue to manage buy requests based on Lamport timestamps (for FIFO processing).
+        self.use_caching = use_caching
     def increment_clock(self):
         """
         Increment the Lamport clock by 1.
@@ -144,18 +145,20 @@ class Peer:
         in the p2p network.
     """
     def listen_for_requests(self, host, port):
+        logger = self.setup_logger(self.peer_id, self.role)
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.bind((host, port))
         server_socket.listen(5)
-        logging.info(f"Peer {self.peer_id} listening on {host}:{port}")
+        logger.info(f"Peer {self.peer_id} listening on {host}:{port}")
+        logger.info(f"Peer {self.peer_id} has caching set to {self.use_caching}")
 
         # listen on the port indefinetly for requests
         while True:
             #start a thread that polls for incoming requests via the handle_request function. 
             client_socket, address = server_socket.accept()
-            threading.Thread(target=self.handle_request, args=(client_socket,)).start()
+            threading.Thread(target=self.handle_request, args=(client_socket, logger)).start()
 
-    def handle_request(self, client_socket):
+    def handle_request(self, client_socket, logger):
         """
             This function handles incoming requests from other peers in the network. It processes different types of requests
             and performs the corresponding actions based on the request type. These actions include handling buy requests,
@@ -171,18 +174,18 @@ class Peer:
 
             if request_type == "buy":
                 buyer_id, trader_id, product_name, value = data.split(',') 
-                logging.info(f"start buy buyer:{buyer_id}, leader:{trader_id}, item:{product_name}")
+                logger.info(f"start buy buyer:{buyer_id}, leader:{trader_id}, item:{product_name}")
                 self.handle_buy(buyer_id, trader_id, product_name, value)
             elif request_type == "sell":
                 seller_id, seller_product, value = data.split(',')
-                logging.info(f"Seller Peer {seller_id} is selling product: {seller_product}")
+                logger.info(f"Seller Peer {seller_id} is selling product: {seller_product}")
                 self.handle_sell(seller_product, value)
             elif request_type == "set_leader":
                 self.leader_id = data
                 self.election_inprogress = False
             elif request_type == "ok":
                 sender_id = data
-                logging.info(f"setting is_leader to false for {self.peer_id}")
+                logger.info(f"setting is_leader to false for {self.peer_id}")
                 self.leader = False
                 self.request_already_sent = False
             elif request_type == "are_you_alive":
@@ -190,11 +193,11 @@ class Peer:
                 self.handle_alive(sender_id[0])
             elif request_type == "give_seller_list":
                 leader_id = data
-                logging.info("requesting seller list from the leader")
+                logger.info("requesting seller list from the leader")
                 self.handle_seller_list(leader_id)        # you might not even need leader_id here because each peer know 
             elif request_type == "selling_list":
                 seller_id, seller_product, product_stock = data.split(',')
-                logging.info(f"Seller Peer {seller_id} is selling product: {seller_product}, stock: {product_stock}")
+                logger.info(f"Seller Peer {seller_id} is selling product: {seller_product}, stock: {product_stock}")
                 self.handle_file_write(int(seller_id), seller_product, int(product_stock))
             elif request_type == "item_bought":
                 self.stock -= 1
@@ -202,7 +205,7 @@ class Peer:
 
                 # add a print statement that can be used for comparing timestamps
                 # print(f"CASH RECIEVED: {self.cash_received} {datetime.datetime.now()}")
-                logging.info(f"Seller {self.peer_id} sold a product and received cash 1$, total cash accumulated: {self.cash_received}$")
+                logger.info(f"Seller {self.peer_id} sold a product and received cash 1$, total cash accumulated: {self.cash_received}$")
             elif request_type == "election_inprogress":
                 self.election_inprogress = True
             elif request_type == "run_election":
@@ -210,25 +213,25 @@ class Peer:
             elif request_type == "restock_item":
                 self.stock = 100
                 self.product = random.choice(["boar", "salt", "fish"])
-                logging.info(f"Peer {self.peer_id} is being restocked with {self.stock} {self.product} ")
+                logger.info(f"Peer {self.peer_id} is being restocked with {self.stock} {self.product} ")
             elif request_type == "multicast":
                 # if the node is getting a mutlicast request we need to compare clocks
                 new_clock = data
                 self.update_clock(int(new_clock))
-                logging.info(f"multicast recieved by Peer {self.peer_id} new clock value is {self.lamport_clock}")
+                logger.info(f"multicast recieved by Peer {self.peer_id} new clock value is {self.lamport_clock}")
             elif request_type == "out_of_stock":
                 buyer_id, product_name = data.split(',')
                 self.handle_out_of_stock(buyer_id, product_name)
             elif request_type == "no_item":
                 product = data
-                logging.info(f"Unable to complete the buy {product} Out of stock:")
+                logger.info(f"Unable to complete the buy {product} Out of stock:")
             elif request_type == "purchase_success": 
-                logging.info(f"trader {self.peer_id} purchased goods from the warehouse")
+                logger.info(f"trader {self.peer_id} purchased goods from the warehouse")
             else: 
                 print("request type was not supported")
             
         except Exception as e:
-            logging.info(f"Error handling request: {e}")
+            logger.info(f"Error handling request: {e}")
         finally:
             client_socket.close() #close the socket after the connection.
 
@@ -512,3 +515,25 @@ class Peer:
             peer_socket.close()
         except Exception as e:
             logging.info(f"Error sending request to database: {e}")
+    
+    @staticmethod
+    def setup_logger(peer_id, role):
+        """Set up a logger for a specific peer."""
+        log_filename = f"peer_{peer_id}_{role}.log"
+        logger = logging.getLogger(f"Peer_{peer_id}_Logger")
+        logger.setLevel(logging.INFO)
+
+        # Avoid adding multiple handlers
+        if not logger.handlers:
+            file_handler = logging.FileHandler(log_filename)
+            file_handler.setLevel(logging.INFO)
+
+            formatter = logging.Formatter(
+                fmt="%(asctime)s - Peer %(message)s",
+                datefmt="%H:%M:%S"
+            )
+            file_handler.setFormatter(formatter)
+
+            logger.addHandler(file_handler)
+
+        return logger

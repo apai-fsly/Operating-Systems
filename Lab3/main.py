@@ -79,14 +79,14 @@ def send_item(peers, leader_id):
                 print(f"Item sent for sale to peer: {peer.peer_id}")
         time.sleep(15)  # Wait for 15 seconds before sending the next item
 
-def setup_test_case1():
-    peer_0 = Peer(peer_id=0, role="buyer", network_size=7, product="salt", leader=False)
-    peer_1 = Peer(peer_id=1, role="seller", network_size=7, product="fish", leader=False)
-    peer_2 = Peer(peer_id=2, role="seller", network_size=7, product="boar", leader=False)
-    peer_3 = Peer(peer_id=3, role="trader", network_size=7, product=None, leader=True)
-    peer_4 = Peer(peer_id=4, role="buyer", network_size=7, product="fish", leader=False)
-    peer_5 = Peer(peer_id=5, role="seller", network_size=7, product="salt", leader=False)
-    peer_6 = Peer(peer_id=6, role="trader", network_size=7, product=None, leader=True)
+def setup_test_case1(use_caching):
+    peer_0 = Peer(peer_id=0, role="buyer", network_size=7, product="salt", leader=False, use_caching=use_caching)
+    peer_1 = Peer(peer_id=1, role="seller", network_size=7, product="fish", leader=False,  use_caching=use_caching)
+    peer_2 = Peer(peer_id=2, role="seller", network_size=7, product="boar", leader=False,  use_caching=use_caching)
+    peer_3 = Peer(peer_id=3, role="trader", network_size=7, product=None, leader=True,  use_caching=use_caching)
+    peer_4 = Peer(peer_id=4, role="buyer", network_size=7, product="fish", leader=False,  use_caching=use_caching)
+    peer_5 = Peer(peer_id=5, role="seller", network_size=7, product="salt", leader=False,  use_caching=use_caching)
+    peer_6 = Peer(peer_id=6, role="trader", network_size=7, product=None, leader=True,  use_caching=use_caching)
 
 
     peer_0.neighbors = [peer_1, peer_2, peer_3, peer_4, peer_5, peer_6]
@@ -199,20 +199,22 @@ def read_election_in_progress(leader_path):
 
 if __name__ == "__main__":
     # Check command-line arguments
+    USE_CACHING = False
     multiprocessing.set_start_method("fork", force=True)
     if len(sys.argv) < 2:
         logging.error("Please specify 'test_case1' or 'normal' as an argument.")
         sys.exit(1)
+    elif len(sys.argv) == 3:
+        if sys.argv[2] == "use_caching":
+            USE_CACHING = True
 
     mode = sys.argv[1].lower()
-
-
     if mode == 'test_case1':
         logging.info("Running Test Case 1")
 
         run_warehouse(host='127.0.0.1', port=8081)
 
-        peers = setup_test_case1()
+        peers = setup_test_case1(use_caching=USE_CACHING)
         for i, peer in enumerate(peers):
             run_peer(peer, host='127.0.0.1', port=5000 + i)
 
@@ -368,4 +370,6 @@ if __name__ == "__main__":
             shutdown_processes(processes)
         logging.info("All peers shut down.")
         sys.exit(1)
+    
+
 
