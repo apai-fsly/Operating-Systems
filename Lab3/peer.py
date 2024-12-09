@@ -560,6 +560,9 @@ class Peer:
         logger = logging.getLogger(f"Peer_{peer_id}_Logger")
         logger.setLevel(logging.INFO)
 
+        with open(log_filename, 'w'):
+            pass
+
         # Avoid adding multiple handlers
         if not logger.handlers:
             file_handler = logging.FileHandler(log_filename)
