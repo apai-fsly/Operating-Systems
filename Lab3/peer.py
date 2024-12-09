@@ -143,6 +143,14 @@ class Peer:
     def load_inital_cache(self, logger):
         logger.info("sending inital cache request")
         self.send_request_to_database("load_cache", f"{self.peer_id}")
+    
+    def propagate_cache(self, logger):
+        """Periodically propagate cache values to traders."""
+        logger.info(f"starting cache propagation thread for trader {self.peer_id}")
+        while True:
+            self.send_request_to_database("load_cache", f"{self.peer_id}")
+            logger.info("sleeping 30 seconds...")
+            time.sleep(30)
 
     """
         listen_for_requests(self, host, port)
@@ -156,12 +164,12 @@ class Peer:
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_socket.bind((host, port))
         server_socket.listen(5)
-        logger.info(f"Peer {self.peer_id} listening on {host}:{port}")
-        logger.info(f"Peer {self.peer_id} has caching set to {self.use_caching}")
+        logger.info(f"Peer {self.peer_id} listening on {host}:{port} -- caching: {self.use_caching}")
 
+        # if you are a trader start a thread for updating your cache
         if self.role == "trader" and self.use_caching: 
-            logger.info(f"{self.peer_id} performing intial cache loading")
-            self.load_inital_cache(logger)
+            propagation_thread = threading.Thread(target=self.propagate_cache, daemon=True, args=(logger, ))
+            propagation_thread.start()
 
         # listen on the port indefinetly for requests
         while True:
@@ -282,6 +290,9 @@ class Peer:
 
     def handle_out_of_stock(self, buyer_id, product_name): 
         self.send_request_to_specific_id("no_item", f"{product_name}", eval(buyer_id))
+
+    
+
 
     def handle_buy_from_leader(self, buyer_id, leader_id, product_name):
 
