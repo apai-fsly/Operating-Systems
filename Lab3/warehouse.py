@@ -55,9 +55,9 @@ def main():
 def server_function(host="127.0.0.1", port=8081):
 
     productDictionary = {
-        "salt": 0,
-        "boar": 0,
-        "fish": 0,
+        "salt": 10,
+        "boar": 10,
+        "fish": 10,
     }
 
 
@@ -73,29 +73,37 @@ def server_function(host="127.0.0.1", port=8081):
     while True:
         #start a thread that polls for incoming requests via the handle_request function. 
         client_socket, address = server_socket.accept()
-        threading.Thread(target=handle_request_warehouse, args=(client_socket,)).start()
+        threading.Thread(target=handle_request_warehouse, args=(client_socket, logger, )).start()
 
 
-def handle_request_warehouse(client_socket): 
+def handle_request_warehouse(client_socket, logger): 
     try:
         request = client_socket.recv(1024).decode()
         request_type, data = request.split('|', 1) # seperates the request body into the request_type, and data on the |
         if request_type == "decrement":
-            product, value, buyer_id, trader_id = data.split(",")
+            product, value, buyer_id, trader_id, reqTime = data.split(",")
             value = int(value)
             resp = decrement(product=product, value=value)
             if resp != "out_of_stock": 
                 logger.info(f"warehouse successfully decremented {product} stock by {value} for trader_peer {trader_id}")
-                send_request_to_trader("purchase_success", f"{buyer_id},{product}", eval(trader_id))
+                send_request_to_trader("purchase_success", f"{buyer_id},{product},{reqTime}", eval(trader_id))
             else: 
                 # respond back to trader
-                send_request_to_trader("out_of_stock", f"{buyer_id},{product}", eval(trader_id))
+                send_request_to_trader("out_of_stock", f"{buyer_id},{product},{reqTime}", eval(trader_id))
                 logger.info(f"warehouse failed to decrement {product} stock by {value} for trader_peer {trader_id} as it was out of stock")
         elif request_type == "increment": 
             product, value = data.split(",")
             value = int(value)
             restock(product=product, value=value)
             logger.info(f"warehouse successfully incremented {product} stock by {value} for trader_peer {trader_id}")
+        elif request_type == "load_cache": 
+            trader_id = data
+            logger.info(f"trader {trader_id} is requesting to update their cache!")
+            salt = get_inventory("salt")
+            boar = get_inventory("boar")
+            fish = get_inventory("fish")
+            send_request_to_trader("update_cache", f"salt,{salt},boar,{boar},fish,{fish}", eval(trader_id))
+
         else: 
             print(f"action {request_type} is currently unsupported")
     except: 
@@ -110,7 +118,7 @@ def send_request_to_trader(request_type, data, trader_id):
         peer_socket.send(f"{request_type}|{data}".encode())
         peer_socket.close()
     except Exception as e:
-        print(f"Error sending request to Peer {trader_id}: {e}")
+        logger.info(f"Error sending request to Peer {trader_id}: {e}")
 
 
 # generate_csv will create the warehouse files detailing the stock per item
@@ -146,6 +154,24 @@ def generate_warehouse_txt():
         with open(file_name, "w") as file:
             pass  # Empty file is created
         print(f"{file_name} has been created.")
+
+def get_inventory(product): 
+    # here we want to take a lock on the file
+    csvFilePath = f"{product}.csv"
+    with csv_lock[product+".csv"]:
+        # Initialize the CSV file with headers if it doesn't exist or is empty
+        try:
+            df = pd.read_csv(csvFilePath)
+        except (FileNotFoundError, pd.errors.EmptyDataError):
+            df = pd.DataFrame(columns=["stock"])
+            df.to_csv(csvFilePath, index=False)
+
+        # Add or update the stock value
+        row_index = 0  # Row index
+        stock = df.at[row_index, "stock"]
+        stock_str = str(stock)
+        return stock_str
+    
 
 def decrement(product, value): 
         csvFilePath = f"{product}.csv"
