@@ -9,6 +9,7 @@ import os
 import pandas as pd
 import random as rand
 import random
+from queue import Queue
 
 
 FAULT_TOLERANT = True
@@ -69,6 +70,7 @@ class Peer:
         self.lamport_clock = 0  # Initialize the Lamport clock to 0 for synchronization across peers.
         self.request_queue = []  # Queue to manage buy requests based on Lamport timestamps (for FIFO processing).
         self.last_heartbeat = time.time()
+        self.pending_requests = Queue()
     def increment_clock(self):
         """
         Increment the Lamport clock by 1.
@@ -167,6 +169,21 @@ class Peer:
             for leader in leaders:
                 writer.writerow([leader])
         print(f"Leader {leader_number} removed.")
+    
+    def initiate_buy_request(self):
+        leader_id = [0, 6]
+        value = 5
+        time.sleep(5)
+        if self.role == "buyer":
+            while True:
+                leader = random.choice(leader_id)
+                self.send_request_to_specific_id("buy", f"{self.peer_id},{leader},{self.product},{value}", int(leader))
+                request = ("buy", self.product, value)
+                self.pending_requests.put(request)
+                time.sleep(5)
+        else:
+            pass
+
             
     """
         listen_for_requests(self, host, port)
@@ -181,6 +198,10 @@ class Peer:
         server_socket.listen(5)
         logging.info(f"Peer {self.peer_id} listening on {host}:{port}")
 
+        # if peer is buy make buy request
+        # if self.role == "buyer":
+        threading.Thread(target=self.initiate_buy_request, args=()).start()
+      
         # listen on the port indefinetly for requests
         while True:
             #start a thread that polls for incoming requests via the handle_request function. 
@@ -225,7 +246,18 @@ class Peer:
                 self.alive = False
             elif request_type == "trader_fail":
                 failed_trader = data
+                print(f"trader has failed ************ {failed_trader}")
                 self.trader_ids.remove(failed_trader)
+                leader = random.choice(list(self.trader_ids))
+                print(f"leader: {leader}, list:{self.trader_ids}, pending_request: {self.pending_requests.qsize()}")
+                if self.role == "buyer":
+                    while not self.pending_requests.empty():
+                        print(f"pending requests size is {self.pending_requests.qsize()}")
+                        request = self.pending_requests.get()
+                        action, product, quantity = request
+                        print("resending pending request to new trader")
+                        self.send_request_to_specific_id(action, f"{self.peer_id},{leader},{self.product},{quantity}", int(leader))
+
             elif request_type == "ok":
                 sender_id = data
                 logging.info(f"setting is_leader to false for {self.peer_id}")
@@ -269,6 +301,8 @@ class Peer:
             elif request_type == "no_item":
                 product = data
                 logging.info(f"Unable to complete the buy {product} Out of stock:")
+                self.pending_requests.get()  # Pop from the queue
+
             elif request_type == "heartbeat":
                 if self.alive == True:
                     self.last_heartbeat = time.time()
@@ -286,7 +320,11 @@ class Peer:
         self.send_request("i_am_trader", f"{self.peer_id}")        
 
     def handle_buy(self, buyer_id, trader_id, product_name, value):
-        self.send_request_to_database("decrement", f"{product_name},{value},{buyer_id},{trader_id}")
+        if self.alive:
+            self.send_request_to_database("decrement", f"{product_name},{value},{buyer_id},{trader_id}")
+        else:
+            # do nothing
+            pass
     
     def handle_sell(self, product, value): 
         self.send_request_to_database("increment", f"{product},{value}")

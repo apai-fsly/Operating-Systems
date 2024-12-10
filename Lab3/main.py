@@ -87,14 +87,14 @@ def send_item(peers, leader_id):
                 print(f"Item sent for sale to peer: {peer.peer_id}")
         time.sleep(15)  # Wait for 15 seconds before sending the next item
 
-def setup_test_case1():
-    peer_0 = Peer(peer_id=0, role="buyer", network_size=7, product="salt", leader=False)
-    peer_1 = Peer(peer_id=1, role="seller", network_size=7, product="fish", leader=False)
-    peer_2 = Peer(peer_id=2, role="seller", network_size=7, product="boar", leader=False)
-    peer_3 = Peer(peer_id=3, role="seller", network_size=7, product="salt", leader=False)
-    peer_4 = Peer(peer_id=4, role="buyer", network_size=7, product="fish", leader=False)
-    peer_5 = Peer(peer_id=5, role="seller", network_size=7, product="salt", leader=False)
-    peer_6 = Peer(peer_id=6, role="buyer", network_size=7, product="boar", leader=False)
+def setup_test_case1(use_caching):
+    peer_0 = Peer(peer_id=0, role="buyer", network_size=7, product="salt", leader=False, use_caching=use_caching)
+    peer_1 = Peer(peer_id=1, role="seller", network_size=7, product="fish", leader=False,  use_caching=use_caching)
+    peer_2 = Peer(peer_id=2, role="seller", network_size=7, product="boar", leader=False,  use_caching=use_caching)
+    peer_3 = Peer(peer_id=3, role="trader", network_size=7, product=None, leader=True,  use_caching=use_caching)
+    peer_4 = Peer(peer_id=4, role="buyer", network_size=7, product="fish", leader=False,  use_caching=use_caching)
+    peer_5 = Peer(peer_id=5, role="seller", network_size=7, product="salt", leader=False,  use_caching=use_caching)
+    peer_6 = Peer(peer_id=6, role="trader", network_size=7, product=None, leader=True,  use_caching=use_caching)
 
 
     peer_0.neighbors = [peer_1, peer_2, peer_3, peer_4, peer_5, peer_6]
@@ -125,13 +125,13 @@ def setup_test_case2():
     return [peer_0, peer_1, peer_2, peer_3, peer_4]
 
 def setup_test_case3():
-    peer_0 = Peer(peer_id=0, role="buyer", network_size=7, product="salt", leader=True)
-    peer_1 = Peer(peer_id=1, role="seller", network_size=7, product="salt", leader=True)
-    peer_2 = Peer(peer_id=2, role="seller", network_size=7, product="boar", leader=True)
-    peer_3 = Peer(peer_id=3, role="buyer", network_size=7, product="salt", leader=True)
-    peer_4 = Peer(peer_id=4, role="seller", network_size=7, product="fish", leader=True)
-    peer_5 = Peer(peer_id=5, role="seller", network_size=7, product="salt", leader=True)
-    peer_6 = Peer(peer_id=6, role="seller", network_size=7, product="boar", leader=True)
+    peer_0 = Peer(peer_id=0, role="buyer", network_size=7, product="salt", leader=False)
+    peer_1 = Peer(peer_id=1, role="seller", network_size=7, product="fish", leader=False)
+    peer_2 = Peer(peer_id=2, role="seller", network_size=7, product="boar", leader=False)
+    peer_3 = Peer(peer_id=3, role="seller", network_size=7, product="salt", leader=False)
+    peer_4 = Peer(peer_id=4, role="buyer", network_size=7, product="fish", leader=False)
+    peer_5 = Peer(peer_id=5, role="seller", network_size=7, product="salt", leader=False)
+    peer_6 = Peer(peer_id=6, role="buyer", network_size=7, product="boar", leader=False)
 
 
     peer_0.neighbors = [peer_1, peer_2, peer_3, peer_4, peer_5, peer_6]
@@ -221,45 +221,28 @@ if __name__ == "__main__":
 
         run_warehouse(host='127.0.0.1', port=8081)
 
-        initialize_csv()
+        time.sleep(3)
 
-        peers = setup_test_case1()
+        peers = setup_test_case1(use_caching=USE_CACHING)
         for i, peer in enumerate(peers):
             run_peer(peer, host='127.0.0.1', port=5000 + i)
 
-        time.sleep(1)
-        Number_of_peer = 7
-        Number_of_trader = 2
-        print(f"start election node {peers[0].peer_id}")
-        peers[0].send_request_to_specific_id("run_election", f"{Number_of_peer},{Number_of_trader}", int(peers[0].peer_id))
-        
-        time.sleep(2)
-
         try:
             time.sleep(1)
-            leader_id = [0, 6]
+            leader_id = [3, 6]
             # Create and start the thread for seller to sell the items ater Ts=15 seconds
             seller_thread = threading.Thread(target=send_item, args=(peers,leader_id,))
             seller_thread.daemon = True  # Daemon thread to terminate with the main program
             seller_thread.start()
             time.sleep(2)
             value = 5
-            for i in range(2):
+            for i in range(100):
                 leader = random.choice(leader_id)
-                peers[4].send_request_to_specific_id("buy", f"{peers[4].peer_id},{leader},{peers[4].product},{value}", int(leader))
-                time.sleep(5)
-
-            # Simulate trader1 failure
-            print("[Simulation] Simulating Trader1 failure.")
-            peers[0].send_request_to_specific_id("fall_sick", f"", 0)
-
-            for i in range(5):
-                leader = random.choice(leader_id)
-                peers[4].send_request_to_specific_id("buy", f"{peers[4].peer_id},{leader},{peers[4].product},{value}", int(leader))
-                time.sleep(5)
+                reqStart = time.time()
+                peers[4].send_request_to_specific_id("buy", f"{peers[4].peer_id},{leader},{peers[4].product},{value},{reqStart}", int(leader))
+                time.sleep(20)
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")
-            clear_leaders()
             shutdown_processes(processes)
             logging.info("All peers shut down.")
 
@@ -302,45 +285,51 @@ if __name__ == "__main__":
             logging.info("All peers shut down.")
 
     if mode == 'test_case3':
-        peers = setup_test_case3()
         logging.info("Running Test Case 3")
+        run_warehouse(host='127.0.0.1', port=8081)
+
+        initialize_csv()
+
+        peers = setup_test_case3()
         for i, peer in enumerate(peers):
             run_peer(peer, host='127.0.0.1', port=5000 + i)
 
-        try:
-            with open(file_path, mode='w', newline='') as file:
-                writer = csv.DictWriter(file, fieldnames=["seller_id", "product_name", "product_stock"])
-                writer.writeheader()
-            print("Clean up for seller_goods.csv done")
-        except IOError as e:
-            print(f"IOError: Could not update the file. {e}")
+        time.sleep(1)
+        Number_of_peer = 7
+        Number_of_trader = 2
+        print(f"start election node {peers[0].peer_id}")
+        peers[0].send_request_to_specific_id("run_election", f"{Number_of_peer},{Number_of_trader}", int(peers[0].peer_id))
+        
+        time.sleep(2)
 
         try:
             time.sleep(1)
-            # start timer here
-            print(f"start election node {peers[0].peer_id}")
-            peers[0].send_request_to_specific_id("run_election", f"{peers[0].peer_id}", int(peers[0].peer_id))
-            
+            leader_id = [0, 6]
+            # Create and start the thread for seller to sell the items ater Ts=15 seconds
+            seller_thread = threading.Thread(target=send_item, args=(peers,leader_id,))
+            seller_thread.daemon = True  # Daemon thread to terminate with the main program
+            seller_thread.start()
+            time.sleep(2)
+            value = 5
+            for i in range(2):
+                leader = random.choice(leader_id)
+                # peers[4].send_request_to_specific_id("buy", f"{peers[4].peer_id},{leader},{peers[4].product},{value}", int(leader))
+                time.sleep(5)
 
-            time.sleep(10)
-            for i in range(1000):
-                election_flag = int(read_election_in_progress(leader_path))
-                while election_flag == 1 or election_flag == None:
-                    print("waiting for election to complete...")
-                    time.sleep(15)
-                    election_flag = int(read_election_in_progress(leader_path))
-                leader = read_leader_id(leader_path)
-                peers[0].send_request_to_specific_id("buy", f"{peers[0].peer_id},{leader},{peers[0].product},{peers[0].lamport_clock}", int(leader))
-                time.sleep(1)
-                peers[3].send_request_to_specific_id("buy", f"{peers[3].peer_id},{leader},{peers[3].product},{peers[3].lamport_clock}", int(leader))
-                # time.sleep(1)
-            
-            # end time
+            # Simulate trader1 failure
+            print("[Simulation] Simulating Trader1 failure.")
+            peers[0].send_request_to_specific_id("fall_sick", f"", 0)
 
+            for i in range(5):
+                leader = random.choice(leader_id)
+                peers[4].send_request_to_specific_id("buy", f"{peers[4].peer_id},{leader},{peers[4].product},{value}", int(leader))
+                time.sleep(5)
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")
+            clear_leaders()
             shutdown_processes(processes)
             logging.info("All peers shut down.")
+
     elif mode == 'normal':
         logging.info("Running Normal Mode")
         
