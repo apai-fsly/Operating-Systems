@@ -73,10 +73,10 @@ def server_function(host="127.0.0.1", port=8081):
     while True:
         #start a thread that polls for incoming requests via the handle_request function. 
         client_socket, address = server_socket.accept()
-        threading.Thread(target=handle_request_warehouse, args=(client_socket, )).start()
+        threading.Thread(target=handle_request_warehouse, args=(client_socket, logger, )).start()
 
 
-def handle_request_warehouse(client_socket): 
+def handle_request_warehouse(client_socket, logger): 
     try:
         request = client_socket.recv(1024).decode()
         request_type, data = request.split('|', 1) # seperates the request body into the request_type, and data on the |

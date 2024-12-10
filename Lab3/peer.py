@@ -211,7 +211,7 @@ class Peer:
                     if self.cache.get(product_name) != None and int(self.cache.get(product_name)) >= int(value):
                         logger.info(f"{product_name} was found in the trader {self.peer_id} cache with value {self.cache.get(product_name) }")
                         self.send_request_to_specific_id("cache_hit", reqTime, eval(buyer_id))
-                        self.handle_buy(buyer_id, trader_id, product_name, value)       
+                        self.handle_buy(buyer_id, trader_id, product_name, value, reqTime)       
                     else: 
                         self.send_request_to_specific_id("cache_miss", reqTime, eval(buyer_id))
                 else: 
