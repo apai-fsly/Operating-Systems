@@ -10,14 +10,6 @@ import csv
 from peer import Peer
 from warehouse import run_warehouse
 
-# adding logging handler to easily get timestamps
-logging.basicConfig(
-    stream=sys.stdout,
-    level=logging.INFO,
-    format='%(asctime)s.%(msecs)03d - %(message)s',
-    datefmt='%H:%M:%S'
-) 
-
 current_directory = os.getcwd()
 
 file_name = "seller_goods.csv"
@@ -208,14 +200,16 @@ def read_election_in_progress(leader_path):
 
 if __name__ == "__main__":
     # Check command-line arguments
+    USE_CACHING = False
     multiprocessing.set_start_method("fork", force=True)
     if len(sys.argv) < 2:
         logging.error("Please specify 'test_case1' or 'normal' as an argument.")
         sys.exit(1)
+    elif len(sys.argv) == 3:
+        if sys.argv[2] == "use_caching":
+            USE_CACHING = True
 
     mode = sys.argv[1].lower()
-
-
     if mode == 'test_case1':
         logging.info("Running Test Case 1")
 
@@ -386,4 +380,6 @@ if __name__ == "__main__":
             shutdown_processes(processes)
         logging.info("All peers shut down.")
         sys.exit(1)
+    
+
 
