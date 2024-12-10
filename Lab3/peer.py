@@ -168,8 +168,7 @@ class Peer:
 
         # if you are a trader start a thread for updating your cache
         if self.role == "trader" and self.use_caching: 
-            propagation_thread = threading.Thread(target=self.propagate_cache, daemon=True, args=(logger, ))
-            propagation_thread.start()
+            threading.Thread(target=self.propagate_cache, daemon=True, args=(logger, )).start()
 
         # listen on the port indefinetly for requests
         while True:
@@ -205,18 +204,18 @@ class Peer:
                 logger.info(f"trader {self.peer_id} has loaded their cache")
 
             elif request_type == "buy":
-                buyer_id, trader_id, product_name, value = data.split(',') 
+                buyer_id, trader_id, product_name, value, reqTime = data.split(',') 
                 logger.info(f"start buy buyer:{buyer_id}, leader:{trader_id}, item:{product_name}")
                 
                 if self.use_caching:
                     if self.cache.get(product_name) != None and int(self.cache.get(product_name)) >= int(value):
                         logger.info(f"{product_name} was found in the trader {self.peer_id} cache with value {self.cache.get(product_name) }")
-                        self.handle_buy(buyer_id, trader_id, product_name, value)
+                        self.send_request_to_specific_id("cache_hit", reqTime, eval(buyer_id))
+                        self.handle_buy(buyer_id, trader_id, product_name, value)       
                     else: 
-                        # should we check what the stock is from warehouse
-                        self.send_request_to_database("load_cache", f"{self.peer_id}")
+                        self.send_request_to_specific_id("cache_miss", reqTime, eval(buyer_id))
                 else: 
-                    self.handle_buy(buyer_id, trader_id, product_name, value)
+                    self.handle_buy(buyer_id, trader_id, product_name, value, reqTime)
             elif request_type == "sell":
                 seller_id, seller_product, value = data.split(',')
                 logger.info(f"Seller Peer {seller_id} is selling product: {seller_product}")
@@ -266,8 +265,21 @@ class Peer:
             elif request_type == "no_item":
                 product = data
                 logger.info(f"Unable to complete the buy {product} Out of stock:")
-            elif request_type == "purchase_success": 
-                logger.info(f"trader {self.peer_id} purchased goods from the warehouse")
+            elif request_type == "purchase_success":
+                buyer_id, product, reqTime = data.split(",")
+                self.send_request_to_specific_id("no_cache_msg", reqTime, eval(buyer_id))
+            elif request_type == "cache_hit":
+                respTime = data
+                treqTime = time.time() - float(respTime)
+                logger.info(f"cache hit on trader request took {treqTime} seconds")
+            elif request_type == "cache_miss": 
+                respTime = data
+                treqTime = time.time() - float(respTime)
+                logger.info(f"cache failed on trader request took {treqTime} seconds")
+            elif request_type == "no_cache_msg":
+                respTime = data
+                treqTime = time.time() - float(respTime)
+                logger.info(f"purchase complete request took {treqTime} seconds")
             else: 
                 print(f"request type {request_type} was not supported")
             
@@ -276,14 +288,14 @@ class Peer:
         finally:
             client_socket.close() #close the socket after the connection.
 
-    def handle_buy(self, buyer_id, trader_id, product_name, value):
+    def handle_buy(self, buyer_id, trader_id, product_name, value, reqTime):
         
         # if we are using cache update the peers internal cache
         if self.use_caching: 
             self.cache[product_name] = self.cache.get(product_name) - int(value)
             print(f"trader {self.peer_id} has updated its internal cache for product {product_name} to {self.cache[product_name]}")
 
-        self.send_request_to_database("decrement", f"{product_name},{value},{buyer_id},{trader_id}")
+        self.send_request_to_database("decrement", f"{product_name},{value},{buyer_id},{trader_id},{reqTime}")
     
     def handle_sell(self, product, value): 
         self.send_request_to_database("increment", f"{product},{value}")

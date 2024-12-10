@@ -231,7 +231,8 @@ if __name__ == "__main__":
             value = 5
             for i in range(100):
                 leader = random.choice(leader_id)
-                peers[4].send_request_to_specific_id("buy", f"{peers[4].peer_id},{leader},{peers[4].product},{value}", int(leader))
+                reqStart = time.time()
+                peers[4].send_request_to_specific_id("buy", f"{peers[4].peer_id},{leader},{peers[4].product},{value},{reqStart}", int(leader))
                 time.sleep(20)
         except KeyboardInterrupt:
             logging.info("Shutting down peers...")

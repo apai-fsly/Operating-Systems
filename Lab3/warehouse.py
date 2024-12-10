@@ -81,15 +81,15 @@ def handle_request_warehouse(client_socket):
         request = client_socket.recv(1024).decode()
         request_type, data = request.split('|', 1) # seperates the request body into the request_type, and data on the |
         if request_type == "decrement":
-            product, value, buyer_id, trader_id = data.split(",")
+            product, value, buyer_id, trader_id, reqTime = data.split(",")
             value = int(value)
             resp = decrement(product=product, value=value)
             if resp != "out_of_stock": 
                 logger.info(f"warehouse successfully decremented {product} stock by {value} for trader_peer {trader_id}")
-                send_request_to_trader("purchase_success", f"{buyer_id},{product}", eval(trader_id))
+                send_request_to_trader("purchase_success", f"{buyer_id},{product},{reqTime}", eval(trader_id))
             else: 
                 # respond back to trader
-                send_request_to_trader("out_of_stock", f"{buyer_id},{product}", eval(trader_id))
+                send_request_to_trader("out_of_stock", f"{buyer_id},{product},{reqTime}", eval(trader_id))
                 logger.info(f"warehouse failed to decrement {product} stock by {value} for trader_peer {trader_id} as it was out of stock")
         elif request_type == "increment": 
             product, value = data.split(",")
