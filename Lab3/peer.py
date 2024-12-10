@@ -9,8 +9,10 @@ import os
 import pandas as pd
 import random as rand
 import random
+from queue import Queue
 
 
+FAULT_TOLERANT = True
 # shared file among the leaders
 # Get and display the current working directory
 current_directory = os.getcwd()
@@ -20,9 +22,12 @@ print(f"Current working directory: {current_directory}")
 file_name = "seller_goods.csv"
 file_path = os.path.join(current_directory, file_name)
 
-leader_name = "leader.csv"
-leader_path = os.path.join(current_directory, leader_name)
+leader_file = "leader.csv"
+leader_path = os.path.join(current_directory, leader_file)
 leader_exists = os.path.exists(leader_path)
+
+HEARTBEAT_INTERVAL = 2
+TIMEOUT = 5
 
 # Function to check if the file has entries
 def is_file_empty(file_path):
@@ -49,7 +54,7 @@ class Peer:
             neighbors (list): A list of neighbors (other peer_ids) the peer communicates with. Default is empty.
         """
         self.leader = True  # Indicates whether the peer is the leader (default True).
-        self.leader_id = -1  # The ID of the leader (initialized to -1).
+        self.trader_ids = set()  # Set to store the current trader list
         self.election_inprogress = False  # Flag to track if an election is in progress.
         self.alive = True  # Flag indicating whether the peer is alive.
         self.peer_id = peer_id  # The unique identifier for this peer.
@@ -64,8 +69,11 @@ class Peer:
         self.cash_received = 0  # Total amount of cash received by the seller after product sales (1 dollar per product).
         self.lamport_clock = 0  # Initialize the Lamport clock to 0 for synchronization across peers.
         self.request_queue = []  # Queue to manage buy requests based on Lamport timestamps (for FIFO processing).
+        self.last_heartbeat = time.time()
+        self.pending_requests = Queue()
         self.use_caching = use_caching
         self.cache = {}
+        
     def increment_clock(self):
         """
         Increment the Lamport clock by 1.
@@ -89,7 +97,7 @@ class Peer:
         self.lamport_clock = max(self.lamport_clock, other_clock) + 1
 
 
-    def run_election(self):
+    def run_election(self, number_of_peer, number_of_trader):
         """
         This function handles the election process to elect a new leader in a distributed network.
         It sends election requests to higher peers and waits for their responses. If no higher peer
@@ -102,44 +110,83 @@ class Peer:
         4. If no higher peer responds, declare itself as the new leader.
         5. Broadcast the new leader's ID to the network and log it to a file.
         """
-        self.send_request("election_inprogress", data=None)
-        higher_peer_id = []
-        for peer in range(self.network_size):
-            if peer > self.peer_id: 
-                higher_peer_id.append(peer)
+        step = (int(number_of_peer) - 1) // (int(number_of_trader) - 1)  # Calculate step size
+        trader_list = [i * step for i in range(int(number_of_trader))]
+        for peer in trader_list:
+            print(f"TRADER is {peer}")
+            self.send_request_to_specific_id("set_leader", f"{self.peer_id}", peer)
 
-                # all bigger peer IDs are in the list
-        for peer in higher_peer_id: 
-            self.send_request_to_specific_id("are_you_alive", f"{self.peer_id}", peer)
 
-        # wait for a reply from peers
+    def heartbeat(self):
+        if self.peer_id == 0:
+            other_trader_id = 6
+        else:
+            other_trader_id = 0
+        while self.alive:
+            try:
+                self.send_request_to_specific_id("heartbeat", f"", other_trader_id)
+            except Exception as e:
+                print(f"[{self.name}] Error sending heartbeat: {e}")
+            time.sleep(HEARTBEAT_INTERVAL)
+
+    def monitor_trader(self):
+        while self.alive:
+            print(f"Monitor *** {time.time()}, {self.last_heartbeat}")
+            if time.time() - self.last_heartbeat > TIMEOUT:
+                print(f"Other trader is unresponsive. Taking over as primary.")
+                self.send_request("trader_fail", f"0")
+                print("checkpoint")
+                break
+            time.sleep(1)
+
+    def get_leaders(self):
+        """Retrieve all leaders from the CSV file as a set."""
+        if not os.path.exists(leader_path):
+            return set()
+        with open(leader_path, mode='r') as file:
+            reader = csv.reader(file)
+            return {int(row[0]) for row in reader if row}  # Convert to integers
+
+    def add_leader(self,leader_number):
+        """Add a new leader number to the CSV file if not already present."""
+        leaders = self.get_leaders()
+        if leader_number in leaders:
+            print(f"Leader {leader_number} already exists.")
+            return
+
+        with open(leader_path, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([leader_number])
+        print(f"Leader {leader_number} added.")
+
+    def remove_leader(self,leader_number):
+        """Remove a leader by their number."""
+        leaders = self.get_leaders()
+        if leader_number not in leaders:
+            print(f"Leader {leader_number} not found.")
+            return
+
+        leaders.remove(leader_number)  # Remove from the set
+        with open(leader_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            for leader in leaders:
+                writer.writerow([leader])
+        print(f"Leader {leader_number} removed.")
+    
+    def initiate_buy_request(self):
+        leader_id = [0, 6]
+        value = 5
         time.sleep(5)
+        if self.role == "buyer":
+            while True:
+                leader = random.choice(leader_id)
+                self.send_request_to_specific_id("buy", f"{self.peer_id},{leader},{self.product},{value}", int(leader))
+                request = ("buy", self.product, value)
+                self.pending_requests.put(request)
+                time.sleep(5)
+        else:
+            pass
 
-        if(self.leader == True and self.request_already_sent == False):
-            logging.info(f"New leader elected: {self.peer_id}")
-            leader_id = self.peer_id
-            self.request_already_sent = True
-            # for peer in range(self.network_size):
-            self.send_request("set_leader", leader_id)
-            self.send_request("give_seller_list", leader_id)
-            # write leader to file
-            with self.lock:
-                try:
-                    with open(leader_path, mode ='w', newline='') as file:
-                        writer = csv.DictWriter(file, fieldnames=["leader_id", "election_in_progress"])
-                        # Write header only if the file is being created for the first time
-                        # if not leader_exists:
-                        writer.writeheader()
-                        election_outcome=[{"leader_id":leader_id, "election_in_progress":0}]
-                        print(f"Peer {election_outcome} has been elected as the new leader!")
-                        writer.writerows(election_outcome)  # Write each item as a row
-                except FileNotFoundError:
-                    print(f"Error: The file path {leader_path} could not be found.")
-                except IOError as e:
-                    print(f"IOError: {e}")  
-
-        
-    # send request 
     def load_inital_cache(self, logger):
         logger.info("sending inital cache request")
         self.send_request_to_database("load_cache", f"{self.peer_id}")
@@ -170,6 +217,10 @@ class Peer:
         if self.role == "trader" and self.use_caching: 
             threading.Thread(target=self.propagate_cache, daemon=True, args=(logger, )).start()
 
+        # if peer is buy make buy request
+        # if self.role == "buyer":
+        threading.Thread(target=self.initiate_buy_request, args=()).start()
+      
         # listen on the port indefinetly for requests
         while True:
             #start a thread that polls for incoming requests via the handle_request function. 
@@ -221,8 +272,33 @@ class Peer:
                 logger.info(f"Seller Peer {seller_id} is selling product: {seller_product}")
                 self.handle_sell(seller_product, value)
             elif request_type == "set_leader":
-                self.leader_id = data
-                self.election_inprogress = False
+                self.leader = True
+                self.role = "trader"
+                self.handle_trader()
+                self.add_leader(self.peer_id)
+                if FAULT_TOLERANT:
+                    threading.Thread(target=self.monitor_trader,).start()
+                    threading.Thread(target=self.heartbeat,).start()
+            elif request_type == "i_am_trader":
+                trader = data
+                self.trader_ids.add(trader)
+            elif request_type == "fall_sick":
+                self.remove_leader(self.peer_id)
+                self.alive = False
+            elif request_type == "trader_fail":
+                failed_trader = data
+                print(f"trader has failed ************ {failed_trader}")
+                self.trader_ids.remove(failed_trader)
+                leader = random.choice(list(self.trader_ids))
+                print(f"leader: {leader}, list:{self.trader_ids}, pending_request: {self.pending_requests.qsize()}")
+                if self.role == "buyer":
+                    while not self.pending_requests.empty():
+                        print(f"pending requests size is {self.pending_requests.qsize()}")
+                        request = self.pending_requests.get()
+                        action, product, quantity = request
+                        print("resending pending request to new trader")
+                        self.send_request_to_specific_id(action, f"{self.peer_id},{leader},{self.product},{quantity}", int(leader))
+
             elif request_type == "ok":
                 sender_id = data
                 logger.info(f"setting is_leader to false for {self.peer_id}")
@@ -249,7 +325,8 @@ class Peer:
             elif request_type == "election_inprogress":
                 self.election_inprogress = True
             elif request_type == "run_election":
-                self.run_election()
+                number_of_peer, number_of_trader = data.split(',')
+                self.run_election(number_of_peer, number_of_trader)
             elif request_type == "restock_item":
                 self.stock = 100
                 self.product = random.choice(["boar", "salt", "fish"])
@@ -264,6 +341,13 @@ class Peer:
                 self.handle_out_of_stock(buyer_id, product_name)
             elif request_type == "no_item":
                 product = data
+                logging.info(f"Unable to complete the buy {product} Out of stock:")
+                self.pending_requests.get()  # Pop from the queue
+            elif request_type == "heartbeat":
+                if self.alive == True:
+                    self.last_heartbeat = time.time()
+                    logging.info(f"Received heartbeat {self.last_heartbeat}")
+                    print(f"self trader id are {self.trader_ids}")
                 logger.info(f"Unable to complete the buy {product} Out of stock:")
             elif request_type == "purchase_success":
                 buyer_id, product, reqTime = data.split(",")
@@ -288,14 +372,17 @@ class Peer:
         finally:
             client_socket.close() #close the socket after the connection.
 
+    def handle_trader(self):
+        self.send_request("i_am_trader", f"{self.peer_id}")        
+      
     def handle_buy(self, buyer_id, trader_id, product_name, value, reqTime):
-        
-        # if we are using cache update the peers internal cache
-        if self.use_caching: 
-            self.cache[product_name] = self.cache.get(product_name) - int(value)
-            print(f"trader {self.peer_id} has updated its internal cache for product {product_name} to {self.cache[product_name]}")
+        if self.alive:
+          # if we are using cache update the peers internal cache
+          if self.use_caching: 
+              self.cache[product_name] = self.cache.get(product_name) - int(value)
+              print(f"trader {self.peer_id} has updated its internal cache for product {product_name} to {self.cache[product_name]}")
 
-        self.send_request_to_database("decrement", f"{product_name},{value},{buyer_id},{trader_id},{reqTime}")
+          self.send_request_to_database("decrement", f"{product_name},{value},{buyer_id},{trader_id},{reqTime}")
     
     def handle_sell(self, product, value): 
         self.send_request_to_database("increment", f"{product},{value}")
@@ -438,7 +525,7 @@ class Peer:
             if election_peer.alive and election_peer.peer_id != self.peer_id:
                 print(f"{election_peer.peer_id} is starting the election")
                 self.alive = False
-                self.send_request_to_specific_id("run_election", f"{self.peer_id}", int(0))
+                # self.send_request_to_specific_id("run_election", f"{self.peer_id}", int(0))
                 time.sleep(1)
             else: 
                 print("peer is not alive retrying running the election")
@@ -517,7 +604,7 @@ class Peer:
                 self.leader = True
             logging.info(f"sending ok reply to sender {sender_id} from peer {self.peer_id}")
             self.send_request_to_specific_id("ok", f"{self.peer_id}", eval(sender_id))
-            self.run_election()
+            # self.run_election()
 
     def send_request(self, request_type, data):
         """
