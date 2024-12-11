@@ -1,55 +1,45 @@
-08:40:10 - Peer Peer 4 listening on 127.0.0.1:5004 -- caching: False
-08:40:13 - Peer purchase complete request took 0.006887912750244141 seconds
-08:40:33 - Peer purchase complete request took 0.014467239379882812 seconds
-08:40:53 - Peer purchase complete request took 0.008993864059448242 seconds
-08:41:13 - Peer purchase complete request took 0.0070569515228271484 seconds
-08:41:33 - Peer purchase complete request took 0.00913691520690918 seconds
-08:41:53 - Peer purchase complete request took 0.01201486587524414 seconds
-08:42:13 - Peer purchase complete request took 0.008801937103271484 seconds
-08:42:33 - Peer purchase complete request took 0.010008096694946289 seconds
-08:42:53 - Peer purchase complete request took 0.0063707828521728516 seconds
-08:43:13 - Peer purchase complete request took 0.0059130191802978516 seconds
-08:43:33 - Peer purchase complete request took 0.006883144378662109 seconds
-08:43:53 - Peer purchase complete request took 0.008447408676147461 seconds
-08:44:13 - Peer purchase complete request took 0.0066070556640625 seconds
-08:44:33 - Peer purchase complete request took 0.007342815399169922 seconds
-08:44:53 - Peer purchase complete request took 0.013337135314941406 seconds
-08:45:13 - Peer purchase complete request took 0.005594968795776367 seconds
-08:45:33 - Peer purchase complete request took 0.008890151977539062 seconds
-08:45:53 - Peer purchase complete request took 0.0072841644287109375 seconds
-08:46:13 - Peer purchase complete request took 0.006359100341796875 seconds
-08:46:33 - Peer purchase complete request took 0.00666499137878418 seconds
-08:46:53 - Peer purchase complete request took 0.006251811981201172 seconds
-08:47:13 - Peer purchase complete request took 0.006106853485107422 seconds
-08:47:33 - Peer purchase complete request took 0.006182193756103516 seconds
-08:47:53 - Peer purchase complete request took 0.006608247756958008 seconds
-08:48:13 - Peer purchase complete request took 0.006253957748413086 seconds
-08:48:33 - Peer purchase complete request took 0.007445096969604492 seconds
-08:48:53 - Peer purchase complete request took 0.0077860355377197266 seconds
-08:49:13 - Peer purchase complete request took 0.007055044174194336 seconds
-08:49:33 - Peer purchase complete request took 0.007690906524658203 seconds
-08:49:53 - Peer purchase complete request took 0.008088111877441406 seconds
-08:50:13 - Peer purchase complete request took 0.008399724960327148 seconds
-08:50:33 - Peer purchase complete request took 0.006479978561401367 seconds
-08:50:53 - Peer purchase complete request took 0.012714147567749023 seconds
-08:51:13 - Peer purchase complete request took 0.005739927291870117 seconds
-08:51:33 - Peer purchase complete request took 0.005824089050292969 seconds
-08:51:53 - Peer purchase complete request took 0.00789785385131836 seconds
-08:52:13 - Peer purchase complete request took 0.0065691471099853516 seconds
-08:52:33 - Peer purchase complete request took 0.007837772369384766 seconds
-08:52:53 - Peer purchase complete request took 0.007864713668823242 seconds
-08:53:13 - Peer purchase complete request took 0.006009101867675781 seconds
-08:53:33 - Peer purchase complete request took 0.008201837539672852 seconds
-08:53:53 - Peer purchase complete request took 0.008914947509765625 seconds
-08:54:13 - Peer purchase complete request took 0.008145809173583984 seconds
-08:54:33 - Peer purchase complete request took 0.006243228912353516 seconds
-08:54:53 - Peer purchase complete request took 0.005716085433959961 seconds
-08:55:13 - Peer purchase complete request took 0.0048980712890625 seconds
-08:55:33 - Peer purchase complete request took 0.0035152435302734375 seconds
-08:55:53 - Peer purchase complete request took 0.0036509037017822266 seconds
-08:56:13 - Peer purchase complete request took 0.005240917205810547 seconds
-08:56:33 - Peer purchase complete request took 0.006782054901123047 seconds
-08:56:53 - Peer purchase complete request took 0.007594108581542969 seconds
-08:57:13 - Peer purchase complete request took 0.0034148693084716797 seconds
-08:57:33 - Peer purchase complete request took 0.0035707950592041016 seconds
-08:57:53 - Peer purchase complete request took 0.0061321258544921875 seconds
+00:50:44 - Peer Peer 4 listening on 127.0.0.1:5004 -- caching: False
+00:50:51 - Peer purchase complete request took 0.050139427185058594 seconds
+00:50:56 - Peer Purchase failed with out of stock, Request took 0.005197048187255859 seconds
+00:51:01 - Peer Purchase failed with out of stock, Request took 0.005674600601196289 seconds
+00:51:06 - Peer purchase complete request took 0.04786944389343262 seconds
+00:51:12 - Peer Purchase failed with out of stock, Request took 0.04689502716064453 seconds
+00:51:17 - Peer Purchase failed with out of stock, Request took 0.023778915405273438 seconds
+00:51:22 - Peer purchase complete request took 0.03735923767089844 seconds
+00:51:27 - Peer Purchase failed with out of stock, Request took 0.10580992698669434 seconds
+00:51:32 - Peer Purchase failed with out of stock, Request took 0.05396223068237305 seconds
+00:51:37 - Peer purchase complete request took 0.014473915100097656 seconds
+00:51:42 - Peer Purchase failed with out of stock, Request took 0.010089397430419922 seconds
+00:51:47 - Peer Purchase failed with out of stock, Request took 0.06238269805908203 seconds
+00:51:52 - Peer purchase complete request took 0.0359957218170166 seconds
+00:51:58 - Peer purchase complete request took 0.10503721237182617 seconds
+00:52:03 - Peer Purchase failed with out of stock, Request took 0.15231585502624512 seconds
+00:52:08 - Peer purchase complete request took 0.006264448165893555 seconds
+00:52:13 - Peer Purchase failed with out of stock, Request took 0.056502342224121094 seconds
+00:52:19 - Peer Purchase failed with out of stock, Request took 0.011503934860229492 seconds
+00:52:24 - Peer purchase complete request took 0.04235124588012695 seconds
+00:52:30 - Peer Purchase failed with out of stock, Request took 0.038997650146484375 seconds
+00:52:36 - Peer Purchase failed with out of stock, Request took 0.04843306541442871 seconds
+00:52:42 - Peer purchase complete request took 0.07521319389343262 seconds
+00:52:47 - Peer Purchase failed with out of stock, Request took 0.037683963775634766 seconds
+00:52:52 - Peer Purchase failed with out of stock, Request took 0.05824899673461914 seconds
+00:52:58 - Peer purchase complete request took 0.04546785354614258 seconds
+00:53:03 - Peer Purchase failed with out of stock, Request took 0.05776667594909668 seconds
+00:53:09 - Peer Purchase failed with out of stock, Request took 0.036279916763305664 seconds
+00:53:14 - Peer purchase complete request took 0.0555577278137207 seconds
+00:53:19 - Peer purchase complete request took 0.06758594512939453 seconds
+00:53:24 - Peer Purchase failed with out of stock, Request took 0.09716939926147461 seconds
+00:53:29 - Peer purchase complete request took 0.03414583206176758 seconds
+00:53:34 - Peer Purchase failed with out of stock, Request took 0.006057024002075195 seconds
+00:53:39 - Peer Purchase failed with out of stock, Request took 0.006010770797729492 seconds
+00:53:45 - Peer purchase complete request took 0.11856365203857422 seconds
+00:53:50 - Peer Purchase failed with out of stock, Request took 0.03756093978881836 seconds
+00:53:55 - Peer purchase complete request took 0.11957788467407227 seconds
+00:54:00 - Peer Purchase failed with out of stock, Request took 0.07930159568786621 seconds
+00:54:05 - Peer Purchase failed with out of stock, Request took 0.0876774787902832 seconds
+00:54:10 - Peer purchase complete request took 0.03504776954650879 seconds
+00:54:16 - Peer Purchase failed with out of stock, Request took 0.030949831008911133 seconds
+00:54:21 - Peer Purchase failed with out of stock, Request took 0.14973902702331543 seconds
+00:54:26 - Peer purchase complete request took 0.03068852424621582 seconds
+00:54:32 - Peer purchase complete request took 0.1836862564086914 seconds
+00:54:38 - Peer Purchase failed with out of stock, Request took 0.023784399032592773 seconds

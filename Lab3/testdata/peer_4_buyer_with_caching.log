@@ -1,49 +1,50 @@
-08:58:15 - Peer Peer 4 listening on 127.0.0.1:5004 -- caching: True
-08:58:18 - Peer cache hit on trader request took 0.005771160125732422 seconds
-08:58:38 - Peer cache hit on trader request took 0.008502960205078125 seconds
-08:58:58 - Peer cache hit on trader request took 0.006195068359375 seconds
-08:59:18 - Peer cache hit on trader request took 0.0044040679931640625 seconds
-08:59:38 - Peer cache hit on trader request took 0.006558895111083984 seconds
-08:59:58 - Peer cache hit on trader request took 0.004249095916748047 seconds
-09:00:18 - Peer cache hit on trader request took 0.007761955261230469 seconds
-09:00:38 - Peer cache hit on trader request took 0.006600856781005859 seconds
-09:00:58 - Peer cache hit on trader request took 0.011198997497558594 seconds
-09:01:18 - Peer cache hit on trader request took 0.005287885665893555 seconds
-09:01:38 - Peer cache hit on trader request took 0.0044078826904296875 seconds
-09:01:58 - Peer cache hit on trader request took 0.003290891647338867 seconds
-09:02:18 - Peer cache hit on trader request took 0.004385232925415039 seconds
-09:02:38 - Peer cache hit on trader request took 0.0041048526763916016 seconds
-09:02:58 - Peer cache hit on trader request took 0.003963947296142578 seconds
-09:03:18 - Peer cache hit on trader request took 0.005263805389404297 seconds
-09:03:38 - Peer cache hit on trader request took 0.003747224807739258 seconds
-09:03:58 - Peer cache hit on trader request took 0.003454923629760742 seconds
-09:04:18 - Peer cache hit on trader request took 0.004527091979980469 seconds
-09:04:38 - Peer cache hit on trader request took 0.002780914306640625 seconds
-09:04:58 - Peer cache hit on trader request took 0.006074190139770508 seconds
-09:05:18 - Peer cache hit on trader request took 0.006636619567871094 seconds
-09:05:38 - Peer cache hit on trader request took 0.0033936500549316406 seconds
-09:05:58 - Peer cache hit on trader request took 0.00150299072265625 seconds
-09:06:18 - Peer cache hit on trader request took 0.004889965057373047 seconds
-09:06:38 - Peer cache hit on trader request took 0.004785299301147461 seconds
-09:06:58 - Peer cache hit on trader request took 0.005352020263671875 seconds
-09:07:18 - Peer cache hit on trader request took 0.003982067108154297 seconds
-09:07:38 - Peer cache hit on trader request took 0.0040340423583984375 seconds
-09:07:58 - Peer cache hit on trader request took 0.005852937698364258 seconds
-09:08:18 - Peer cache hit on trader request took 0.004083156585693359 seconds
-09:08:38 - Peer cache hit on trader request took 0.009326934814453125 seconds
-09:08:58 - Peer cache hit on trader request took 0.0057849884033203125 seconds
-09:09:18 - Peer cache hit on trader request took 0.005776166915893555 seconds
-09:09:38 - Peer cache hit on trader request took 0.005809783935546875 seconds
-09:09:58 - Peer cache hit on trader request took 0.0043981075286865234 seconds
-09:10:18 - Peer cache hit on trader request took 0.004987001419067383 seconds
-09:10:38 - Peer cache hit on trader request took 0.004181861877441406 seconds
-09:10:58 - Peer cache hit on trader request took 0.0068972110748291016 seconds
-09:11:18 - Peer cache hit on trader request took 0.004137992858886719 seconds
-09:11:38 - Peer cache hit on trader request took 0.005675077438354492 seconds
-09:11:58 - Peer cache hit on trader request took 0.0038242340087890625 seconds
-09:12:18 - Peer cache hit on trader request took 0.0076999664306640625 seconds
-09:12:38 - Peer cache hit on trader request took 0.008211851119995117 seconds
-09:12:58 - Peer cache hit on trader request took 0.00421905517578125 seconds
-09:13:18 - Peer cache hit on trader request took 0.004415988922119141 seconds
-09:13:38 - Peer cache hit on trader request took 0.0030488967895507812 seconds
-09:13:58 - Peer cache hit on trader request took 0.0039272308349609375 seconds
+00:47:11 - Peer Peer 4 listening on 127.0.0.1:5004 -- caching: True
+00:47:18 - Peer cache failed on trader request took 0.0022420883178710938 seconds
+00:47:23 - Peer cache failed on trader request took 0.016016244888305664 seconds
+00:47:28 - Peer cache hit on trader request took 0.007665157318115234 seconds
+00:47:28 - Peer purchase complete request took 0.046683549880981445 seconds
+00:47:33 - Peer cache failed on trader request took 0.0023806095123291016 seconds
+00:47:39 - Peer cache hit on trader request took 0.0719606876373291 seconds
+00:47:39 - Peer purchase complete request took 0.10520768165588379 seconds
+00:47:44 - Peer cache failed on trader request took 0.009935617446899414 seconds
+00:47:49 - Peer cache failed on trader request took 0.011614322662353516 seconds
+00:47:54 - Peer cache failed on trader request took 0.023055315017700195 seconds
+00:47:59 - Peer cache hit on trader request took 0.015325069427490234 seconds
+00:47:59 - Peer purchase complete request took 0.06911921501159668 seconds
+00:48:05 - Peer cache hit on trader request took 0.020565509796142578 seconds
+00:48:05 - Peer purchase complete request took 0.04385733604431152 seconds
+00:48:10 - Peer cache failed on trader request took 0.02429795265197754 seconds
+00:48:15 - Peer cache failed on trader request took 0.001844644546508789 seconds
+00:48:20 - Peer cache failed on trader request took 0.0030257701873779297 seconds
+00:48:25 - Peer cache failed on trader request took 0.0028257369995117188 seconds
+00:48:30 - Peer cache hit on trader request took 0.013211488723754883 seconds
+00:48:30 - Peer purchase complete request took 0.026601076126098633 seconds
+00:48:36 - Peer cache hit on trader request took 0.03552603721618652 seconds
+00:48:36 - Peer purchase complete request took 0.04269075393676758 seconds
+00:48:41 - Peer cache hit on trader request took 0.03194022178649902 seconds
+00:48:41 - Peer purchase complete request took 0.06537461280822754 seconds
+00:48:46 - Peer cache failed on trader request took 0.011885881423950195 seconds
+00:48:51 - Peer cache failed on trader request took 0.0013549327850341797 seconds
+00:48:56 - Peer cache failed on trader request took 0.027159929275512695 seconds
+00:49:01 - Peer cache hit on trader request took 0.028374195098876953 seconds
+00:49:01 - Peer purchase complete request took 0.0733482837677002 seconds
+00:49:06 - Peer cache hit on trader request took 0.012470722198486328 seconds
+00:49:06 - Peer purchase complete request took 0.06551623344421387 seconds
+00:49:11 - Peer cache failed on trader request took 0.015016317367553711 seconds
+00:49:17 - Peer cache failed on trader request took 0.012427330017089844 seconds
+00:49:22 - Peer cache failed on trader request took 0.012176513671875 seconds
+00:49:27 - Peer cache failed on trader request took 0.0045506954193115234 seconds
+00:49:32 - Peer cache hit on trader request took 0.04735398292541504 seconds
+00:49:32 - Peer purchase complete request took 0.07235598564147949 seconds
+00:49:37 - Peer cache failed on trader request took 0.041439056396484375 seconds
+00:49:42 - Peer cache hit on trader request took 0.05875802040100098 seconds
+00:49:42 - Peer purchase complete request took 0.12615633010864258 seconds
+00:49:47 - Peer cache hit on trader request took 0.06232810020446777 seconds
+00:49:47 - Peer purchase complete request took 0.11505842208862305 seconds
+00:49:53 - Peer cache failed on trader request took 0.05125617980957031 seconds
+00:49:58 - Peer cache failed on trader request took 0.02579188346862793 seconds
+00:50:03 - Peer cache hit on trader request took 0.015593767166137695 seconds
+00:50:03 - Peer purchase complete request took 0.01900959014892578 seconds
+00:50:09 - Peer cache hit on trader request took 0.0783841609954834 seconds
+00:50:09 - Peer purchase complete request took 0.14026117324829102 seconds
+00:50:14 - Peer cache failed on trader request took 0.004472255706787109 seconds
