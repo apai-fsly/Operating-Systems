@@ -106,41 +106,6 @@ def setup_test_case2(use_caching):
 
     return [peer_0, peer_1, peer_2, peer_3, peer_4, peer_5, peer_6]
 
-# def initialize_csv():
-#     """Ensure the CSV file exists."""
-#     if not os.path.exists(leader_path):
-#         open(leader_path, mode='w').close()  # Create an empty file
-#         print(f"{leader_path} initialized.")
-#     else:
-#         print(f"{leader_path} already exists.")
-
-def clear_leaders():
-    """Clear all leaders from the CSV file."""
-    if os.path.exists(leader_path):
-        open(leader_path, mode='w').close()  # Truncate the file
-        print("All leaders cleared from the file.")
-    else:
-        print(f"{leader_path} does not exist.")
-
-def read_election_in_progress(leader_path):
-    try:
-        # Open the file in read mode
-        with open(leader_path, mode='r', newline='') as file:
-            reader = csv.DictReader(file)
-            # Read the first (and only) row
-            row = next(reader, None)
-            if row:
-                return row['election_in_progress']  # Return the election_in_progress field
-            else:
-                print("Error: No data found in the file.")
-                return None
-    
-    except FileNotFoundError:
-        print(f"Error: The file {leader_path} could not be found.")
-    except IOError as e:
-        print(f"IOError: {e}")
-        return None
-
 if __name__ == "__main__":
     # Check command-line arguments
     USE_CACHING = False
@@ -158,7 +123,7 @@ if __name__ == "__main__":
 
         run_warehouse(host='127.0.0.1', port=8081)
 
-        time.sleep(3)
+        time.sleep(2)
 
         peers = setup_test_case1(use_caching=USE_CACHING)
         for i, peer in enumerate(peers):
