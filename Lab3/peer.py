@@ -142,6 +142,7 @@ class Peer:
         if self.role == "seller":
             while True:
                 leader = random.choice(list(self.trader_ids))
+                self.product = random.choice(["boar", "salt", "fish"])
                 self.send_request_to_specific_id("sell", f"{self.peer_id},{self.product},6", int(leader))
                 logging.info(f"Item sent for sale to trader: {self.peer_id}")
                 time.sleep(15)  # Wait for 15 seconds before sending the next item
@@ -286,10 +287,6 @@ class Peer:
             elif request_type == "run_election":
                 number_of_peer, number_of_trader = data.split(',')
                 self.run_election(number_of_peer, number_of_trader)
-            elif request_type == "restock_item":
-                self.stock = 100
-                self.product = random.choice(["boar", "salt", "fish"])
-                logger.info(f"Peer {self.peer_id} is being restocked with {self.stock} {self.product} ")
             elif request_type == "multicast":
                 # if the node is getting a mutlicast request we need to compare clocks
                 new_clock = data

@@ -90,7 +90,7 @@ def setup_test_case2(use_caching):
     peer_0 = Peer(peer_id=0, role="buyer", network_size=7, product="salt", leader=False, use_caching=use_caching)
     peer_1 = Peer(peer_id=1, role="seller", network_size=7, product="fish", leader=False, use_caching=use_caching)
     peer_2 = Peer(peer_id=2, role="seller", network_size=7, product="boar", leader=False, use_caching=use_caching)
-    peer_3 = Peer(peer_id=3, role="seller", network_size=7, product="salt", leader=False, use_caching=use_caching)
+    peer_3 = Peer(peer_id=3, role="buyer", network_size=7, product="salt", leader=False, use_caching=use_caching)
     peer_4 = Peer(peer_id=4, role="buyer", network_size=7, product="fish", leader=False, use_caching=use_caching)
     peer_5 = Peer(peer_id=5, role="seller", network_size=7, product="salt", leader=False, use_caching=use_caching)
     peer_6 = Peer(peer_id=6, role="buyer", network_size=7, product="boar", leader=False, use_caching=use_caching)
@@ -182,6 +182,7 @@ if __name__ == "__main__":
     if mode == 'test_case2':
         logging.info("Running Test Case 2")
         run_warehouse(host='127.0.0.1', port=8081)
+
 
         peers = setup_test_case2(use_caching=USE_CACHING)
         for i, peer in enumerate(peers):
