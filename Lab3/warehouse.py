@@ -44,20 +44,18 @@ def setup_logger():
 
 logger = setup_logger()
 
+# Runs ware house as a separate process
 def run_warehouse(host, port): 
     p = multiprocessing.Process(target=server_function, args=(host, port))
     p.daemon = True
     p.start()
 
-def main():
-    run_warehouse("127.0.0.1", 8081)
-
 def server_function(host="127.0.0.1", port=8081):
 
     productDictionary = {
-        "salt": 10,
-        "boar": 10,
-        "fish": 10,
+        "salt": 0,
+        "boar": 0,
+        "fish": 0,
     }
 
 
@@ -75,7 +73,7 @@ def server_function(host="127.0.0.1", port=8081):
         client_socket, address = server_socket.accept()
         threading.Thread(target=handle_request_warehouse, args=(client_socket, logger, )).start()
 
-
+# This function handles incoming requests to the warehouse 
 def handle_request_warehouse(client_socket, logger): 
     try:
         request = client_socket.recv(1024).decode()
@@ -212,10 +210,3 @@ def restock(product, value):
         stock = df.at[row_index, "stock"]
         df.at[row_index, "stock"] = stock + value
         df.to_csv(csvFilePath, index=False)
-
-
-
-
-
-if __name__ == "__main__":
-    main()
