@@ -263,16 +263,16 @@ class Peer:
                 self.alive = False
             elif request_type == "trader_fail":
                 failed_trader = data
-                print(f"trader has failed ************ {failed_trader}")
+                print(f"trader has failed notification{failed_trader}")
                 self.trader_ids.remove(failed_trader)
                 leader = random.choice(list(self.trader_ids))
                 print(f"leader: {leader}, list:{self.trader_ids}, pending_request: {self.pending_requests.qsize()}")
                 if self.role == "buyer":
+                    logging.info(f"pending requests size is {self.pending_requests.qsize()}")
                     while not self.pending_requests.empty():
-                        print(f"pending requests size is {self.pending_requests.qsize()}")
                         request = self.pending_requests.get()
                         action, product, quantity, req_time = request
-                        print("resending pending request to new trader")
+                        logging.info("resending pending request to new trader")
                         self.send_request_to_specific_id(action, f"{self.peer_id},{leader},{self.product},{quantity},{req_time}", int(leader))
 
             elif request_type == "ok":
@@ -291,13 +291,6 @@ class Peer:
                 seller_id, seller_product, product_stock = data.split(',')
                 logger.info(f"Seller Peer {seller_id} is selling product: {seller_product}, stock: {product_stock}")
                 self.handle_file_write(int(seller_id), seller_product, int(product_stock))
-            elif request_type == "item_bought":
-                self.stock -= 1
-                self.cash_received += 1
-
-                # add a print statement that can be used for comparing timestamps
-                # print(f"CASH RECIEVED: {self.cash_received} {datetime.datetime.now()}")
-                logger.info(f"Seller {self.peer_id} sold a product and received cash 1$, total cash accumulated: {self.cash_received}$")
             elif request_type == "election_inprogress":
                 self.election_inprogress = True
             elif request_type == "run_election":
@@ -367,103 +360,6 @@ class Peer:
 
     def handle_out_of_stock(self, buyer_id, product_name, req_time): 
         self.send_request_to_specific_id("no_item", f"{product_name},{req_time}", eval(buyer_id))
-
-    
-
-
-    def handle_buy_from_leader(self, buyer_id, leader_id, product_name):
-
-        """
-            This function handles the process of a buyer purchasing a product from the leader.
-            It checks inventory for product availability, deducts stock, and updates the inventory.
-            It also handles a possibility of triggering a leader election based on a random chance.
-
-            Args:
-                buyer_id (str): The ID of the buyer making the purchase request.
-                leader_id (str): The ID of the leader who is processing the request.
-                product_name (str): The name of the product being purchased.
-            
-            Returns:
-                bool: Returns False if an error occurs (e.g., product not found).
-        """
-
-        if not file_exists:
-            print("Error: No product file found.")
-            return False
-        
-
-        with self.lock:
-            # Queue the request with timestamp
-            self.request_queue.append((self.lamport_clock, buyer_id, product_name))
-            self.request_queue.sort()  # Sort queue by timestamp for fairness
-            # Load current inventory
-            inventory = []
-            with open(file_path, mode='r', newline='') as file:
-                reader = csv.DictReader(file)
-                inventory = list(reader)
-
-            # Check if the product is available and has enough stock
-            # Process requests in order of Lamport clocks
-            while self.request_queue:
-                _, current_buyer, requested_product = self.request_queue.pop(0)
-                transaction_complete = False
-                for entry in inventory:
-                    if entry["product_name"] == requested_product and int(entry["product_stock"]) > 0:
-                        # Deduct stock
-                        entry["product_stock"] = str(int(entry["product_stock"]) - 1)
-                        logging.info(f"Purchase successful: Buyer {buyer_id} bought {1} of {requested_product} from Leader {leader_id}.")
-                        self.send_request_to_specific_id("item_bought", f"{self.peer_id}", eval(entry["seller_id"]))
-                        transaction_complete = True
-                        break
-                    elif int(entry["product_stock"]) == 0:
-                        self.send_request_to_specific_id("restock_item", f"{self.peer_id}", eval(entry["seller_id"]))
-                        self.send_request_to_specific_id("give_seller_list", f"{self.peer_id}", eval(entry["seller_id"]))
-                        inventory.remove(entry)
-                        logging.info(f"{requested_product} removed from inventory as stock is 0.")
-
-                if transaction_complete == False:
-                    print(f"Item {product_name} unavailable for sale or out of stock")
-
-            # Update the file with the new stock values
-            try:
-                with open(file_path, mode='w', newline='') as file:
-                    writer = csv.DictWriter(file, fieldnames=["seller_id", "product_name", "product_stock"])
-                    writer.writeheader()
-                    writer.writerows(inventory)
-                print(f"Inventory updated in {file_path}")
-            except IOError as e:
-                print(f"IOError: Could not update the file. {e}")
-        
-        chance = rand.random()
-        if chance < .04:
-            if not self.election_inprogress:
-                self.election_inprogress = True
-        
-                try:
-                    # Read the existing row (there's only one row)
-                    with open(leader_path, mode='r', newline='') as file:
-                        reader = csv.DictReader(file)
-                        row = next(reader, None)  # Read the single row if it exists
-                    
-                    # Update the election_in_progress field
-                    if row:
-                        row["election_in_progress"] =1
-                    
-                        # Overwrite the file with the updated data
-                        with open(leader_path, mode='w', newline='') as file:
-                            writer = csv.DictWriter(file, fieldnames=["leader_id", "election_in_progress"])
-                            writer.writeheader()
-                            writer.writerow(row)
-                        
-                        print(f"Election status successfully updated to {row['election_in_progress']}.")
-                    else:
-                        print("Error: No data found in the file to update.")
-                
-                except FileNotFoundError:
-                    print(f"Error: The file {leader_path} could not be found.")
-                except IOError as e:
-                    print(f"IOError: {e}")
-                self.fall_sick()
 
     def multicast_request(self):
 
