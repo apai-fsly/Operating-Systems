@@ -283,16 +283,6 @@ class Peer:
             elif request_type == "are_you_alive":
                 sender_id = data.split(',')
                 self.handle_alive(sender_id[0])
-            elif request_type == "give_seller_list":
-                leader_id = data
-                logger.info("requesting seller list from the leader")
-                self.handle_seller_list(leader_id)        # you might not even need leader_id here because each peer know 
-            elif request_type == "selling_list":
-                seller_id, seller_product, product_stock = data.split(',')
-                logger.info(f"Seller Peer {seller_id} is selling product: {seller_product}, stock: {product_stock}")
-                self.handle_file_write(int(seller_id), seller_product, int(product_stock))
-            elif request_type == "election_inprogress":
-                self.election_inprogress = True
             elif request_type == "run_election":
                 number_of_peer, number_of_trader = data.split(',')
                 self.run_election(number_of_peer, number_of_trader)
@@ -405,63 +395,6 @@ class Peer:
                 print("peer is not alive retrying running the election")
                 time.sleep(1)
                 self.fall_sick(retry=True)
-        
-    def handle_file_write(self, seller_id, seller_product, product_stock):
-        """
-        This function handles writing or updating a product's data in the CSV file.
-
-        It first reads the CSV file into a DataFrame. If a row with the same seller_id and product_name
-        already exists, it updates the product_stock. If no such row exists, it appends a new entry for
-        that seller and product.
-
-        Args:
-            seller_id (int): The ID of the seller.
-            seller_product (str): The name of the product being sold.
-            product_stock (int): The current stock of the product.
-        """
-        # Write data to the CSV file in the current directory open(file_path, mode='a' if file_exists else 'w', newline='')
-        with self.lock:
-            seller_id = int(seller_id)
-            df = pd.read_csv(file_path)
-
-            # find rows with matching seller_id and product_name
-            query = (df["seller_id"] == seller_id) & (df["product_name"] == seller_product)
-            result = df.loc[(query)]
-
-            new_entry = {
-                "seller_id": seller_id, 
-                "product_name": seller_product, 
-                "product_stock": product_stock
-            }
-            try:
-                if not result.empty and len(result) == 1:
-                    existing_stock = result['product_stock'].iloc[0]
-                    if existing_stock != product_stock:
-                        df.loc[query, 'product_stock'] = new_entry["product_stock"]
-                elif len(result) > 1: 
-                    print("unable to add new entry due to conflicting seller_ids and product_names")
-                else:
-                    df.loc[len(df)] = new_entry
-            except FileNotFoundError:
-                print(f"Error: The file path {file_path} could not be found.")
-            except IOError as e:
-                print(f"IOError: {e}") 
-
-            df.to_csv(file_path, index=False)
-
-    def handle_seller_list(self, leader_id):
-        """
-        This function handles sending the list of products a seller has available to the leader.
-
-        If the peer is a seller (but not the leader) and is alive, it sends a request to the leader
-        with the product's information (product name, stock, and peer ID).
-
-        Args:
-            leader_id (int): The ID of the current leader.
-        """
-        if(self.alive == True):
-            if(self.role == "seller" and not self.leader):
-                self.send_request_to_specific_id("selling_list", f"{self.peer_id},{self.product},{self.stock}", int(self.leader_id))
 
     def handle_alive(self, sender_id):
         """
